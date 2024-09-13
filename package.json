@@ -2,12 +2,19 @@
   "name": "solpict",
   "version": "1.0.0",
   "main": "expo/AppEntry.js",
+  "lint-staged": {
+    "src/**/*.{js,jsx,ts,tsx}": [
+      "prettier --write",
+      "eslint src"
+    ]
+  },
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "lint": "eslint src"
+    "lint": "eslint src",
+    "prepare": "husky"
   },
   "dependencies": {
     "@expo/metro-runtime": "~3.2.3",
@@ -24,6 +31,7 @@
     "eslint-config-expo": "^7.1.2",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.2.1",
+    "husky": "^9.1.6",
     "prettier": "^3.3.3"
   },
   "private": true
