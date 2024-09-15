@@ -21,6 +21,7 @@ export default function TabLayout() {
         name="Camera"
         options={{
           title: "카메라",
+          headerShown: false,
         }}
       />
       <Tabs.Screen
