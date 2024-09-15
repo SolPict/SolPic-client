@@ -1,16 +1,28 @@
 {
   "expo": {
-    "name": "SolPict",
-    "slug": "SolPict",
+    "name": "Sol.Pic",
+    "slug": "Sol.Pic",
     "version": "1.0.0",
     "orientation": "portrait",
-    "scheme": "SolPict",
+    "scheme": "Sol.Pic",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
+    },
+    "expo": {
+      "plugins": [
+        [
+          "expo-camera",
+          {
+            "cameraPermission": "Allow $(Sol.Pic) to access your camera",
+            "microphonePermission": "Allow $(Sol.Pic) to access your microphone",
+            "recordAudioAndroid": true
+          }
+        ]
+      ]
     },
     "ios": {
       "supportsTablet": true
