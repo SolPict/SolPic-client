@@ -1,7 +1,7 @@
 import { Tabs } from "expo-router";
 import TabBar from "../components/TabBar";
 
-export default function RootLayout() {
+export default function TabLayout() {
   return (
     <Tabs tabBar={(props) => <TabBar {...props} />}>
       <Tabs.Screen
@@ -14,6 +14,7 @@ export default function RootLayout() {
         name="Problems"
         options={{
           title: "문제풀기",
+          headerShown: false,
         }}
       />
       <Tabs.Screen
@@ -23,13 +24,14 @@ export default function RootLayout() {
         }}
       />
       <Tabs.Screen
-        name="ReviewNote"
+        name="ProblemReviews"
         options={{
           title: "리뷰노트",
+          headerShown: false,
         }}
       />
       <Tabs.Screen
-        name="History"
+        name="PastHistory"
         options={{
           title: "과거기록",
         }}
