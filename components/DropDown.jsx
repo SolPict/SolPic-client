@@ -55,6 +55,7 @@ const styles = StyleSheet.create({
   container: {
     zIndex: 1,
     position: "relative",
+    opacity: 0.8,
   },
   optionItem: {
     height: 40,
