@@ -5,7 +5,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import ColorList from "../components/ColorList";
+import ColorList from "../../components/ProblemContainer";
 
 export default function ReviewNote() {
   return (
@@ -16,7 +16,7 @@ export default function ReviewNote() {
           <Text style={styles.recommendText}>문제 추천</Text>
         </TouchableOpacity>
       </View>
-      <ColorList color="#4f3fe5" />
+      <ColorList color="#4f3fe5" currentPage="ReviewNote" />
     </SafeAreaView>
   );
 }

@@ -9,7 +9,6 @@ import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 export default function TabBar({ state, descriptors, navigation }) {
   const isFocusedColor = "#0891b2";
   const isNotFocusedColor = "#737373";
-
   const icons = {
     index: (props) => (
       <AntDesign name="home" size={26} color={isNotFocusedColor} {...props} />
@@ -25,10 +24,10 @@ export default function TabBar({ state, descriptors, navigation }) {
     Camera: (props) => (
       <Fontisto name="camera" size={26} color={isNotFocusedColor} {...props} />
     ),
-    ReviewNote: (props) => (
+    ProblemReviews: (props) => (
       <Octicons name="book" size={26} color={isNotFocusedColor} {...props} />
     ),
-    History: (props) => (
+    PastHistory: (props) => (
       <Octicons name="history" size={26} color={isNotFocusedColor} {...props} />
     ),
   };
@@ -38,7 +37,12 @@ export default function TabBar({ state, descriptors, navigation }) {
         const { options } = descriptors[route.key];
         const label = options.tabBarLabel || options.title || route.name;
 
-        if (["_sitemap", "+not-found"].includes(route.name)) {
+        if (
+          ["_sitemap", "+not-found"].includes(route.name) ||
+          route.name.includes("/") ||
+          route.name.includes("(") ||
+          route.name.includes("[")
+        ) {
           return;
         }
 
