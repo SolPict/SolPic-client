@@ -1,15 +1,25 @@
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 import { TouchableOpacity, StyleSheet, Text, View } from "react-native";
+import * as ImagePicker from "expo-image-picker";
 
 export default function Home() {
+  const uploadImage = async () => {
+    const { assets } = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    router.push("/AnalyzingProblem?image=" + JSON.stringify(assets[0]));
+  };
+
   return (
     <View style={styles.main}>
       <Text style={styles.title}>Sol.Pic</Text>
-      <Link href="/Camera" asChild>
-        <TouchableOpacity style={styles.buttonContainer}>
-          <Text style={styles.buttonText}>사진 업로드</Text>
-        </TouchableOpacity>
-      </Link>
+      <TouchableOpacity style={styles.buttonContainer} onPress={uploadImage}>
+        <Text style={styles.buttonText}>사진 업로드</Text>
+      </TouchableOpacity>
       <Link href="/Problems" asChild>
         <TouchableOpacity style={styles.buttonContainer}>
           <Text style={styles.buttonText}>문제 풀기</Text>
