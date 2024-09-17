@@ -7,6 +7,12 @@ import {
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 
 export default function TabBar({ state, descriptors, navigation }) {
+  const ANALYZING_PAGE_NUM = 0;
+
+  if (state.index === ANALYZING_PAGE_NUM) {
+    return;
+  }
+
   const isFocusedColor = "#0891b2";
   const isNotFocusedColor = "#737373";
   const icons = {
@@ -28,6 +34,9 @@ export default function TabBar({ state, descriptors, navigation }) {
       <Octicons name="book" size={26} color={isNotFocusedColor} {...props} />
     ),
     PastHistory: (props) => (
+      <Octicons name="history" size={26} color={isNotFocusedColor} {...props} />
+    ),
+    a: (props) => (
       <Octicons name="history" size={26} color={isNotFocusedColor} {...props} />
     ),
   };

@@ -5,6 +5,13 @@ export default function TabLayout() {
   return (
     <Tabs tabBar={(props) => <TabBar {...props} />}>
       <Tabs.Screen
+        name="(AnalyzingProblem)"
+        options={{
+          title: "이미지 분석",
+          headerShown: false,
+        }}
+      />
+      <Tabs.Screen
         name="index"
         options={{
           title: "메인으로",
