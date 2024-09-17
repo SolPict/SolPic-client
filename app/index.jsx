@@ -11,7 +11,9 @@ export default function Home() {
       quality: 1,
     });
 
-    router.push("/AnalyzingProblem?image=" + JSON.stringify(assets[0]));
+    router.push(
+      "/AnalyzingProblem?imageURI=" + encodeURIComponent(assets[0].uri)
+    );
   };
 
   return (
