@@ -8,8 +8,9 @@ import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 
 export default function TabBar({ state, descriptors, navigation }) {
   const ANALYZING_PAGE_NUM = 0;
+  const ANSWER_PAGE_NUM = 1;
 
-  if (state.index === ANALYZING_PAGE_NUM) {
+  if (state.index === ANALYZING_PAGE_NUM || state.index === ANSWER_PAGE_NUM) {
     return;
   }
 
@@ -47,7 +48,7 @@ export default function TabBar({ state, descriptors, navigation }) {
         const label = options.tabBarLabel || options.title || route.name;
 
         if (
-          ["_sitemap", "+not-found"].includes(route.name) ||
+          ["_sitemap", "+not-found", "Answers"].includes(route.name) ||
           route.name.includes("/") ||
           route.name.includes("(") ||
           route.name.includes("[")
