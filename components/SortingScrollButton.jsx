@@ -29,15 +29,15 @@ export default function SortingScrollButton() {
         <Text style={styles.sortingText}>수와 연산</Text>
       </Pressable>
       <Pressable
-        onPress={() => setFocusedValue("문자와 식")}
+        onPress={() => setFocusedValue("대수학")}
         style={[
           styles.sortingButton,
-          focusedValue === "문자와 식"
+          focusedValue === "대수학"
             ? styles.activatedButton
             : styles.deactivatedButton,
         ]}
       >
-        <Text style={styles.sortingText}>문자와 식</Text>
+        <Text style={styles.sortingText}>대수학</Text>
       </Pressable>
       <Pressable
         onPress={() => setFocusedValue("기하학")}
