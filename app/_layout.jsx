@@ -12,6 +12,13 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
+        name="Answers/[problemId]"
+        options={{
+          title: "문제 풀이",
+          headerShown: false,
+        }}
+      />
+      <Tabs.Screen
         name="index"
         options={{
           title: "메인으로",

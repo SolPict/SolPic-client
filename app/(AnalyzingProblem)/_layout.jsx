@@ -10,7 +10,6 @@ export default function ProblemReviewLayout() {
           headerShown: false,
         }}
       />
-      <Stack.Screen name="[problemId]" options={{ headerTitle: "다시풀기" }} />
     </Stack>
   );
 }
