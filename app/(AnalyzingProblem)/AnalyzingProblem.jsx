@@ -1,17 +1,39 @@
 import { MaterialIcons } from "@expo/vector-icons";
 import axios from "axios";
 import { router, useLocalSearchParams } from "expo-router";
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  Alert,
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import useClientStore from "../../store/store";
 
 export default function AnalyzingProblem() {
   const { imageURI, prevPage } = useLocalSearchParams();
+  const { getClientStatus } = useClientStore();
+  const { email } = getClientStatus();
+
   const analyzeProblemImage = async () => {
-    const result = await axios.post(
-      process.env.EXPO_PUBLIC_SERVER_URL + "problem/analyze",
-      {
-        imageURI,
-      }
-    );
+    try {
+      const { data } = await axios.post(
+        process.env.EXPO_PUBLIC_SERVER_URL + "problem/analyze",
+        {
+          imageURI,
+          email: email || "",
+        }
+      );
+
+      router.push(
+        `/Answers/${JSON.parse(data)._id.$oid}?answer=` +
+          encodeURIComponent(data)
+      );
+    } catch (error) {
+      Alert.alert("이미지 분석에 실패하였습니다.");
+      console.error("이미지 분석에 실패하였습니다.", error);
+    }
   };
 
   return (
@@ -20,7 +42,7 @@ export default function AnalyzingProblem() {
         style={styles.backButton}
         onPress={() => router.push(prevPage || "/")}
       >
-        <MaterialIcons name="arrow-back" size={35} color="white" />
+        <MaterialIcons name="arrow-back" size={35} color="black" />
       </TouchableOpacity>
       <Image
         source={{ uri: imageURI }}
@@ -43,10 +65,9 @@ const styles = StyleSheet.create({
   uploadImage: {
     width: "90%",
     height: "100%",
+    bottom: 150,
   },
   previewContainer: {
-    backgroundColor: "black",
-    justifyContent: "center",
     alignItems: "center",
     width: "100%",
     height: "100%",
