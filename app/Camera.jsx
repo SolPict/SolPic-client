@@ -1,5 +1,5 @@
 import { CameraView, useCameraPermissions } from "expo-camera";
-import React, { useEffect, useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { router, useFocusEffect } from "expo-router";
 import CameraTopButton from "../components/CameraTopButton";
@@ -19,7 +19,7 @@ export default function Camera() {
   const cameraRef = useRef();
 
   useFocusEffect(
-    React.useCallback(() => {
+    useCallback(() => {
       if (imageURI) {
         router.push(
           "/AnalyzingProblem?prevPage=Camera&imageURI=" +

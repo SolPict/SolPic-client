@@ -29,15 +29,12 @@ export default function TabBar({ state, descriptors, navigation }) {
       />
     ),
     Camera: (props) => (
-      <Fontisto name="camera" size={26} color={isNotFocusedColor} {...props} />
+      <Fontisto name="camera" size={34} color={isNotFocusedColor} {...props} />
     ),
     ProblemReviews: (props) => (
       <Octicons name="book" size={26} color={isNotFocusedColor} {...props} />
     ),
     PastHistory: (props) => (
-      <Octicons name="history" size={26} color={isNotFocusedColor} {...props} />
-    ),
-    a: (props) => (
       <Octicons name="history" size={26} color={isNotFocusedColor} {...props} />
     ),
   };
@@ -48,7 +45,7 @@ export default function TabBar({ state, descriptors, navigation }) {
         const label = options.tabBarLabel || options.title || route.name;
 
         if (
-          ["_sitemap", "+not-found", "Answers"].includes(route.name) ||
+          ["_sitemap", "+not-found", "Answers", "Login"].includes(route.name) ||
           route.name.includes("/") ||
           route.name.includes("(") ||
           route.name.includes("[")
@@ -87,7 +84,7 @@ export default function TabBar({ state, descriptors, navigation }) {
             <Text
               style={{ color: isFocused ? isFocusedColor : isNotFocusedColor }}
             >
-              {label}
+              {label !== "카메라" && label}
             </Text>
           </TouchableOpacity>
         );
@@ -114,8 +111,10 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
   },
   tabBarItem: {
+    height: 40,
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    borderRadius: 40,
   },
 });
