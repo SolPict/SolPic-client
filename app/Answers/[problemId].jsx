@@ -1,5 +1,7 @@
+import axios from "axios";
 import { router, useLocalSearchParams } from "expo-router";
 import {
+  Alert,
   Image,
   SafeAreaView,
   ScrollView,
@@ -8,33 +10,39 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { PROBLEM_ANSWER } from "./Mockup";
+import useClientStore from "../../store/store";
 
 export default function AnswerPage() {
   const { problemId, answer } = useLocalSearchParams();
-  const { imageURI, problem_answer } = JSON.parse(decodeURIComponent(answer));
+  const { uri, explanation } = JSON.parse(decodeURIComponent(answer));
+  const { getClientStatus } = useClientStore();
+  const { email } = getClientStatus();
 
   const goToHome = () => {
     router.push("/");
   };
 
   const addReviewNote = async () => {
-    await axios.post(
-      process.env.EXPO_PUBLIC_SERVER_URL + "problem/review/" + problemId
-    );
+    try {
+      await axios.post(
+        process.env.EXPO_PUBLIC_SERVER_URL + "problems/reviewNote/" + problemId,
+        {
+          email,
+        }
+      );
 
-    router.push("/ProblemReviews/ReviewNote");
+      router.push("/ProblemReviews/ReviewNote");
+    } catch (error) {
+      Alert.alert("리뷰 노트를 추가하지 못했습니다.");
+      console.error("리뷰 노트를 추가하지 못했습니다.", error);
+    }
   };
 
   return (
     <SafeAreaView style={styles.answerContainer}>
-      <Image
-        source={{ uri: imageURI }}
-        style={styles.problemImage}
-        // resizeMode="contain"
-      />
+      <Image source={{ uri }} style={styles.problemImage} />
       <ScrollView style={styles.answerTextContainer}>
-        <Text style={styles.answerText}>{PROBLEM_ANSWER}</Text>
+        <Text style={styles.answerText}>{explanation}</Text>
       </ScrollView>
       <View style={styles.buttonContainer}>
         <TouchableOpacity style={styles.Button} onPress={goToHome}>
@@ -50,25 +58,23 @@ export default function AnswerPage() {
 
 const styles = StyleSheet.create({
   answerContainer: {
-    backgroundColor: "black",
     justifyContent: "center",
     alignItems: "center",
     width: "100%",
     height: "100%",
   },
   problemImage: {
-    width: 350,
-    height: 200,
+    width: "90%",
+    height: "30%",
+    resizeMode: "contain",
   },
   answerTextContainer: {
-    borderColor: "white",
     borderWidth: 1,
     marginTop: 10,
     marginBottom: 80,
     marginHorizontal: 20,
   },
   answerText: {
-    color: "white",
     fontSize: 20,
   },
   buttonContainer: {
@@ -77,9 +83,9 @@ const styles = StyleSheet.create({
     gap: 30,
   },
   Button: {
-    backgroundColor: "white",
-    width: 180,
-    height: 80,
+    backgroundColor: "rgb(97 231 228)",
+    width: 100,
+    height: 50,
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 15,
@@ -89,6 +95,6 @@ const styles = StyleSheet.create({
     top: 80,
   },
   buttonText: {
-    fontSize: 22,
+    fontSize: 20,
   },
 });
