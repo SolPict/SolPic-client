@@ -36,10 +36,7 @@ export default function ReviewNote() {
       setReviewNote(JSON.parse(data));
     } catch (error) {
       Alert.alert("리뷰노트 데이터를 가져오는데 실패하였습니다.", error);
-      console.error(
-        "리뷰노트 데이터를 가져오는데 실패하였습니다.",
-        Object.values(error)
-      );
+      console.error("리뷰노트 데이터를 가져오는데 실패하였습니다.", error);
     }
   };
 
