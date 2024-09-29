@@ -11,6 +11,7 @@ import {
   View,
 } from "react-native";
 import useClientStore from "../../store/store";
+import LaTeXView from "../../components/LaTeXView";
 
 export default function AnswerPage() {
   const { problemId, answer } = useLocalSearchParams();
@@ -42,7 +43,7 @@ export default function AnswerPage() {
     <SafeAreaView style={styles.answerContainer}>
       <Image source={{ uri }} style={styles.problemImage} />
       <ScrollView style={styles.answerTextContainer}>
-        <Text style={styles.answerText}>{explanation}</Text>
+        <LaTeXView>{explanation}</LaTeXView>
       </ScrollView>
       <View style={styles.buttonContainer}>
         <TouchableOpacity style={styles.Button} onPress={goToHome}>
@@ -80,12 +81,12 @@ const styles = StyleSheet.create({
   buttonContainer: {
     flexDirection: "row",
     bottom: 150,
-    gap: 30,
+    gap: 100,
   },
   Button: {
     backgroundColor: "rgb(97 231 228)",
-    width: 100,
-    height: 50,
+    width: 120,
+    height: 60,
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 15,
