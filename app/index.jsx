@@ -12,7 +12,7 @@ export default function Home() {
     });
 
     router.push(
-      "/AnalyzingProblem?imageURI=" + encodeURIComponent(assets[0].uri)
+      "/AnalyzingProblem?image=" + encodeURIComponent(JSON.stringify(assets[0]))
     );
   };
 

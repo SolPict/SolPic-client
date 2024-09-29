@@ -12,17 +12,29 @@ import {
 import useClientStore from "../../store/store";
 
 export default function AnalyzingProblem() {
-  const { imageURI, prevPage } = useLocalSearchParams();
+  const { image, prevPage } = useLocalSearchParams();
+  const imageInfo = JSON.parse(decodeURIComponent(image));
   const { getClientStatus } = useClientStore();
   const { email } = getClientStatus();
 
   const analyzeProblemImage = async () => {
     try {
+      const formData = new FormData();
+      formData.append("file", {
+        uri: imageInfo.uri,
+        name: "analyze_image.jpg",
+        type: imageInfo.mimeType,
+      });
+
       const { data } = await axios.post(
         process.env.EXPO_PUBLIC_SERVER_URL + "problem/analyze",
+        formData,
         {
-          imageURI,
-          email: email || "",
+          headers: {
+            "Content-Type": "multipart/form-data",
+            email: email || "",
+            uri: imageInfo.uri,
+          },
         }
       );
 
@@ -45,7 +57,7 @@ export default function AnalyzingProblem() {
         <MaterialIcons name="arrow-back" size={35} color="black" />
       </TouchableOpacity>
       <Image
-        source={{ uri: imageURI }}
+        source={{ uri: imageInfo.uri }}
         style={styles.uploadImage}
         resizeMode="contain"
       />
@@ -65,7 +77,7 @@ const styles = StyleSheet.create({
   uploadImage: {
     width: "90%",
     height: "100%",
-    bottom: 150,
+    bottom: 120,
   },
   previewContainer: {
     alignItems: "center",
