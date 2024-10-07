@@ -1,60 +1,78 @@
-import { Link, router } from "expo-router";
-import { TouchableOpacity, StyleSheet, Text, View } from "react-native";
-import * as ImagePicker from "expo-image-picker";
+import { SafeAreaView, StyleSheet } from "react-native";
 
-export default function Home() {
-  const uploadImage = async () => {
-    const { assets } = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
+import { useCallback, useState } from "react";
+import { useFocusEffect } from "expo-router";
+import { Alert } from "react-native";
+import axios from "axios";
 
-    router.push(
-      "/AnalyzingProblem?image=" + encodeURIComponent(JSON.stringify(assets[0]))
-    );
+import SortingScrollButton from "../components/SortingScrollButton";
+import ProblemList from "../components/ProblemList";
+
+export default function Problems() {
+  const [problemList, setProblemList] = useState([]);
+  const [sortType, setSortType] = useState("전체보기");
+
+  const sortedList = [...problemList].filter((problem) => {
+    if (sortType === "전체보기") {
+      return problem;
+    }
+
+    return problem.problemType === sortType;
+  });
+
+  useFocusEffect(
+    useCallback(() => {
+      getProblemsList();
+    }, [])
+  );
+
+  const getProblemsList = async () => {
+    try {
+      const { data } = await axios.get(
+        process.env.EXPO_PUBLIC_SERVER_URL + "problems"
+      );
+
+      setProblemList(JSON.parse(data));
+    } catch (error) {
+      Alert.alert("문제 데이터를 불러오는데 실패하였습니다.");
+      console.error(
+        "문제 데이터를 불러오는데 실패하였습니다.",
+        Object.values(error)
+      );
+    }
   };
 
   return (
-    <View style={styles.main}>
-      <Text style={styles.title}>Sol.Pic</Text>
-      <TouchableOpacity style={styles.buttonContainer} onPress={uploadImage}>
-        <Text style={styles.buttonText}>사진 업로드</Text>
-      </TouchableOpacity>
-      <Link href="/Problems" asChild>
-        <TouchableOpacity style={styles.buttonContainer}>
-          <Text style={styles.buttonText}>문제 풀기</Text>
-        </TouchableOpacity>
-      </Link>
-    </View>
+    <SafeAreaView style={styles.problemContainer}>
+      <SortingScrollButton sortType={sortType} setSortType={setSortType} />
+      <ProblemList problems={sortedList} prevPage="home"></ProblemList>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  main: {
-    alignItems: "center",
-    height: "100%",
-    gap: 30,
+  container: {
+    gap: 10,
+    height: "80%",
   },
-  title: {
-    marginTop: 100,
-    marginBottom: 80,
-    fontSize: 110,
-    fontWeight: "200",
+  problems: {
+    backgroundColor: "white",
+    width: "100%",
+    marginBottom: 20,
+    borderRadius: 20,
   },
-  buttonContainer: {
-    backgroundColor: "#a5d8ff",
-    width: 300,
-    height: 80,
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 15,
-    shadowColor: "black",
-    shadowRadius: 10,
-    shadowOpacity: 0.1,
+  problemHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: 10,
+    marginHorizontal: 10,
   },
-  buttonText: {
-    fontSize: 30,
+  headerText: {
+    fontSize: 16,
+  },
+  imageContainer: {
+    width: "100%",
+    height: 200,
+    padding: 10,
   },
 });
