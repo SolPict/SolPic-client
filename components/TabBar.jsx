@@ -1,41 +1,35 @@
-import {
-  AntDesign,
-  Fontisto,
-  Octicons,
-  SimpleLineIcons,
-} from "@expo/vector-icons";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { Fontisto } from "@expo/vector-icons";
+import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
+
+import focusInHome from "../assets/home_focus.png";
+import focusOutHome from "../assets/home_not_focus.png";
+import focusInReview from "../assets/review_focus.png";
+import focusOutReview from "../assets/review_not_focus.png";
+import { COLORS } from "../constants/colors";
+import { EXCEPT_PAGES } from "../constants/exceptPages";
 
 export default function TabBar({ state, descriptors, navigation }) {
-  const ANALYZING_PAGE_NUM = 0;
-  const ANSWER_PAGE_NUM = 1;
-
-  if (state.index === ANALYZING_PAGE_NUM || state.index === ANSWER_PAGE_NUM) {
+  if (Object.values(EXCEPT_PAGES).includes(state.index)) {
     return;
   }
 
-  const isFocusedColor = "#0891b2";
-  const isNotFocusedColor = "#737373";
   const icons = {
-    index: (props) => (
-      <AntDesign name="home" size={26} color={isNotFocusedColor} {...props} />
-    ),
-    Problems: (props) => (
-      <SimpleLineIcons
-        name="pencil"
-        size={26}
-        color={isNotFocusedColor}
-        {...props}
+    index: (focused) => (
+      <Image
+        source={focused ? focusInHome : focusOutHome}
+        style={[styles.tabImages, { width: "50%" }]}
       />
     ),
-    Camera: (props) => (
-      <Fontisto name="camera" size={34} color={isNotFocusedColor} {...props} />
+    Camera: () => (
+      <View style={styles.cameraContainer}>
+        <Fontisto name="camera" size={24} color={"white"} />
+      </View>
     ),
-    ProblemReviews: (props) => (
-      <Octicons name="book" size={26} color={isNotFocusedColor} {...props} />
-    ),
-    PastHistory: (props) => (
-      <Octicons name="history" size={26} color={isNotFocusedColor} {...props} />
+    ProblemReviews: (focused) => (
+      <Image
+        source={focused ? focusInReview : focusOutReview}
+        style={styles.tabImages}
+      />
     ),
   };
   return (
@@ -43,13 +37,7 @@ export default function TabBar({ state, descriptors, navigation }) {
       {state.routes.map((route, index) => {
         const { options } = descriptors[route.key];
         const label = options.tabBarLabel || options.title || route.name;
-
-        if (
-          ["_sitemap", "+not-found", "Answers", "Login"].includes(route.name) ||
-          route.name.includes("/") ||
-          route.name.includes("(") ||
-          route.name.includes("[")
-        ) {
+        if (!["index", "Camera", "ProblemReviews"].includes(route.name)) {
           return;
         }
 
@@ -78,14 +66,10 @@ export default function TabBar({ state, descriptors, navigation }) {
             testID={options.tabBarTestID}
             onPress={onPress}
           >
-            {icons[route.name]({
-              color: isFocused ? isFocusedColor : isNotFocusedColor,
-            })}
-            <Text
-              style={{ color: isFocused ? isFocusedColor : isNotFocusedColor }}
-            >
-              {label !== "카메라" && label}
-            </Text>
+            <View style={styles.tabContainer}>
+              {icons[route.name](isFocused)}
+              <Text style={styles.tabText}>{label !== "카메라" && label}</Text>
+            </View>
           </TouchableOpacity>
         );
       })}
@@ -104,7 +88,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     marginHorizontal: 20,
     paddingVertical: 15,
-    borderRadius: 25,
+    borderRadius: 23,
     borderCurve: "continuous",
     shadowColor: "black",
     shadowRadius: 10,
@@ -116,5 +100,27 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 40,
+  },
+  tabContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+    width: 50,
+    gap: 5,
+  },
+  tabImages: {
+    resizeMode: "contain",
+    width: "60%",
+  },
+  tabText: {
+    bottom: 240,
+  },
+  cameraContainer: {
+    backgroundColor: COLORS.PRIMARY,
+    justifyContent: "center",
+    alignItems: "center",
+    width: 40,
+    height: 40,
+    borderRadius: 40,
+    top: 5,
   },
 });
