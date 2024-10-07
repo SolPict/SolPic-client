@@ -1,12 +1,15 @@
 import { router, Tabs } from "expo-router";
-import TabBar from "../components/TabBar";
 import { MaterialIcons } from "@expo/vector-icons";
-import { StyleSheet, Text } from "react-native";
+import { Image, StatusBar, StyleSheet, Text, View } from "react-native";
 import { TouchableOpacity } from "react-native";
-import useClientStore from "../store/store";
 import { onAuthStateChanged, signOut } from "firebase/auth";
-import { auth } from "../auth/firebaseConfig";
 import { useEffect } from "react";
+
+import { auth } from "../auth/firebaseConfig";
+import TabBar from "../components/TabBar";
+import useClientStore from "../store/store";
+
+import logoImage from "../assets/logo.png";
 
 export default function TabLayout() {
   const { setClientStatus, getClientStatus } = useClientStore();
@@ -34,129 +37,160 @@ export default function TabLayout() {
   }, [auth]);
 
   return (
-    <Tabs tabBar={(props) => <TabBar {...props} />}>
-      <Tabs.Screen
-        name="(AnalyzingProblem)"
-        options={{
-          title: "이미지 분석",
-          headerShown: false,
-        }}
-      />
-      <Tabs.Screen
-        name="Answers/[problemId]"
-        options={{
-          title: "문제 풀이",
-          headerShown: false,
-          headerRight: () => (
-            <TouchableOpacity
-              onPress={handleLoginAndLogout}
-              style={styles.logoutContainer}
-            >
-              <MaterialIcons
-                style={styles.logoutButton}
-                name={isLogin ? "logout" : "login"}
-                size={24}
-                color="black"
-              />
-              <Text>{isLogin ? "로그아웃" : "로그인"}</Text>
-            </TouchableOpacity>
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: "메인으로",
-          headerRight: () => (
-            <TouchableOpacity
-              onPress={handleLoginAndLogout}
-              style={styles.logoutContainer}
-            >
-              <MaterialIcons
-                style={styles.logoutButton}
-                name={isLogin ? "logout" : "login"}
-                size={24}
-                color="black"
-              />
-              <Text>{isLogin ? "로그아웃" : "로그인"}</Text>
-            </TouchableOpacity>
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="Problems"
-        options={{
-          title: "문제풀기",
-          headerRight: () => (
-            <TouchableOpacity
-              onPress={handleLoginAndLogout}
-              style={styles.logoutContainer}
-            >
-              <MaterialIcons
-                style={styles.logoutButton}
-                name={isLogin ? "logout" : "login"}
-                size={24}
-                color="black"
-              />
-              <Text>{isLogin ? "로그아웃" : "로그인"}</Text>
-            </TouchableOpacity>
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="Camera"
-        options={{
-          title: "카메라",
-          headerShown: false,
-        }}
-      />
-      <Tabs.Screen
-        name="ProblemReviews"
-        options={{
-          title: "리뷰노트",
-          headerRight: () => (
-            <TouchableOpacity
-              onPress={handleLoginAndLogout}
-              style={styles.logoutContainer}
-            >
-              <MaterialIcons
-                style={styles.logoutButton}
-                name={isLogin ? "logout" : "login"}
-                size={24}
-                color="black"
-              />
-              <Text>{isLogin ? "로그아웃" : "로그인"}</Text>
-            </TouchableOpacity>
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="PastHistory"
-        options={{
-          title: "과거기록",
-          headerRight: () => (
-            <TouchableOpacity
-              onPress={handleLoginAndLogout}
-              style={styles.logoutContainer}
-            >
-              <MaterialIcons
-                style={styles.logoutButton}
-                name={isLogin ? "logout" : "login"}
-                size={24}
-                color="black"
-              />
-              <Text>{isLogin ? "로그아웃" : "로그인"}</Text>
-            </TouchableOpacity>
-          ),
-        }}
-      />
-    </Tabs>
+    <>
+      <StatusBar style="black" translucent={false} />
+      <Tabs tabBar={(props) => <TabBar {...props} />}>
+        <Tabs.Screen
+          name="(AnalyzingProblem)"
+          options={{
+            title: "이미지 분석",
+            headerShown: false,
+          }}
+        />
+        <Tabs.Screen
+          name="Answers/[problemId]"
+          options={{
+            title: "문제 풀이",
+            headerTitle: "",
+            headerLeft: () => (
+              <View style={styles.logoContainer}>
+                <View style={styles.logoContainer}>
+                  <Image source={logoImage} style={styles.logoImage} />
+                </View>
+              </View>
+            ),
+            headerRight: () => (
+              <TouchableOpacity
+                onPress={handleLoginAndLogout}
+                style={styles.logoutContainer}
+              >
+                <MaterialIcons
+                  style={styles.logoutButton}
+                  name={isLogin ? "logout" : "login"}
+                  size={28}
+                  color="black"
+                />
+              </TouchableOpacity>
+            ),
+          }}
+        />
+        <Tabs.Screen
+          name="index"
+          options={{
+            title: "홈",
+            headerTitle: "",
+            headerLeft: () => (
+              <View style={styles.logoContainer}>
+                <Image source={logoImage} style={styles.logoImage} />
+              </View>
+            ),
+            headerRight: () => (
+              <TouchableOpacity
+                onPress={handleLoginAndLogout}
+                style={styles.logoutContainer}
+              >
+                <MaterialIcons
+                  style={styles.logoutButton}
+                  name={isLogin ? "logout" : "login"}
+                  size={28}
+                  color="black"
+                />
+              </TouchableOpacity>
+            ),
+          }}
+        />
+        <Tabs.Screen
+          name="Problems"
+          options={{
+            title: "문제 풀이",
+            headerShown: false,
+          }}
+        />
+        <Tabs.Screen
+          name="Camera"
+          options={{
+            title: "카메라",
+            headerTitle: "",
+            headerShown: false,
+          }}
+        />
+        <Tabs.Screen
+          name="ProblemReviews"
+          options={{
+            title: "리뷰노트",
+            headerTitle: "",
+            headerLeft: () => (
+              <View style={styles.logoContainer}>
+                <Image source={logoImage} style={styles.logoImage} />
+              </View>
+            ),
+            headerRight: () => (
+              <TouchableOpacity
+                onPress={handleLoginAndLogout}
+                style={styles.logoutContainer}
+              >
+                <MaterialIcons
+                  style={styles.logoutButton}
+                  name={isLogin ? "logout" : "login"}
+                  size={28}
+                  color="black"
+                />
+              </TouchableOpacity>
+            ),
+          }}
+        />
+        <Tabs.Screen
+          name="PastHistory"
+          options={{
+            title: "과거기록",
+            headerTitle: "",
+            headerLeft: () => (
+              <View style={styles.logoContainer}>
+                <Image source={logoImage} style={styles.logoImage} />
+              </View>
+            ),
+            headerRight: () => (
+              <TouchableOpacity
+                onPress={handleLoginAndLogout}
+                style={styles.logoutContainer}
+              >
+                <MaterialIcons
+                  style={styles.logoutButton}
+                  name={isLogin ? "logout" : "login"}
+                  size={28}
+                  color="black"
+                />
+              </TouchableOpacity>
+            ),
+          }}
+        />
+        <Tabs.Screen
+          name="Login"
+          options={{
+            headerTitle: "",
+            title: "로그인",
+            headerShown: false,
+          }}
+        />
+      </Tabs>
+    </>
   );
 }
 
 const styles = StyleSheet.create({
+  logoContainer: {
+    width: 100,
+    height: 50,
+  },
   logoutContainer: {
     alignItems: "center",
-    right: 10,
+    right: 24,
+  },
+  logoImage: {
+    resizeMode: "center",
+    width: "100%",
+    height: "100%",
+    marginLeft: 24,
+    top: 2,
   },
 });
