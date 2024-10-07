@@ -16,16 +16,19 @@ import {
   onAuthStateChanged,
 } from "@firebase/auth";
 
-import { router } from "expo-router";
-import useClientStore from "../store/store";
-import { auth } from "../auth/firebaseConfig";
 import axios from "axios";
+import { router } from "expo-router";
+
+import { auth } from "../auth/firebaseConfig";
+import useClientStore from "../store/store";
+import { COLORS } from "../constants/colors";
+import { AntDesign } from "@expo/vector-icons";
 
 export default function Login() {
-  const { setClientStatus } = useClientStore();
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState("admin@gmail.com");
   const [password, setPassword] = useState("");
   const [IsLoginPage, setIsLoginPage] = useState(true);
+  const { setClientStatus } = useClientStore();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -46,6 +49,7 @@ export default function Login() {
       } else {
         await createUserWithEmailAndPassword(auth, email, password);
 
+        setClientStatus({ isLogin: true, email: email });
         await axios.post(process.env.EXPO_PUBLIC_SERVER_URL + "users", {
           email,
           history: [],
@@ -53,102 +57,148 @@ export default function Login() {
         });
       }
 
-      setClientStatus({ isLogin: true, email: email });
       router.push("/");
     } catch (error) {
-      Alert.alert(error.message);
-      console.error("Authentication error:", Object.values(error));
+      if (IsLoginPage) {
+        Alert.alert("이미 존재하거나 올바르지 않은 형식입니다.");
+      } else {
+        Alert.alert("이미 존재하거나 올바르지 않은 형식입니다.");
+      }
     }
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <View style={styles.authContainer}>
-        <Text style={styles.title}>{IsLoginPage ? "로그인" : "회원가입"}</Text>
-        <TextInput
-          style={styles.input}
-          onChangeText={setEmail}
-          placeholder="Email"
-          autoCapitalize="none"
-        />
-        <TextInput
-          style={styles.input}
-          value={password}
-          onChangeText={setPassword}
-          placeholder="Password"
-          secureTextEntry
-        />
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity
-            onPress={handleAuthentication}
-            style={styles.button}
-          >
-            <Text style={styles.buttonText}>
+    <View style={styles.main}>
+      <ScrollView contentContainerStyle={styles.container}>
+        <View style={styles.authContainer}>
+          <View style={styles.header}>
+            <TouchableOpacity
+              style={styles.backButton}
+              onPress={() => router.push("/")}
+            >
+              <AntDesign name="close" size={28} color="black" />
+            </TouchableOpacity>
+            <Text style={styles.headerText}>
               {IsLoginPage ? "로그인" : "회원가입"}
             </Text>
-          </TouchableOpacity>
+          </View>
+          <View style={styles.inputContainer}>
+            <View>
+              <Text style={styles.inputTitle}>이메일</Text>
+              <TextInput
+                style={styles.input}
+                onChangeText={setEmail}
+                value={email}
+                placeholder="Email"
+                autoCapitalize="none"
+              />
+            </View>
+            <View>
+              <Text style={styles.inputTitle}>비밀번호</Text>
+              <TextInput
+                style={styles.input}
+                value={password}
+                onChangeText={setPassword}
+                placeholder="Password"
+                secureTextEntry
+              />
+            </View>
+          </View>
+          <View style={styles.bottomContainer}>
+            <Text
+              style={styles.toggleText}
+              onPress={() => setIsLoginPage(!IsLoginPage)}
+            >
+              {IsLoginPage ? "아이디가 없으신가요?" : "이미 회원이신가요?"}
+            </Text>
+          </View>
         </View>
-
-        <View style={styles.bottomContainer}>
-          <Text
-            style={styles.toggleText}
-            onPress={() => setIsLoginPage(!IsLoginPage)}
-          >
-            {IsLoginPage
-              ? "아이디가 없으신가요? 회원가입"
-              : "이미 회원이신가요? 로그인"}
+      </ScrollView>
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity onPress={handleAuthentication} style={styles.button}>
+          <Text style={styles.buttonText}>
+            {IsLoginPage ? "로그인" : "회원가입"}
           </Text>
-        </View>
+        </TouchableOpacity>
       </View>
-    </ScrollView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
+  main: {
+    flexGrow: 1,
+    backgroundColor: "white",
+  },
   container: {
     flexGrow: 1,
     justifyContent: "center",
     alignItems: "center",
-    padding: 16,
-    backgroundColor: "#f0f0f0",
+    backgroundColor: "white",
   },
   authContainer: {
-    width: "80%",
+    width: "100%",
+    height: "80%",
     maxWidth: 400,
-    backgroundColor: "#fff",
+    backgroundColor: "white",
     padding: 16,
     borderRadius: 8,
   },
-  title: {
-    fontSize: 24,
-    marginBottom: 16,
-    textAlign: "center",
+  header: {
+    width: "100%",
+    marginHorizontal: 20,
+    flexDirection: "row",
+    alignItems: "center",
+    position: "absolute",
+    top: "-5%",
+  },
+  headerText: {
+    left: 130,
+    fontWeight: "700",
+    fontSize: 16,
+  },
+  inputContainer: {
+    top: 20,
+  },
+  inputTitle: {
+    fontSize: 14,
+    fontWeight: "700",
+    marginVertical: 10,
   },
   input: {
-    height: 40,
-    borderColor: "#ddd",
+    height: 50,
+    borderColor: "#dddddd",
     borderWidth: 1,
     marginBottom: 16,
     padding: 8,
     borderRadius: 4,
   },
   buttonContainer: {
-    marginBottom: 16,
+    backgroundColor: COLORS.PRIMARY,
+    height: 55,
+    justifyContent: "center",
+    alignItems: "center",
+    width: "90%",
+    marginHorizontal: 20,
+    borderRadius: 10,
+    bottom: 50,
+    zIndex: 1,
   },
   button: {
+    width: "100%",
+    width: "100%",
     marginHorizontal: 100,
     alignItems: "center",
-    width: 50,
   },
   buttonText: {
-    color: "#3498db",
+    color: "white",
   },
   toggleText: {
-    color: "#3498db",
-    textAlign: "center",
+    color: "#A7A7A7",
+    textAlign: "right",
   },
   bottomContainer: {
-    marginTop: 20,
+    marginTop: 40,
   },
   emailText: {
     fontSize: 18,
