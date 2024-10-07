@@ -1,76 +1,63 @@
 import { Pressable, ScrollView, StyleSheet, Text } from "react-native";
-import { useState } from "react";
 
-export default function SortingScrollButton() {
-  const [focusedValue, setFocusedValue] = useState("전체보기");
-
+export default function SortingScrollButton({ sortType, setSortType }) {
   return (
-    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-      <Pressable
-        onPress={() => setFocusedValue("전체보기")}
-        style={[
-          styles.sortingButton,
-          focusedValue === "전체보기"
-            ? styles.activatedButton
-            : styles.deactivatedButton,
-        ]}
-      >
-        <Text style={styles.sortingText}>전체보기</Text>
-      </Pressable>
-      <Pressable
-        onPress={() => setFocusedValue("수와 연산")}
-        style={[
-          styles.sortingButton,
-          focusedValue === "수와 연산"
-            ? styles.activatedButton
-            : styles.deactivatedButton,
-        ]}
-      >
-        <Text style={styles.sortingText}>수와 연산</Text>
-      </Pressable>
-      <Pressable
-        onPress={() => setFocusedValue("대수학")}
-        style={[
-          styles.sortingButton,
-          focusedValue === "대수학"
-            ? styles.activatedButton
-            : styles.deactivatedButton,
-        ]}
-      >
-        <Text style={styles.sortingText}>대수학</Text>
-      </Pressable>
-      <Pressable
-        onPress={() => setFocusedValue("기하학")}
-        style={[
-          styles.sortingButton,
-          focusedValue === "기하학"
-            ? styles.activatedButton
-            : styles.deactivatedButton,
-        ]}
-      >
-        <Text style={styles.sortingText}>기하학</Text>
-      </Pressable>
+    <ScrollView
+      horizontal={true}
+      showsHorizontalScrollIndicator={false}
+      style={styles.scrollContainer}
+    >
+      {["전체보기", "수와 연산", "대수학", "기하학"].map((content) => {
+        return (
+          <Pressable
+            key={content}
+            onPress={() => setSortType(content)}
+            style={[
+              styles.sortingButton,
+              sortType === content
+                ? styles.activatedButton
+                : styles.deactivatedButton,
+            ]}
+          >
+            <Text
+              style={
+                sortType === content
+                  ? styles.activeSortingText
+                  : styles.deactiveSortingText
+              }
+            >
+              {content}
+            </Text>
+          </Pressable>
+        );
+      })}
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
+  scrollContainer: {
+    marginHorizontal: 10,
+  },
   sortingButton: {
-    width: 100,
-    marginVertical: 10,
-    marginHorizontal: 7,
     padding: 10,
+    height: 36,
     justifyContent: "center",
-    alignItems: "center",
     borderRadius: 15,
+    marginHorizontal: 11.5,
+    marginVertical: 10,
   },
   activatedButton: {
-    backgroundColor: "darkturquoise",
+    backgroundColor: "black",
   },
   deactivatedButton: {
-    backgroundColor: "silver",
+    backgroundColor: "white",
   },
-  sortingText: {
-    fontSize: 20,
+  activeSortingText: {
+    fontSize: 16,
+    color: "white",
+  },
+  deactiveSortingText: {
+    fontSize: 16,
   },
 });
