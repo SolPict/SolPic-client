@@ -4,6 +4,7 @@ const useClientStore = create((set, get) => ({
   clientStatus: {
     isLogin: false,
     email: null,
+    loadingState: "pending",
   },
   setClientStatus: (setValue) =>
     set((state) => ({
