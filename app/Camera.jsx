@@ -2,35 +2,22 @@ import { CameraView, useCameraPermissions } from "expo-camera";
 import { useCallback, useRef, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { router, useFocusEffect } from "expo-router";
-import CameraTopButton from "../components/CameraTopButton";
-import CameraBottomButton from "../components/CameraBottomButton";
+import CameraHeader from "../components/CameraHeader";
+import { AntDesign } from "@expo/vector-icons";
+import CameraBottom from "../components/CameraBottom";
 
 export default function Camera() {
   const [cameraPermission, requestCameraPermission] = useCameraPermissions();
-  const [cameraProps, setCameraProps] = useState({
-    zoom: 0,
-    active: true,
-    facing: "back",
-    flash: "off",
-    animateShutter: false,
-    enableTorch: false,
-  });
-  const [imageURI, setImageURI] = useState(null);
+  const [image, setImage] = useState(null);
   const cameraRef = useRef();
 
   useFocusEffect(
     useCallback(() => {
-      if (imageURI) {
-        router.push(
-          "/AnalyzingProblem?prevPage=Camera&imageURI=" +
-            encodeURIComponent(imageURI)
-        );
-        setImageURI(null);
+      if (image) {
+        router.push("/AnalyzingProblem?image=" + encodeURIComponent(image));
+        setImage(null);
       }
-      return () => {
-        setCameraProps((current) => ({ ...current, active: false }));
-      };
-    }, [imageURI])
+    }, [image])
   );
 
   if (!cameraPermission) {
@@ -55,35 +42,23 @@ export default function Camera() {
 
   return (
     <View style={styles.container}>
-      <CameraTopButton
-        cameraProps={cameraProps}
-        setCameraProps={setCameraProps}
-      />
-      <CameraView
-        style={styles.camera}
-        active={cameraProps.active}
-        zoom={cameraProps.zoom}
-        facing={cameraProps.facing}
-        flash={cameraProps.flash}
-        animateShutter={cameraProps.animateShutter}
-        enableTorch={cameraProps.enableTorch}
-        ref={cameraRef}
-      />
-      <CameraBottomButton
-        cameraProps={cameraProps}
-        setCameraProps={setCameraProps}
-        setImageURI={setImageURI}
-        cameraRef={cameraRef}
-      />
+      <CameraHeader />
+      <CameraView style={styles.camera} ref={cameraRef} />
+      <AntDesign style={styles.plusMark} name="plus" size={40} color="white" />
+      <CameraBottom setImage={setImage} cameraRef={cameraRef} />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
+    height: 500,
     flex: 1,
-    backgroundColor: "white",
-    marginBottom: 0,
+    alignItems: "center",
+  },
+  plusMark: {
+    position: "absolute",
+    bottom: 400,
   },
   camera: {
     flex: 1,
