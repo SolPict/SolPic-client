@@ -12,6 +12,7 @@
 </div>
 
 ## 분석과정
+
 <div align="center">
   <img width="800" alt="image-1" src="https://github.com/user-attachments/assets/65732e48-e421-487d-8b05-6796322a8dad">   
 </div>
@@ -44,7 +45,7 @@
   - [분석과정](#분석과정)
   - [미리보기](#미리보기)
   - [기술스택](#기술-스택)
-- [마주친 어려움들](#%EB%A7%88%EC%A3%BC%EC%B9%9C-%EC%96%B4%EB%A0%A4%EC%9B%80%EB%93%A4)
+- [마주친 어려움](#%EB%A7%88%EC%A3%BC%EC%B9%9C-%EC%96%B4%EB%A0%A4%EC%9B%80)
   - [0. AI를 사용하여 어떻게 수학문제를 풀게 할까?](#0-ai%EB%A5%BC-%EC%82%AC%EC%9A%A9%ED%95%98%EC%97%AC-%EC%96%B4%EB%96%BB%EA%B2%8C-%EC%88%98%ED%95%99%EB%AC%B8%EC%A0%9C%EB%A5%BC-%ED%92%80%EA%B2%8C-%ED%95%A0%EA%B9%8C)
     - [0-1. 딥러닝 모델이 "사고"해서 수학문제를 풀 수 있을까?](#0-1-%EB%94%A5%EB%9F%AC%EB%8B%9D-%EB%AA%A8%EB%8D%B8%EC%9D%B4-%EC%82%AC%EA%B3%A0%ED%95%B4%EC%84%9C-%EC%88%98%ED%95%99%EB%AC%B8%EC%A0%9C%EB%A5%BC-%ED%92%80-%EC%88%98-%EC%9E%88%EC%9D%84%EA%B9%8C)
     - [0-2. 기존 AI는 어떤 과정으로 수학문제를 풀까?](#0-2-%EA%B8%B0%EC%A1%B4-ai%EB%8A%94-%EC%96%B4%EB%96%A4-%EA%B3%BC%EC%A0%95%EC%9C%BC%EB%A1%9C-%EC%88%98%ED%95%99%EB%AC%B8%EC%A0%9C%EB%A5%BC-%ED%92%80%EA%B9%8C)
@@ -52,13 +53,13 @@
   - [2. 딥러닝 모델 적용까지 과정의 어려움](#2-%EB%94%A5%EB%9F%AC%EB%8B%9D-%EB%AA%A8%EB%8D%B8-%EC%A0%81%EC%9A%A9%EA%B9%8C%EC%A7%80-%EA%B3%BC%EC%A0%95%EC%9D%98-%EC%96%B4%EB%A0%A4%EC%9B%80)
     - [2-1. 딥러닝 모델을 만들어야할 지? vs 학습된 모델을 가져다 써야할 지?](#2-1-%EB%94%A5%EB%9F%AC%EB%8B%9D-%EB%AA%A8%EB%8D%B8%EC%9D%84-%EB%A7%8C%EB%93%A4%EC%96%B4%EC%95%BC%ED%95%A0-%EC%A7%80-vs-%ED%95%99%EC%8A%B5%EB%90%9C-%EB%AA%A8%EB%8D%B8%EC%9D%84-%EA%B0%80%EC%A0%B8%EB%8B%A4-%EC%8D%A8%EC%95%BC%ED%95%A0-%EC%A7%80)
   - [3. 딥러닝 모델 적용후 마주쳤던 어려움](#3-%EB%94%A5%EB%9F%AC%EB%8B%9D-%EB%AA%A8%EB%8D%B8-%EC%A0%81%EC%9A%A9%ED%9B%84-%EB%A7%88%EC%A3%BC%EC%B3%A4%EB%8D%98-%EC%96%B4%EB%A0%A4%EC%9B%80)
-    - [3-1. 수학문제 해결 딥러닝 모델의 고성능 그래픽카드(GPU) 필요한 이유](#3-1-%EC%88%98%ED%95%99%EB%AC%B8%EC%A0%9C-%ED%95%B4%EA%B2%B0-%EB%94%A5%EB%9F%AC%EB%8B%9D-%EB%AA%A8%EB%8D%B8%EC%9D%98-%EA%B3%A0%EC%84%B1%EB%8A%A5-%EA%B7%B8%EB%9E%98%ED%94%BD%EC%B9%B4%EB%93%9Cgpu-%ED%95%84%EC%9A%94%ED%95%9C-%EC%9D%B4%EC%9C%A0---%EC%88%98%EC%A0%95)
+    - [3-1. 수학문제 해결 딥러닝 모델의 고성능 그래픽카드(GPU) 필요한 이유](#3-1-%EC%88%98%ED%95%99%EB%AC%B8%EC%A0%9C-%ED%95%B4%EA%B2%B0-%EB%94%A5%EB%9F%AC%EB%8B%9D-%EB%AA%A8%EB%8D%B8%EC%9D%98-%EA%B3%A0%EC%84%B1%EB%8A%A5-%EA%B7%B8%EB%9E%98%ED%94%BD%EC%B9%B4%EB%93%9Cgpu-%ED%95%84%EC%9A%94%ED%95%9C-%EC%9D%B4%EC%9C%A0)
     - [3-2. 고성능 GPU 없는 노트북 개발 환경에서 개발하기](#3-2-%EA%B3%A0%EC%84%B1%EB%8A%A5-gpu-%EC%97%86%EB%8A%94-%EB%85%B8%ED%8A%B8%EB%B6%81-%EA%B0%9C%EB%B0%9C-%ED%99%98%EA%B2%BD%EC%97%90%EC%84%9C-%EA%B0%9C%EB%B0%9C%ED%95%98%EA%B8%B0)
   - [4. 어떻게 딥러닝 모델 정확도를 향상시킬수 있을까?](#4-%EC%96%B4%EB%96%BB%EA%B2%8C-%EB%94%A5%EB%9F%AC%EB%8B%9D-%EB%AA%A8%EB%8D%B8-%EC%A0%95%ED%99%95%EB%8F%84%EB%A5%BC-%ED%96%A5%EC%83%81%EC%8B%9C%ED%82%AC%EC%88%98-%EC%9E%88%EC%9D%84%EA%B9%8C)
     - [4-1. 이미지 분석(OCR) 정확도 향상을 통한 방법](#4-1-%EC%9D%B4%EB%AF%B8%EC%A7%80-%EB%B6%84%EC%84%9Docr-%EC%A0%95%ED%99%95%EB%8F%84-%ED%96%A5%EC%83%81%EC%9D%84-%ED%86%B5%ED%95%9C-%EB%B0%A9%EB%B2%95)
     - [4-2. 딥러닝 모델 통한 정확도 향상](#4-2-%EB%94%A5%EB%9F%AC%EB%8B%9D-%EB%AA%A8%EB%8D%B8-%ED%86%B5%ED%95%9C-%EC%A0%95%ED%99%95%EB%8F%84-%ED%96%A5%EC%83%81)
-- [프로젝트 진행 과정](#%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EC%A7%84%ED%96%89-%EA%B3%BC%EC%A0%95)
-- [프로젝트에서 느낀점](#%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8%EC%97%90%EC%84%9C-%EB%8A%90%EB%82%80%EC%A0%90)
+- [진행 과정](#%EC%A7%84%ED%96%89-%EA%B3%BC%EC%A0%95)
+- [느낀점](#%EB%8A%90%EB%82%80%EC%A0%90)
 
 <!-- tocstop -->
 
@@ -86,7 +87,6 @@
   <img width="800" alt="image" src="https://github.com/user-attachments/assets/a936fbb2-a715-4dfe-8b91-afb9bd385e17">
 </div>
 
-
 ## 1. 수식으로 인한 이미지 분석(OCR) 과정의 어려움
 
 기존 사용하려던 이미지 분석(OCR) 같은 경우 텍스트에 대해서는 분석이 잘 되는 것을 살펴볼 수 있는데 수식같은 경우 분석이 잘 못하는 것을 살펴볼 수 있습니다.
@@ -100,11 +100,11 @@
 
 <U>처음 시도한 방법</U>은 수식 영역과 텍스트 영역을 분리(openCV 이용)해서 각각 분석을 시도한 결과 영역분리가 잘 안되었을 뿐더러 높은 러닝커브에 의해 아래와 같은 부실한 결과를 확인할 수 있습니다.
 <br>
- <img width="300" alt="image" src="https://github.com/user-attachments/assets/3f15b31a-df37-4bf0-b949-7a499cbc1f24">  
+<img width="300" alt="image" src="https://github.com/user-attachments/assets/3f15b31a-df37-4bf0-b949-7a499cbc1f24">
 
 <U>제가 선택한 최종 방법은</U> 여러가지 수식 전용 외부 API 서비스를 비교해서 가장 정확히 분석을 해주는 API 서비스를 택했습니다.
 
- <img width="" alt="image" src="https://github.com/user-attachments/assets/65b76b50-3a28-4adc-8dda-1b4baa2dc968">  
+ <img width="" alt="image" src="https://github.com/user-attachments/assets/65b76b50-3a28-4adc-8dda-1b4baa2dc968">
 
 위 그림과 같이 잘 나오는 것을 확인할 수 있습니다.
 
@@ -155,7 +155,7 @@
 
 <U>두번째</U> 로컬 서버를 인터넷에 공개할 수 있게 해주는 도구 'ngrok' 서비스를 이용하여 집에서 데스크탑을 이용해 서버를 작동시키는 방법을 통해서 해당 문제를 해결하였습니다.
 
- <img width="800" alt="image" src="https://github.com/user-attachments/assets/2c7f8061-dff3-4699-a7b2-1f98205cb75c">  
+ <img width="800" alt="image" src="https://github.com/user-attachments/assets/2c7f8061-dff3-4699-a7b2-1f98205cb75c">
 
 ## 4. 어떻게 딥러닝 모델 정확도를 향상시킬수 있을까?
 
@@ -167,18 +167,18 @@
 
 <U>첫번째 방법</U>으로 좀 더 정확도 높은 외부API 서비스 변경
 
-| 원본 사진                                                             | 변경 전                                                             | 변경 후                                                             |
-| --------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
-|  <img width="200" height="100" alt="image" src="https://github.com/user-attachments/assets/36e124d4-ca5f-41f4-9707-13388b6d9b92"> | <img width="200" height="100" alt="image" src="https://github.com/user-attachments/assets/fc847446-13c2-4a7f-a7ee-bd02a81459cf"> |  <img width="200" height="100" alt="image" src="https://github.com/user-attachments/assets/09f0b722-b29b-458e-82be-94270cbd8386"> |
-|  <img width="200" height="100" alt="image" src="https://github.com/user-attachments/assets/631a1c22-8b66-4f74-a9d0-3bd844f5b63f"> | <img width="200" height="100" alt="image" src="https://github.com/user-attachments/assets/d993e768-e3c3-4022-b6d8-6d63443a1965"> |  <img width="200" height="100" alt="image" src="https://github.com/user-attachments/assets/251c775b-1976-45aa-a145-fed607ccb9cd"> |
-|  <img width="200" height="100" alt="image" src="https://github.com/user-attachments/assets/bfc002a2-1ad6-4c8c-8477-c5348afedd1c"> | <img width="200" height="100" alt="image" src="https://github.com/user-attachments/assets/72adfe4f-9062-48a0-baaf-14e0749277b7"> |  <img width="200" height="100" alt="image" src="https://github.com/user-attachments/assets/1f2108e2-3ef5-4d75-a9d8-aa26d0d8181f"> |
+| 원본 사진                                                                                                                        | 변경 전                                                                                                                          | 변경 후                                                                                                                          |
+| -------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| <img width="200" height="100" alt="image" src="https://github.com/user-attachments/assets/36e124d4-ca5f-41f4-9707-13388b6d9b92"> | <img width="200" height="100" alt="image" src="https://github.com/user-attachments/assets/fc847446-13c2-4a7f-a7ee-bd02a81459cf"> | <img width="200" height="100" alt="image" src="https://github.com/user-attachments/assets/09f0b722-b29b-458e-82be-94270cbd8386"> |
+| <img width="200" height="100" alt="image" src="https://github.com/user-attachments/assets/631a1c22-8b66-4f74-a9d0-3bd844f5b63f"> | <img width="200" height="100" alt="image" src="https://github.com/user-attachments/assets/d993e768-e3c3-4022-b6d8-6d63443a1965"> | <img width="200" height="100" alt="image" src="https://github.com/user-attachments/assets/251c775b-1976-45aa-a145-fed607ccb9cd"> |
+| <img width="200" height="100" alt="image" src="https://github.com/user-attachments/assets/bfc002a2-1ad6-4c8c-8477-c5348afedd1c"> | <img width="200" height="100" alt="image" src="https://github.com/user-attachments/assets/72adfe4f-9062-48a0-baaf-14e0749277b7"> | <img width="200" height="100" alt="image" src="https://github.com/user-attachments/assets/1f2108e2-3ef5-4d75-a9d8-aa26d0d8181f"> |
 
 위와 같이 원본 사진이 조금만 어둡거나 번호 관련해서 잘 인식하지 못하던 문제가 개선된 것을 살펴보실 수 있습니다.
 
 <U>두번째 방법</U>으로 이미지 자르기 기능과 회전 기능을 추가하여 정확도를 향상시켰습니다.
 
-| 이미지 자르기                                                       | 이미지 회전                                                                                                                             |
-| ------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| 이미지 자르기                                                                                                                    | 이미지 회전                                                                                                                                                                                                                                                       |
+| -------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | <img width="200" height="400" alt="image" src="https://github.com/user-attachments/assets/2ad7ee58-b80a-4300-9c33-33b722101fd1"> | <img width="200" height="400" alt="image" src="https://github.com/user-attachments/assets/73c2ea16-207d-44cb-8452-5128c3c927af"> <img width="200" height="400" alt="image" src="https://github.com/user-attachments/assets/bf9e95ca-1334-474b-a5bc-efc37167159f"> |
 
 위 사진 처럼 이미지 자르기로 불필요한 부분을 제거해주고 똑바르지 못한 이미지 같은 경우 회전 기능을 추가해서 똑바르게 바꿔주어서 정확도를 향상 시키는 방법을 사용하였습니다.
@@ -192,8 +192,8 @@
 <U>첫번째 방법</U>으로 학습된 모델이기 때문에 사용 언어가 맞지않기 때문에 해당 특화 언어로 바꿔 주었습니다.  
 제 모델같은 경우 영어, 중국어 특화 모델이기 때문에 이미지 분석(OCR)을 통한 결과를 영어로 바꿔주는 작업을 해주었습니다.
 
-| 문제                                                                | 한글로 입력                                                         | 영어로 입력                                                         |
-| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| 문제                                                                                                                             | 한글로 입력                                                                                                                      | 영어로 입력                                                                                                                      |
+| -------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
 | <img width="300" height="150" alt="image" src="https://github.com/user-attachments/assets/08bc9956-c7d0-4d23-add5-1691cf3a14b5"> | <img width="400" height="150" alt="image" src="https://github.com/user-attachments/assets/bef8a1bb-a35a-4e71-9272-49af24a76d23"> | <img width="200" height="150" alt="image" src="https://github.com/user-attachments/assets/727cb035-aebe-418b-beaa-08a9d8ad607a"> |
 
 위 결과를 살펴보면 "boxed{}" 에 결과값이 나오는데 한글로 입력했을시 "5" 라는 이상한 답이 나오고 영어로 입력했을 시 정상적으로 "0.5(1/2)" 값이 나온것을 살펴볼 수 있습니다.  
