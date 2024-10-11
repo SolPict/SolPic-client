@@ -5,10 +5,10 @@ import { COLORS } from "../constants/colors";
 export default function DeleteModal({
   modalVisible,
   setModalVisible,
-  DeleteReviewNote,
+  deleteReviewNote,
 }) {
   const handleYes = () => {
-    DeleteReviewNote();
+    deleteReviewNote();
     setModalVisible(false);
   };
 
