@@ -33,7 +33,7 @@ export default function AnswerPage() {
   const addReviewNote = async () => {
     try {
       await axios.post(
-        process.env.EXPO_PUBLIC_SERVER_URL + "problems/reviewNote/" + problemId,
+        process.env.EXPO_PUBLIC_SERVER_URL + "problem/reviewNote/" + problemId,
         {
           email,
         }

@@ -10,7 +10,7 @@ export default function ReviewButton({ problemId, chosenAnswer = 0 }) {
   const addReviewNote = async () => {
     try {
       const result = await axios.post(
-        process.env.EXPO_PUBLIC_SERVER_URL + "problems/reviewNote/" + problemId,
+        process.env.EXPO_PUBLIC_SERVER_URL + "problem/reviewNote/" + problemId,
         {
           email,
           chosenAnswer,
