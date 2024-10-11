@@ -17,17 +17,23 @@ export default function ProblemPage() {
   const { email } = getClientStatus();
   const isUserAnswerCorrect = selectedRadio === problemInfo.answer;
 
-  const deleteReviewNote = () => {
+  const deleteReviewNote = async () => {
     try {
       setModalVisible(true);
 
-      axios.delete(
-        process.env.EXPO_PUBLIC_SERVER_URL + "problem/solving/" + problemId,
+      await axios.delete(
+        process.env.EXPO_PUBLIC_SERVER_URL + "problem/reviewNote/" + problemId,
         {
-          email: email || "",
+          data: {
+            email,
+          },
         }
       );
-    } catch {
+
+      router.push("/ProblemReviews/ReviewNote");
+      setModalVisible(false);
+    } catch (error) {
+      Alert.alert("리뷰를 삭제하지 못하였습니다.");
       console.error(error);
     }
   };
