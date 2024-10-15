@@ -23,22 +23,22 @@
 ### 다양한 문제 제공
 
 <div align="left">
-  <img src="https://github.com/user-attachments/assets/65386a10-6372-42cd-9898-4dcc187182af"  width="200" height="400" />
+  <img src="https://github.com/user-attachments/assets/65386a10-6372-42cd-9898-4dcc187182af"  width="190" height="400" />
 </div>
 
 ### 문제풀이 기능
 
 <div align="left">
-  <img src="https://github.com/user-attachments/assets/bac8d9ca-2778-472a-9762-30069dc7d327"  width="200" height="400" />
-  <img src="https://github.com/user-attachments/assets/86cb313c-b7a3-4a3a-8cdc-c979ea2cf27b"  width="200" height="400" />
+  <img src="https://github.com/user-attachments/assets/bac8d9ca-2778-472a-9762-30069dc7d327"  width="190" height="400" />
+  <img src="https://github.com/user-attachments/assets/86cb313c-b7a3-4a3a-8cdc-c979ea2cf27b"  width="190" height="400" />
 </div>
 
 ### 리뷰노트 서비스 제공
 
 <div align="left">
-  <img src="https://github.com/user-attachments/assets/92274187-b471-4a08-add5-163542f834b7"  width="200" height="400" />
-  <img src="https://github.com/user-attachments/assets/c1fe6738-28f7-4982-8238-242166891660"  width="200" height="400" />
-  <img src="https://github.com/user-attachments/assets/b56e6e2f-93ba-4b6d-bb96-3a5dc28f2dab"  width="200" height="400" />
+  <img src="https://github.com/user-attachments/assets/92274187-b471-4a08-add5-163542f834b7"  width="190" height="400" />
+  <img src="https://github.com/user-attachments/assets/c1fe6738-28f7-4982-8238-242166891660"  width="190" height="400" />
+  <img src="https://github.com/user-attachments/assets/b56e6e2f-93ba-4b6d-bb96-3a5dc28f2dab"  width="190" height="400" />
 </div>
 
 ## 기술 스택
