@@ -34,7 +34,15 @@
             "photosPermission": "Allow Sol.Pic to access your photos.",
             "savePhotosPermission": "Allow Sol.Pic to save photos.",
             "isAccessMediaLocationEnabled": true
-          }
+          },
+          [
+            "expo-build-properties",
+            {
+              "android": {
+                "usesCleartextTraffic": true
+              }
+            }
+          ]
         ]
       ]
     },
