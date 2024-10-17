@@ -105,15 +105,15 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     width: 50,
+    height: "100%",
     gap: 5,
   },
   tabImages: {
     resizeMode: "contain",
     width: "60%",
+    height: "100%",
   },
-  tabText: {
-    bottom: 240,
-  },
+  tabText: {},
   cameraContainer: {
     backgroundColor: COLORS.PRIMARY,
     justifyContent: "center",
