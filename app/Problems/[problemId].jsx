@@ -1,7 +1,7 @@
-import { router, useLocalSearchParams } from "expo-router";
+import { router, useFocusEffect, useLocalSearchParams } from "expo-router";
 import { Alert, Image, StyleSheet, Text, View } from "react-native";
 import RadioButton from "../../components/RadioButton";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { TouchableOpacity } from "react-native";
 import axios from "axios";
 import useClientStore from "../../store/store";
@@ -10,12 +10,27 @@ import DeleteModal from "../../components/DeleteModal";
 
 export default function ProblemPage() {
   const [modalVisible, setModalVisible] = useState(false);
-  const { problemId, problem } = useLocalSearchParams();
-  const problemInfo = JSON.parse(decodeURIComponent(problem));
+  const [problemInfo, setProblemInfo] = useState({});
+  const { problemId } = useLocalSearchParams();
   const [selectedRadio, setSelectedRadio] = useState(1);
   const { getClientStatus } = useClientStore();
   const { email } = getClientStatus();
   const isUserAnswerCorrect = selectedRadio === problemInfo.answer;
+  const key = decodeURIComponent(problemId);
+
+  useFocusEffect(
+    useCallback(() => {
+      getProblemInfo();
+    }, [problemInfo])
+  );
+
+  const getProblemInfo = async () => {
+    const { data } = await axios.get(
+      process.env.EXPO_PUBLIC_SERVER_URL + "problem/" + key
+    );
+
+    setProblemInfo(data);
+  };
 
   const deleteReviewNote = async () => {
     try {
@@ -41,17 +56,16 @@ export default function ProblemPage() {
   const handleSubmit = () => {
     try {
       axios.post(
-        process.env.EXPO_PUBLIC_SERVER_URL + "problem/solving/" + problemId,
+        process.env.EXPO_PUBLIC_SERVER_URL +
+          "problem/solving/" +
+          JSON.stringify(problemId.split("/")),
         {
           email: email || "",
           isUserAnswerCorrect,
         }
       );
 
-      router.push(
-        `/Answers/${problemId}?answer=` +
-          encodeURIComponent(JSON.stringify(problemInfo))
-      );
+      router.push(`/Answers/${problemId}`);
     } catch (error) {
       Alert.alert(error);
       console.error(error);
@@ -60,7 +74,10 @@ export default function ProblemPage() {
 
   return (
     <View style={styles.problemContainer}>
-      <Image source={{ uri: problemInfo.uri }} style={styles.problemImage} />
+      <Image
+        source={{ uri: process.env.EXPO_PUBLIC_S3_URL + problemId }}
+        style={styles.problemImage}
+      />
       <Text style={styles.radioTitle}>번호</Text>
       <RadioButton
         selectedRadio={selectedRadio}

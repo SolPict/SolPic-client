@@ -44,7 +44,7 @@ export default function AnalyzingProblem() {
       const formData = new FormData();
       formData.append("file", {
         uri: imageURI,
-        name: "analyze_image.jpg",
+        name: imageInfo.fileName,
         type: imageInfo.mimeType,
       });
 
@@ -79,10 +79,7 @@ export default function AnalyzingProblem() {
   };
 
   const goToAnswerPage = () => {
-    router.push(
-      `/Answers/${JSON.parse(problemInfo)._id.$oid}?answer=` +
-        encodeURIComponent(problemInfo)
-    );
+    router.push(`/Answers/${encodeURIComponent(JSON.parse(problemInfo).key)}`);
 
     setClientStatus({ loadingState: "pending" });
   };

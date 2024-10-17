@@ -19,7 +19,9 @@ export default function ReviewNote() {
   );
 
   useEffect(() => {
-    getReviewNote();
+    if (isLogin) {
+      getReviewNote();
+    }
   }, [email, isLogin]);
 
   const getReviewNote = async () => {

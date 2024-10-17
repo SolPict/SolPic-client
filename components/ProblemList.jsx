@@ -9,21 +9,22 @@ export default function ProblemList({ problems, prevPage }) {
           const handleGoNextPage = () => {
             const nextURL =
               prevPage === "home"
-                ? `/Answers/${problem._id.$oid}?answer=`
-                : `/Problems/${problem._id.$oid}?problem=`;
-
-            router.push(nextURL + encodeURIComponent(JSON.stringify(problem)));
+                ? "/Answers/" + encodeURIComponent(problem["Key"])
+                : "/Problems/" + encodeURIComponent(problem["Key"]);
+            router.push(nextURL);
           };
 
           return (
             <TouchableOpacity
-              key={problem._id.$oid}
+              key={problem["ETag"]}
               style={styles.problemContainer}
               onPress={handleGoNextPage}
             >
               <Image
                 style={styles.problemImage}
-                source={{ uri: problem.uri }}
+                source={{
+                  uri: process.env.EXPO_PUBLIC_S3_URL + problem["Key"],
+                }}
               />
             </TouchableOpacity>
           );
