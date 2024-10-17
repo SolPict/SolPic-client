@@ -1,8 +1,7 @@
 import axios from "axios";
-import { router, useLocalSearchParams } from "expo-router";
+import { router, useFocusEffect, useLocalSearchParams } from "expo-router";
 import {
   Alert,
-  Button,
   Image,
   SafeAreaView,
   ScrollView,
@@ -15,14 +14,14 @@ import useClientStore from "../../store/store";
 import LaTeXView from "../../components/LaTeXView";
 import { COLORS } from "../../constants/colors";
 import { AntDesign } from "@expo/vector-icons";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import ReviewModal from "../../components/ReviewModal";
 
 export default function AnswerPage() {
   const [modalVisible, setModalVisible] = useState(false);
   const [isWideBorder, setIsWideBorder] = useState(false);
-  const { problemId, answer } = useLocalSearchParams();
-  const { uri, explanation } = JSON.parse(decodeURIComponent(answer));
+  const [explanation, setExplanation] = useState("");
+  const { problemId } = useLocalSearchParams();
   const { getClientStatus } = useClientStore();
   const { email, isLogin } = getClientStatus();
 
@@ -30,10 +29,37 @@ export default function AnswerPage() {
     router.push("/");
   };
 
+  useFocusEffect(
+    useCallback(() => {
+      getProblem();
+
+      return () => {
+        setExplanation("");
+      };
+    }, [problemId])
+  );
+
+  const getProblem = async () => {
+    try {
+      const { data } = await axios.get(
+        process.env.EXPO_PUBLIC_SERVER_URL +
+          "problem/" +
+          JSON.stringify(problemId.split("/"))
+      );
+
+      setExplanation(JSON.parse(data));
+    } catch (error) {
+      console.error(error);
+      Alert.alert("이미지를 불러오는데 실패하였습니다.");
+    }
+  };
+
   const addReviewNote = async () => {
     try {
       await axios.post(
-        process.env.EXPO_PUBLIC_SERVER_URL + "problem/reviewNote/" + problemId,
+        process.env.EXPO_PUBLIC_SERVER_URL +
+          "problem/reviewNote/" +
+          JSON.stringify(problemId.split("/")),
         {
           email,
         }
@@ -55,7 +81,10 @@ export default function AnswerPage() {
       <View
         style={[styles.imageContainer, { height: isWideBorder ? 0 : "35%" }]}
       >
-        <Image source={{ uri }} style={styles.problemImage} />
+        <Image
+          source={{ uri: process.env.EXPO_PUBLIC_S3_URL + problemId }}
+          style={styles.problemImage}
+        />
       </View>
       <ScrollView
         style={[isWideBorder ? styles.offWideScroll : styles.answerScroll]}
@@ -65,11 +94,7 @@ export default function AnswerPage() {
           style={styles.answerScrollContainer}
           onPress={() => setIsWideBorder(!isWideBorder)}
         >
-          <LaTeXView problemId={problemId}>
-            {typeof explanation === "string"
-              ? explanation
-              : explanation.join("")}
-          </LaTeXView>
+          <LaTeXView problemId={problemId}>{explanation}</LaTeXView>
         </TouchableOpacity>
       </ScrollView>
       <View style={styles.bottomContainer}>
