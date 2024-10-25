@@ -1,52 +1,67 @@
 # 프로젝트 소개
 
 <div align = "left">
-  <img width="700" src="https://github.com/user-attachments/assets/984574f0-565e-4b54-8cca-b869b161389d" />
-  <br>
-  <p>
-    Sol.Pic(Solve Picture)은 수학문제 이미지를 AI를 활용해 풀이과정과 정답을 제공해주는 모바일기반 어플리케이션 입니다.
-  </p>
-    <a href="https://github.com/SolPict/SolPict-server">클라이언트</a> |
-  <a href="https://catnip-puppy-52c.notion.site/0f30ccd74be94f7cb0b00c4bca706361?pvs=4">정리 노션</a>ㅣ<a href="https://github.com/SolPict/SolPict-server">서버</a>
-    <a href="https://github.com/SolPict/SolPict-server">클라이언트</a> |
- <a href="https://github.com/SolPict/SolPict-server">서버</a> 
+<img width="700" src="https://github.com/user-attachments/assets/984574f0-565e-4b54-8cca-b869b161389d" />
+<br>
+<p>
+Sol.Pic(Solve Picture)은 수학문제 이미지를 AI를 활용해 풀이과정과 정답을 제공해주는 모바일기반 어플리케이션 입니다.
+</p>
+<a href="https://github.com/SolPict/SolPict-server">클라이언트</a> |
+<a href="https://github.com/SolPict/SolPict-server">서버</a> 
 </div>
 
 ## 구성
 
 <!-- toc -->
 
-  * [분석과정](#%EB%B6%84%EC%84%9D%EA%B3%BC%EC%A0%95)
-  * [미리보기](#%EB%AF%B8%EB%A6%AC%EB%B3%B4%EA%B8%B0)
-    + [다양한 문제 제공](#%EB%8B%A4%EC%96%91%ED%95%9C-%EB%AC%B8%EC%A0%9C-%EC%A0%9C%EA%B3%B5)
-    + [문제풀이 기능](#%EB%AC%B8%EC%A0%9C%ED%92%80%EC%9D%B4-%EA%B8%B0%EB%8A%A5)
-    + [리뷰노트 서비스 제공](#%EB%A6%AC%EB%B7%B0%EB%85%B8%ED%8A%B8-%EC%84%9C%EB%B9%84%EC%8A%A4-%EC%A0%9C%EA%B3%B5)
-  * [기술 스택](#%EA%B8%B0%EC%88%A0-%EC%8A%A4%ED%83%9D)
-    + [프론트엔드](#%ED%94%84%EB%A1%A0%ED%8A%B8%EC%97%94%EB%93%9C)
-    + [백엔드](#%EB%B0%B1%EC%97%94%EB%93%9C)
-      - [기술선택 이유](#%EA%B8%B0%EC%88%A0%EC%84%A0%ED%83%9D%EC%9D%B4%EC%9C%A0)
+- [분석과정](#%EB%B6%84%EC%84%9D%EA%B3%BC%EC%A0%95)
+- [미리보기](#%EB%AF%B8%EB%A6%AC%EB%B3%B4%EA%B8%B0)
+
+* [다양한 문제 제공](#%EB%8B%A4%EC%96%91%ED%95%9C-%EB%AC%B8%EC%A0%9C-%EC%A0%9C%EA%B3%B5)
+* [문제풀이 기능](#%EB%AC%B8%EC%A0%9C%ED%92%80%EC%9D%B4-%EA%B8%B0%EB%8A%A5)
+* [리뷰노트 서비스 제공](#%EB%A6%AC%EB%B7%B0%EB%85%B8%ED%8A%B8-%EC%84%9C%EB%B9%84%EC%8A%A4-%EC%A0%9C%EA%B3%B5)
+
+- [기술 스택](#%EA%B8%B0%EC%88%A0-%EC%8A%A4%ED%83%9D)
+
+* [프론트엔드](#%ED%94%84%EB%A1%A0%ED%8A%B8%EC%97%94%EB%93%9C)
+* [백엔드](#%EB%B0%B1%EC%97%94%EB%93%9C)
+
+- [기술선택 이유](#%EA%B8%B0%EC%88%A0%EC%84%A0%ED%83%9D%EC%9D%B4%EC%9C%A0)
   - [진행 과정](#%EC%A7%84%ED%96%89-%EA%B3%BC%EC%A0%95)
-  * [사전 설명](#%EC%82%AC%EC%A0%84-%EC%84%A4%EB%AA%85)
-    + [딥러닝 모델이 "사고"해서 수학문제를 풀 수 있을까?](#%EB%94%A5%EB%9F%AC%EB%8B%9D-%EB%AA%A8%EB%8D%B8%EC%9D%B4-%EC%82%AC%EA%B3%A0%ED%95%B4%EC%84%9C-%EC%88%98%ED%95%99%EB%AC%B8%EC%A0%9C%EB%A5%BC-%ED%92%80-%EC%88%98-%EC%9E%88%EC%9D%84%EA%B9%8C)
-    + [기존 수학 문제 풀어주는 AI의 해결과정](#%EA%B8%B0%EC%A1%B4-%EC%88%98%ED%95%99-%EB%AC%B8%EC%A0%9C-%ED%92%80%EC%96%B4%EC%A3%BC%EB%8A%94-ai%EC%9D%98-%ED%95%B4%EA%B2%B0%EA%B3%BC%EC%A0%95)
-- [문제, 해결방안](#%EB%AC%B8%EC%A0%9C-%ED%95%B4%EA%B2%B0%EB%B0%A9%EC%95%88)
-  * [1. 이미지 인식에서 도전 과제](#1-%EC%9D%B4%EB%AF%B8%EC%A7%80-%EC%9D%B8%EC%8B%9D%EC%97%90%EC%84%9C-%EB%8F%84%EC%A0%84-%EA%B3%BC%EC%A0%9C)
-    + [1-1. 수식으로 인한 이미지 분석(OCR) 과정의 어려움](#1-1-%EC%88%98%EC%8B%9D%EC%9C%BC%EB%A1%9C-%EC%9D%B8%ED%95%9C-%EC%9D%B4%EB%AF%B8%EC%A7%80-%EB%B6%84%EC%84%9Docr-%EA%B3%BC%EC%A0%95%EC%9D%98-%EC%96%B4%EB%A0%A4%EC%9B%80)
-  * [2. 딥러닝 모델 적용까지 도전과제](#2-%EB%94%A5%EB%9F%AC%EB%8B%9D-%EB%AA%A8%EB%8D%B8-%EC%A0%81%EC%9A%A9%EA%B9%8C%EC%A7%80-%EB%8F%84%EC%A0%84%EA%B3%BC%EC%A0%9C)
-    + [2-1. 모델 새로 만들기 vs. 학습된 모델 활용하기](#2-1-%EB%AA%A8%EB%8D%B8-%EC%83%88%EB%A1%9C-%EB%A7%8C%EB%93%A4%EA%B8%B0-vs-%ED%95%99%EC%8A%B5%EB%90%9C-%EB%AA%A8%EB%8D%B8-%ED%99%9C%EC%9A%A9%ED%95%98%EA%B8%B0)
-  * [3. 딥러닝 모델 적용 후 도전과제](#3-%EB%94%A5%EB%9F%AC%EB%8B%9D-%EB%AA%A8%EB%8D%B8-%EC%A0%81%EC%9A%A9-%ED%9B%84-%EB%8F%84%EC%A0%84%EA%B3%BC%EC%A0%9C)
-    + [3-1. 수학 문제 해결을 위한 고성능 그래픽 카드(GPU)의 필요성](#3-1-%EC%88%98%ED%95%99-%EB%AC%B8%EC%A0%9C-%ED%95%B4%EA%B2%B0%EC%9D%84-%EC%9C%84%ED%95%9C-%EA%B3%A0%EC%84%B1%EB%8A%A5-%EA%B7%B8%EB%9E%98%ED%94%BD-%EC%B9%B4%EB%93%9Cgpu%EC%9D%98-%ED%95%84%EC%9A%94%EC%84%B1)
-    + [3-2. 고성능 GPU 없는 개발 환경에서 개발하기](#3-2-%EA%B3%A0%EC%84%B1%EB%8A%A5-gpu-%EC%97%86%EB%8A%94-%EA%B0%9C%EB%B0%9C-%ED%99%98%EA%B2%BD%EC%97%90%EC%84%9C-%EA%B0%9C%EB%B0%9C%ED%95%98%EA%B8%B0)
-  * [4. 딥러닝 모델 정확도 향상 전략](#4-%EB%94%A5%EB%9F%AC%EB%8B%9D-%EB%AA%A8%EB%8D%B8-%EC%A0%95%ED%99%95%EB%8F%84-%ED%96%A5%EC%83%81-%EC%A0%84%EB%9E%B5)
-    + [4-1. 딥러닝 모델의 성능을 높이는 이미지 처리 전략](#4-1-%EB%94%A5%EB%9F%AC%EB%8B%9D-%EB%AA%A8%EB%8D%B8%EC%9D%98-%EC%84%B1%EB%8A%A5%EC%9D%84-%EB%86%92%EC%9D%B4%EB%8A%94-%EC%9D%B4%EB%AF%B8%EC%A7%80-%EC%B2%98%EB%A6%AC-%EC%A0%84%EB%9E%B5)
-    + [4-2. 딥러닝 모델의 언어 최적화 전략](#4-2-%EB%94%A5%EB%9F%AC%EB%8B%9D-%EB%AA%A8%EB%8D%B8%EC%9D%98-%EC%96%B8%EC%96%B4-%EC%B5%9C%EC%A0%81%ED%99%94-%EC%A0%84%EB%9E%B5)
+
+* [사전 설명](#%EC%82%AC%EC%A0%84-%EC%84%A4%EB%AA%85)
+
+- [딥러닝 모델이 "사고"해서 수학문제를 풀 수 있을까?](#%EB%94%A5%EB%9F%AC%EB%8B%9D-%EB%AA%A8%EB%8D%B8%EC%9D%B4-%EC%82%AC%EA%B3%A0%ED%95%B4%EC%84%9C-%EC%88%98%ED%95%99%EB%AC%B8%EC%A0%9C%EB%A5%BC-%ED%92%80-%EC%88%98-%EC%9E%88%EC%9D%84%EA%B9%8C)
+- [기존 수학 문제 풀어주는 AI의 해결과정](#%EA%B8%B0%EC%A1%B4-%EC%88%98%ED%95%99-%EB%AC%B8%EC%A0%9C-%ED%92%80%EC%96%B4%EC%A3%BC%EB%8A%94-ai%EC%9D%98-%ED%95%B4%EA%B2%B0%EA%B3%BC%EC%A0%95)
+
+* [문제, 해결방안](#%EB%AC%B8%EC%A0%9C-%ED%95%B4%EA%B2%B0%EB%B0%A9%EC%95%88)
+
+- [1. 이미지 인식에서 도전 과제](#1-%EC%9D%B4%EB%AF%B8%EC%A7%80-%EC%9D%B8%EC%8B%9D%EC%97%90%EC%84%9C-%EB%8F%84%EC%A0%84-%EA%B3%BC%EC%A0%9C)
+
+* [1-1. 수식으로 인한 이미지 분석(OCR) 과정의 어려움](#1-1-%EC%88%98%EC%8B%9D%EC%9C%BC%EB%A1%9C-%EC%9D%B8%ED%95%9C-%EC%9D%B4%EB%AF%B8%EC%A7%80-%EB%B6%84%EC%84%9Docr-%EA%B3%BC%EC%A0%95%EC%9D%98-%EC%96%B4%EB%A0%A4%EC%9B%80)
+
+- [2. 딥러닝 모델 적용까지 도전과제](#2-%EB%94%A5%EB%9F%AC%EB%8B%9D-%EB%AA%A8%EB%8D%B8-%EC%A0%81%EC%9A%A9%EA%B9%8C%EC%A7%80-%EB%8F%84%EC%A0%84%EA%B3%BC%EC%A0%9C)
+
+* [2-1. 모델 새로 만들기 vs. 학습된 모델 활용하기](#2-1-%EB%AA%A8%EB%8D%B8-%EC%83%88%EB%A1%9C-%EB%A7%8C%EB%93%A4%EA%B8%B0-vs-%ED%95%99%EC%8A%B5%EB%90%9C-%EB%AA%A8%EB%8D%B8-%ED%99%9C%EC%9A%A9%ED%95%98%EA%B8%B0)
+
+- [3. 딥러닝 모델 적용 후 도전과제](#3-%EB%94%A5%EB%9F%AC%EB%8B%9D-%EB%AA%A8%EB%8D%B8-%EC%A0%81%EC%9A%A9-%ED%9B%84-%EB%8F%84%EC%A0%84%EA%B3%BC%EC%A0%9C)
+
+* [3-1. 수학 문제 해결을 위한 고성능 그래픽 카드(GPU)의 필요성](#3-1-%EC%88%98%ED%95%99-%EB%AC%B8%EC%A0%9C-%ED%95%B4%EA%B2%B0%EC%9D%84-%EC%9C%84%ED%95%9C-%EA%B3%A0%EC%84%B1%EB%8A%A5-%EA%B7%B8%EB%9E%98%ED%94%BD-%EC%B9%B4%EB%93%9Cgpu%EC%9D%98-%ED%95%84%EC%9A%94%EC%84%B1)
+* [3-2. 고성능 GPU 없는 개발 환경에서 개발하기](#3-2-%EA%B3%A0%EC%84%B1%EB%8A%A5-gpu-%EC%97%86%EB%8A%94-%EA%B0%9C%EB%B0%9C-%ED%99%98%EA%B2%BD%EC%97%90%EC%84%9C-%EA%B0%9C%EB%B0%9C%ED%95%98%EA%B8%B0)
+
+- [4. 딥러닝 모델 정확도 향상 전략](#4-%EB%94%A5%EB%9F%AC%EB%8B%9D-%EB%AA%A8%EB%8D%B8-%EC%A0%95%ED%99%95%EB%8F%84-%ED%96%A5%EC%83%81-%EC%A0%84%EB%9E%B5)
+
+* [4-1. 딥러닝 모델의 성능을 높이는 이미지 처리 전략](#4-1-%EB%94%A5%EB%9F%AC%EB%8B%9D-%EB%AA%A8%EB%8D%B8%EC%9D%98-%EC%84%B1%EB%8A%A5%EC%9D%84-%EB%86%92%EC%9D%B4%EB%8A%94-%EC%9D%B4%EB%AF%B8%EC%A7%80-%EC%B2%98%EB%A6%AC-%EC%A0%84%EB%9E%B5)
+* [4-2. 딥러닝 모델의 언어 최적화 전략](#4-2-%EB%94%A5%EB%9F%AC%EB%8B%9D-%EB%AA%A8%EB%8D%B8%EC%9D%98-%EC%96%B8%EC%96%B4-%EC%B5%9C%EC%A0%81%ED%99%94-%EC%A0%84%EB%9E%B5)
+
+- [진행 과정](#%EC%A7%84%ED%96%89-%EA%B3%BC%EC%A0%95)
 
 <!-- tocstop -->
 
 ## 분석과정
 
 <div align="left">
-  <img width="700" alt="image-1" src="https://github.com/user-attachments/assets/7daf2431-ab11-4321-967f-ce1086d92cf6">   
+<img width="700" alt="image-1" src="https://github.com/user-attachments/assets/7daf2431-ab11-4321-967f-ce1086d92cf6">   
 </div>
 
 ## 미리보기
@@ -57,10 +72,8 @@
 <summary>펼치기</summary>
 <div markdown="1">
 <div align="left">
-  <img src="https://github.com/user-attachments/assets/65386a10-6372-42cd-9898-4dcc187182af"  width="200" height="400" />
+<img src="https://github.com/user-attachments/assets/65386a10-6372-42cd-9898-4dcc187182af"  width="200" height="400" />
 </div>
-</div>
-</details>
 </div>
 </details>
 
@@ -69,12 +82,9 @@
 <details>
 <summary>펼치기</summary>
 <div markdown="2">
-<details>
-<summary>펼치기</summary>
-<div markdown="2">
 <div align="left">
-  <img src="https://github.com/user-attachments/assets/bac8d9ca-2778-472a-9762-30069dc7d327"  width="200" height="400" />
-  <img src="https://github.com/user-attachments/assets/86cb313c-b7a3-4a3a-8cdc-c979ea2cf27b"  width="200" height="400" />
+<img src="https://github.com/user-attachments/assets/bac8d9ca-2778-472a-9762-30069dc7d327"  width="200" height="400" />
+<img src="https://github.com/user-attachments/assets/86cb313c-b7a3-4a3a-8cdc-c979ea2cf27b"  width="200" height="400" />
 </div>
 </div>
 </details>
@@ -85,9 +95,9 @@
 <summary>펼치기</summary>
 <div markdown="3">
 <div align="left">
-  <img src="https://github.com/user-attachments/assets/92274187-b471-4a08-add5-163542f834b7"  width="200" height="400" />
-  <img src="https://github.com/user-attachments/assets/c1fe6738-28f7-4982-8238-242166891660"  width="200" height="400" />
-  <img src="https://github.com/user-attachments/assets/b56e6e2f-93ba-4b6d-bb96-3a5dc28f2dab"  width="200" height="400" />
+<img src="https://github.com/user-attachments/assets/92274187-b471-4a08-add5-163542f834b7"  width="200" height="400" />
+<img src="https://github.com/user-attachments/assets/c1fe6738-28f7-4982-8238-242166891660"  width="200" height="400" />
+<img src="https://github.com/user-attachments/assets/b56e6e2f-93ba-4b6d-bb96-3a5dc28f2dab"  width="200" height="400" />
 </div>
 </details>
 
@@ -111,31 +121,23 @@
 
 - **모바일 ✓** vs 웹
 
-  1. 프로젝트의 메인기능인 이미지를 찍어서 문제를 해결하는 과정을 거치므로 유저입장에서 쉽게 이미지를 찍을 수 있는 **모바일** 기술을 선택하였습니다.
-  2. 모바일일 경우 좀 더 유연한 환경에서 서비스를 제공 받을 수 있기 때문에 사용자 경험을 극대화 하기위해 **모바일** 기술을 선택하였습니다.
+- 프로젝트의 메인기능인 이미지를 찍어서 문제를 해결하는 과정을 거치므로 유저입장에서 쉽게 이미지를 찍을 수 있는 **모바일** 기술을 선택하였습니다.
+- 모바일일 경우 좀 더 유연한 환경에서 서비스를 제공받을 수 있기 때문에 사용자 경험을 극대화하기 위해 **모바일** 기술을 선택하였습니다.
 
 - **Expo ✓** vs Cli
 
-  1. 짧은 프로젝트 기한 동안 여러가지를 구현해야 하는 입장으로써 다양한 API 와 Expo Go 라는 앱을 제공해주어 개발을 용이하게 도와주기 때문에 **Expo**를 선택하였습니다.
-  2. 모바일 플랫폼 환경에서 처음으로 개발해보기 때문에 초기셋팅과 빌드 및 배포 그리고 학습적인 측면에서 좀 더 간편하기 때문에
-     **Expo**를 선택하였습니다.
-  - 프로젝트의 메인기능인 이미지를 찍어서 문제를 해결하는 과정을 거치므로 유저입장에서 쉽게 이미지를 찍을 수 있는 **모바일** 기술을 선택하였습니다.
-  - 모바일일 경우 좀 더 유연한 환경에서 서비스를 제공받을 수 있기 때문에 사용자 경험을 극대화하기 위해 **모바일** 기술을 선택하였습니다.
-
-- **Expo ✓** vs Cli
-
-  - 짧은 프로젝트 기한 동안 여러 가지를 구현해야 하는 입장으로써 다양한 API와 Expo Go라는 앱을 제공해 주어 개발을 용이하게 도와주기 때문에 **Expo**를 선택하였습니다.
-  - 모바일 플랫폼 환경에서 처음으로 개발해 보기 때문에 초기세팅과 빌드 및 배포 그리고 학습적인 측면에서 좀 더 간편하기 때문에
-     **Expo**를 선택하였습니다.
+- 짧은 프로젝트 기한 동안 여러 가지를 구현해야 하는 입장으로써 다양한 API와 Expo Go라는 앱을 제공해 주어 개발을 용이하게 도와주기 때문에 **Expo**를 선택하였습니다.
+- 모바일 플랫폼 환경에서 처음으로 개발해 보기 때문에 초기세팅과 빌드 및 배포 그리고 학습적인 측면에서 좀 더 간편하기 때문에
+  **Expo**를 선택하였습니다.
 
 - **Python ✓** vs Javascript
 
-  - 프로젝트에서 딥러닝 모델을 사용해야 해야 해서 pytorch 또는 TensorFlow가 꼭 필요한 상황이었기 때문에 **Python**언어를 선택하였습니다.
-  - 그 외에도 수식 관련 다룰 수 있는 SymPy, 이미지 처리(OCR) 관련해서도 OpenCV, EasyOCR 등 데이터를 조작하고 다룰 수 있게 도와주는 라이브러리들이 많았기 때문에 **Python**언어를 선택하였습니다.
+- 프로젝트에서 딥러닝 모델을 사용해야 해야 해서 pytorch 또는 TensorFlow가 꼭 필요한 상황이었기 때문에 **Python**언어를 선택하였습니다.
+- 그 외에도 수식 관련 다룰 수 있는 SymPy, 이미지 처리(OCR) 관련해서도 OpenCV, EasyOCR 등 데이터를 조작하고 다룰 수 있게 도와주는 라이브러리들이 많았기 때문에 **Python**언어를 선택하였습니다.
 
 - **S3 ✓**
-  - 기존 데이터베이스(MongoDB)가 있지만 프로젝트 특성상 이미지라는 용량이 큰 파일을 다루기 때문에 대용량의 데이터를 다루기 용이한 **S3**을 선택하였습니다.
-  - 클라이언트 측에서도 쉽게 접근할 수 있는 기능을 제공해 주기 때문에 서버의 부담을 줄일 수 있고 요청 또한 서버와 병렬적으로 보내서 작업할 수 있기 때문에 **S3**을 선택하였습니다.
+- 기존 데이터베이스(MongoDB)가 있지만 프로젝트 특성상 이미지라는 용량이 큰 파일을 다루기 때문에 대용량의 데이터를 다루기 용이한 **S3**을 선택하였습니다.
+- 클라이언트 측에서도 쉽게 접근할 수 있는 기능을 제공해 주기 때문에 서버의 부담을 줄일 수 있고 요청 또한 서버와 병렬적으로 보내서 작업할 수 있기 때문에 **S3**을 선택하였습니다.
 
 # 진행 과정
 
@@ -146,7 +148,7 @@
 | **1주차** | - 아이디어 선정<br> - 선정된 아이디어 기술 스택 결정 및 검증                                                                                                                                         |
 | **2주차** | - Expo 이용한 새로운 플랫폼(모바일) 정적페이지 구현<br> - 이미지 분석(OCR) 기술 구현 가능 여부 판단 -> API 사용으로 결론<br> - 딥러닝 모델 구현 가능 여부 판단 -> 학습된 딥러닝 모델 가져오기로 결론 |
 | **3주차** | - 프로젝트에 적합한 이미지 분석(OCR) API 탐색 및 적용<br> - 프로젝트에 적합한 딥러닝 모델 탐색 및 적용                                                                                               |
-| **4주차** | - 새로운 환경(FastAPI) 서버 CRUD 구현<br> - 클라이언트측 UI, UX 구현<br> - GPU 부재로 인한 집에서 서버 연결<br> - 상호연결에 의한 에러 처리    
+| **4주차** | - 새로운 환경(FastAPI) 서버 CRUD 구현<br> - 클라이언트측 UI, UX 구현<br> - GPU 부재로 인한 집에서 서버 연결<br> - 상호연결에 의한 에러 처리                                                          |
 
 ## 사전 설명
 
@@ -169,7 +171,7 @@ AI와 사람을 비교했을 때, 사람의 경우 직관적이고 창의적인 
 구조화된 형태로 변환된 수학 문제는 딥러닝 AI에 의해 큰 문제 유형(대수학, 기하학, 통계학 등등)으로 먼저 분류됩니다. 그 후, 세부적으로(이차 방정식, 미적분, 확률과 통계 등등) 다시 분류되어 각 유형에 맞는 풀이 과정을 거칩니다. 문제 해결 과정과 정답은 기록되어, 마지막으로 자연어 생성(NLG) 과정을 통해 사용자에게 풀이 과정과 함께 결과가 제공됩니다.
 
 <div align="left">
-  <img width="700" alt="image" src="https://github.com/user-attachments/assets/b72259c8-492b-4060-a10c-0e075dc695c3">
+<img width="700" alt="image" src="https://github.com/user-attachments/assets/b72259c8-492b-4060-a10c-0e075dc695c3">
 </div>
 <br>
 <br>
@@ -213,7 +215,7 @@ AI와 사람을 비교했을 때, 사람의 경우 직관적이고 창의적인 
 
 제가 선택한 방법은 기존에 학습된 모델을 활용하는 것이었습니다. 이를 선택한 이유는 두 가지입니다.
 
-<INS>첫째,</INS> 딥러닝 모델을 직접 설계하고 학습시키기 위한 관련 지식이 부족했기 때문입니다.
+<INS>첫째,</INS> 딥러닝 모델을 만들기 위한 학습시간이 부족했습니다.
 
 딥러닝 모델을 만들기 위해서는 신경망의 구조, 역전파 알고리즘, 손실 함수의 작동 원리 등 딥러닝의 핵심 개념들을 깊이 이해해야 합니다. 또한, 모델을 만든 후에는 최적화 작업도 필요하며, 이는 높은 수준의 지식과 경험이 요구됩니다. 이 과정에는 많은 시간이 소요되기 때문에, 시간을 보다 효율적으로 관리하기 위해 기존에 학습된 모델을 활용하는 방법을 선택했습니다.
 
@@ -222,7 +224,7 @@ AI와 사람을 비교했을 때, 사람의 경우 직관적이고 창의적인 
 딥러닝 모델이 좋은 성능을 발휘하려면 많은 양의 학습 데이터가 필요합니다. 특히, 수학 문제 풀이와 관련된 모델의 경우 문제 유형에 따른 다양한 데이터를 확보해야 하는데, 이는 수학적 개념, 문제의 난이도, 문제 유형에 따라 달라질 수 있지만, 일반적으로 모델을 제대로 학습시키려면 최소 10,000개 이상의 많은 양의 데이터(문제, 풀이, 정답)가 필요합니다. 때문에 프로젝트 기한 동안 충분한 데이터를 확보하기 어렵다고 판단해서 학습된 모델을 활용하는 방법을 선택했습니다.
 
 <div align="left"> 
-  <img width="700" alt="image" src="https://github.com/user-attachments/assets/3ab06a1a-d6b6-49b0-aedd-ca46685fcdaa">  
+<img width="700" alt="image" src="https://github.com/user-attachments/assets/3ab06a1a-d6b6-49b0-aedd-ca46685fcdaa">  
 </div>
 <br>
 
@@ -251,16 +253,16 @@ AI와 사람을 비교했을 때, 사람의 경우 직관적이고 창의적인 
 <INS>첫 번째 방법으로는</INS>, 클라우드 기반 개발 환경인 ‘Colab’을 활용했습니다.
 Colab은 클라우드 환경에서 고성능 GPU를 제공하므로, 이를 통해 딥러닝 모델을 실행하고, 입력에 따른 출력을 받아와서 사용할 수 있었습니다. 이렇게 클라우드 환경을 이용하면 GPU가 없는 환경에서도 복잡한 모델을 실행한 결과를 받아서 사용할 수 있었습니다.
 
- <img width="700" alt="image-7" src="https://github.com/user-attachments/assets/3978fcf5-82a9-4fb1-b631-38cc72ac8ccf">
- 
+<img width="700" alt="image-7" src="https://github.com/user-attachments/assets/3978fcf5-82a9-4fb1-b631-38cc72ac8ccf">
+
 <br>
 
 <INS>두 번째 방법으로는</INS>, 로컬 서버를 외부에서 접근할 수 있게 해주는 도구인 ‘ngrok’을 사용했습니다.  
 ngrok을 통해 집에 있는 데스크톱 컴퓨터를 서버로 활용할 수 있었습니다. ngrok은 로컬에서 실행 중인 서버를 안전한 터널링을 통해 인터넷에 공개할 수 있게 해주며, 이를 통해 외부 어디서든 로컬 서버에 접근할 수 있습니다. 이렇게 데스크톱의 성능을 활용하여 더 안정적인 환경에서 모델을 실행할 수 있었습니다.
 
- <img width="700" alt="image" src="https://github.com/user-attachments/assets/8e44e336-7c52-444d-a9a5-0feac95c631b">
+<img width="700" alt="image" src="https://github.com/user-attachments/assets/8e44e336-7c52-444d-a9a5-0feac95c631b">
 
- <br>
+<br>
 
 위의 방법들을 통해 고성능 GPU의 부족 문제를 간접적으로 해결하면서, GPU가 없는 환경에서도 대규모 모델을 사용하면서 개발을 진행할 수 있었습니다.
 
@@ -291,7 +293,6 @@ ngrok을 통해 집에 있는 데스크톱 컴퓨터를 서버로 활용할 수 
 
 추가로, 더 나은 정확도를 위해 직접 이미지 분석(OCR) 기술을 배우고 활용하는 것도 고려해 볼 수 있습니다. 이 방법은 이미지 전처리와 후처리를 더욱 세밀하게 다룰 수 있게 해 주며, 특정 문제에 맞춤형으로 OCR 성능을 최적화할 수 있는 가능성을 제공합니다. 예를 들어, 텍스트 추출 전 이미지의 노이즈를 제거하거나, 특정 문자 패턴에 맞게 조정하는 등의 작업을 수행할 수 있습니다. 이를 통해 더 정밀한 OCR 처리 결과를 얻을 수 있을 것입니다.
 
-### 4-2. 딥러닝 모델 통한 정확도 향상
 ### 4-2. 딥러닝 모델의 언어 최적화 전략
 
 학습된 모델의 사용 언어에 맞춰 입력을 해주는 작업을 통해 정확도를 향상해주는 방법을 사용하였습니다.
@@ -328,7 +329,9 @@ ngrok을 통해 집에 있는 데스크톱 컴퓨터를 서버로 활용할 수 
 
 - 데이터베이스 관리
 - 이미지 상태관리
-- 메인페이지 이미지들 렌더링 -->                                    
+- 메인페이지 이미지들 렌더링 -->                                                      |
+
+- 메인페이지 이미지들 렌더링 -->
 
 <!-- # 프로젝트 소감
 
