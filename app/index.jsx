@@ -1,16 +1,19 @@
 import { SafeAreaView, StyleSheet } from "react-native";
 
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useFocusEffect } from "expo-router";
 import { Alert } from "react-native";
 import axios from "axios";
 
 import SortingScrollButton from "../components/SortingScrollButton";
 import ProblemList from "../components/ProblemList";
+import { PROBLEM_LIMIT } from "../constants/pageLimit";
 
 export default function Problems() {
   const [problemList, setProblemList] = useState([]);
   const [sortType, setSortType] = useState("전체보기");
+  const [offset, setOffset] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
 
   const sortedList = [...problemList].filter((problem) => {
     if (sortType === "전체보기") {
@@ -20,32 +23,45 @@ export default function Problems() {
     return problem.problemType === sortType;
   });
 
-  useFocusEffect(
-    useCallback(() => {
-      getProblemsList();
-    }, [])
-  );
-
   const getProblemsList = async () => {
     try {
+      setIsLoading(true);
       const { data } = await axios.get(
-        process.env.EXPO_PUBLIC_SERVER_URL + "problems"
+        process.env.EXPO_PUBLIC_SERVER_URL + "problems",
+        {
+          params: {
+            offset,
+            problemLimit: PROBLEM_LIMIT,
+          },
+        }
       );
 
-      setProblemList(JSON.parse(data));
+      const problemImage = JSON.parse(data);
+
+      setOffset(problemImage["offset"]);
+      setProblemList(problemList.concat(...problemImage["image_list"]));
     } catch (error) {
       Alert.alert("문제 데이터를 불러오는데 실패하였습니다.");
-      console.error(
-        "문제 데이터를 불러오는데 실패하였습니다.",
-        Object.values(error)
-      );
+      console.error("문제 데이터를 불러오는데 실패하였습니다.", error);
+    } finally {
+      setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    getProblemsList();
+  }, []);
 
   return (
     <SafeAreaView style={styles.problemContainer}>
       <SortingScrollButton sortType={sortType} setSortType={setSortType} />
-      <ProblemList problems={sortedList} prevPage="home"></ProblemList>
+      <ProblemList
+        problems={sortedList}
+        prevPage="home"
+        loading={isLoading}
+        offset={offset}
+        getProblemsList={getProblemsList}
+      ></ProblemList>
     </SafeAreaView>
   );
 }
