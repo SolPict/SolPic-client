@@ -1,35 +1,78 @@
-import { router } from "expo-router";
-import { Image, ScrollView, StyleSheet, TouchableOpacity } from "react-native";
+import { router, useFocusEffect } from "expo-router";
+import { useCallback, useRef, useState } from "react";
+import {
+  ActivityIndicator,
+  FlatList,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
 
-export default function ProblemList({ problems, prevPage }) {
+export default function ProblemList({
+  problems,
+  isLoading,
+  prevPage,
+  offset,
+  getProblemsList,
+}) {
+  const [offsetY, setOffsetY] = useState();
+  const scrollRef = useRef();
+
+  const onEndReached = () => {
+    if (!isLoading && offset) {
+      getProblemsList();
+    }
+  };
+
+  useFocusEffect(
+    useCallback(() => {
+      scrollRef.current.scrollToOffset({ offset: offsetY, animated: true });
+    }, [offsetY])
+  );
+
+  const onScroll = (event) => {
+    const { contentOffset } = event.nativeEvent;
+
+    setOffsetY(contentOffset.y);
+  };
+
+  const renderItem = ({ item }) => {
+    const handleGoNextPage = () => {
+      const nextURL =
+        prevPage === "home"
+          ? "/Answers/" + encodeURIComponent(item["Key"])
+          : "/Problems/" + encodeURIComponent(item["Key"]);
+      router.push(nextURL);
+    };
+
+    return (
+      <TouchableOpacity
+        style={styles.problemContainer}
+        onPress={handleGoNextPage}
+      >
+        <Image
+          style={styles.problemImage}
+          source={{
+            uri: process.env.EXPO_PUBLIC_S3_URL + item["Key"],
+          }}
+        />
+      </TouchableOpacity>
+    );
+  };
+
   return (
-    <ScrollView style={styles.container}>
-      {!problems.length ||
-        problems.map((problem) => {
-          const handleGoNextPage = () => {
-            const nextURL =
-              prevPage === "home"
-                ? "/Answers/" + encodeURIComponent(problem["Key"])
-                : "/Problems/" + encodeURIComponent(problem["Key"]);
-            router.push(nextURL);
-          };
-
-          return (
-            <TouchableOpacity
-              key={problem["ETag"]}
-              style={styles.problemContainer}
-              onPress={handleGoNextPage}
-            >
-              <Image
-                style={styles.problemImage}
-                source={{
-                  uri: process.env.EXPO_PUBLIC_S3_URL + problem["Key"],
-                }}
-              />
-            </TouchableOpacity>
-          );
-        })}
-    </ScrollView>
+    <FlatList
+      ref={scrollRef}
+      style={styles.container}
+      data={problems}
+      contentOffset={{ y: offsetY }}
+      renderItem={renderItem}
+      keyExtractor={(item) => item["Key"]}
+      onEndReached={onEndReached}
+      onEndReachedThreshold={0.7}
+      onScroll={onScroll}
+      ListFooterComponent={isLoading && <ActivityIndicator />}
+    />
   );
 }
 
