@@ -53,12 +53,12 @@ export default function Problems() {
   }, []);
 
   return (
-    <SafeAreaView style={styles.problemContainer}>
+    <SafeAreaView>
       <SortingScrollButton sortType={sortType} setSortType={setSortType} />
       <ProblemList
         problems={sortedList}
         prevPage="home"
-        loading={isLoading}
+        isLoading={isLoading}
         offset={offset}
         getProblemsList={getProblemsList}
       ></ProblemList>

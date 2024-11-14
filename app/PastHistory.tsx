@@ -96,9 +96,4 @@ const styles = StyleSheet.create({
     height: 200,
     borderRadius: 20,
   },
-  container: {
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    zIndex: 0,
-  },
 });

@@ -72,10 +72,7 @@ export default function Login() {
       <ScrollView contentContainerStyle={styles.container}>
         <View style={styles.authContainer}>
           <View style={styles.header}>
-            <TouchableOpacity
-              style={styles.backButton}
-              onPress={() => router.push("/")}
-            >
+            <TouchableOpacity onPress={() => router.push("/")}>
               <AntDesign name="close" size={28} color="black" />
             </TouchableOpacity>
             <Text style={styles.headerText}>
@@ -185,7 +182,6 @@ const styles = StyleSheet.create({
     zIndex: 1,
   },
   button: {
-    width: "100%",
     width: "100%",
     marginHorizontal: 100,
     alignItems: "center",

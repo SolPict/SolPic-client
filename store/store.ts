@@ -1,6 +1,18 @@
 import { create } from "zustand";
 
-const useClientStore = create((set, get) => ({
+interface ClientStatusType {
+  isLogin?: boolean;
+  email?: string | null;
+  loadingState?: string;
+}
+
+interface ClientStore {
+  clientStatus: ClientStatusType;
+  setClientStatus: (setValue: ClientStatusType) => void;
+  getClientStatus: () => ClientStatusType;
+}
+
+const useClientStore = create<ClientStore>((set, get) => ({
   clientStatus: {
     isLogin: false,
     email: null,

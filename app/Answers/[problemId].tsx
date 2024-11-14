@@ -44,7 +44,7 @@ export default function AnswerPage() {
       const { data } = await axios.get(
         process.env.EXPO_PUBLIC_SERVER_URL +
           "problem/" +
-          JSON.stringify(problemId.split("/"))
+          JSON.stringify((problemId as string).split("/"))
       );
 
       setExplanation(JSON.parse(data));
@@ -59,7 +59,7 @@ export default function AnswerPage() {
       await axios.post(
         process.env.EXPO_PUBLIC_SERVER_URL +
           "problem/reviewNote/" +
-          JSON.stringify(problemId.split("/")),
+          JSON.stringify((problemId as string).split("/")),
         {
           email,
         }
@@ -188,8 +188,5 @@ const styles = StyleSheet.create({
     position: "absolute",
     left: 300,
     top: 60,
-  },
-  buttonText: {
-    color: "white",
   },
 });

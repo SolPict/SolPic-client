@@ -29,12 +29,11 @@ export default function Camera() {
       <View style={styles.container}>
         <Text>카메라에 대한 접근이 필요합니다.</Text>
         <TouchableOpacity
-          style={styles.button}
           onPress={() => {
             requestCameraPermission();
           }}
         >
-          <Text style={styles.buttonText}>접근 요청</Text>
+          <Text>접근 요청</Text>
         </TouchableOpacity>
       </View>
     );

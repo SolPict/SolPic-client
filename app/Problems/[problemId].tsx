@@ -10,13 +10,12 @@ import DeleteModal from "../../components/DeleteModal";
 
 export default function ProblemPage() {
   const [modalVisible, setModalVisible] = useState(false);
-  const [problemInfo, setProblemInfo] = useState({});
+  const [problemInfo, setProblemInfo] = useState("");
   const { problemId } = useLocalSearchParams();
   const [selectedRadio, setSelectedRadio] = useState(1);
   const { getClientStatus } = useClientStore();
   const { email } = getClientStatus();
-  const isUserAnswerCorrect = selectedRadio === problemInfo.answer;
-  const key = decodeURIComponent(problemId);
+  const key = decodeURIComponent(problemId as string);
 
   useFocusEffect(
     useCallback(() => {
@@ -58,10 +57,9 @@ export default function ProblemPage() {
       axios.post(
         process.env.EXPO_PUBLIC_SERVER_URL +
           "problem/solving/" +
-          JSON.stringify(problemId.split("/")),
+          JSON.stringify((problemId as string).split("/")),
         {
           email: email || "",
-          isUserAnswerCorrect,
         }
       );
 
@@ -108,7 +106,7 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     backgroundColor: "white",
-    justifyContent: "centers",
+    justifyContent: "center",
   },
   backButton: {
     width: "10%",

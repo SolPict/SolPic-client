@@ -23,7 +23,7 @@ export default function CameraBottom({ setImage, cameraRef }) {
       <CameraBottomGallery />
       <TouchableOpacity style={styles.buttonOuter} onPress={takePhoto}>
         <View style={styles.buttonInner}>
-          <Image style={styles.photoShotImage} source={cameraImage} />
+          <Image style={styles.photoShotImage} source={{ uri: cameraImage}} />
         </View>
       </TouchableOpacity>
     </View>
