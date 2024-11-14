@@ -1,0 +1,8 @@
+{
+  "exclude": ["node_modules", "dist", "@tsconfig/react-native/tsconfig.json"],
+  "include": ["**/*.ts", "**/*.tsx", "app", "custom.d.ts"],
+  "compilerOptions": {
+    "jsx": "react-native"
+  },
+  "extends": "expo/tsconfig.base"
+}
