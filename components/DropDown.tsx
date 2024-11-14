@@ -10,7 +10,7 @@ import { useState } from "react";
 
 export default function DropDown() {
   const [expanded, setExpanded] = useState(false);
-  const [sortedText, setSortedText] = useState();
+  const [sortedText, setSortedText] = useState("");
 
   return (
     <View style={styles.container}>
