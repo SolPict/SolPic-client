@@ -7,6 +7,8 @@ import ProblemList from "../../components/ProblemList";
 
 export default function ReviewNote() {
   const [ReviewNote, setReviewNote] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [offset, setOffset] = useState(0);
   const { getClientStatus } = useClientStore();
   const { email, isLogin } = getClientStatus();
 
@@ -50,7 +52,13 @@ export default function ReviewNote() {
 
   return (
     <SafeAreaView style={styles.reviewContainer}>
-      <ProblemList problems={ReviewNote} prevPage="reviewNote"></ProblemList>
+      <ProblemList
+        problems={ReviewNote}
+        prevPage="reviewNote"
+        isLoading={isLoading}
+        offset={offset}
+        getProblemsList={getReviewNote}
+      ></ProblemList>
     </SafeAreaView>
   );
 }
