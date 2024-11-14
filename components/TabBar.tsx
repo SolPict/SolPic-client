@@ -16,7 +16,7 @@ export default function TabBar({ state, descriptors, navigation }) {
   const icons = {
     index: (focused) => (
       <Image
-        source={focused ? focusInHome : focusOutHome}
+        source={{ uri: focused ? focusInHome : focusOutHome}}
         style={[styles.tabImages, { width: "50%" }]}
       />
     ),
@@ -27,7 +27,7 @@ export default function TabBar({ state, descriptors, navigation }) {
     ),
     ProblemReviews: (focused) => (
       <Image
-        source={focused ? focusInReview : focusOutReview}
+        source={{ uri: focused ? focusInReview : focusOutReview}}
         style={styles.tabImages}
       />
     ),
