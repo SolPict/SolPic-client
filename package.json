@@ -22,7 +22,7 @@
     "@react-native-async-storage/async-storage": "^1.23.1",
     "@react-native-community/slider": "^4.5.2",
     "axios": "^1.7.7",
-    "expo": "^51.0.35",
+    "expo": "^51.0.38",
     "expo-camera": "~15.0.16",
     "expo-checkbox": "~3.0.0",
     "expo-constants": "~16.0.2",
@@ -30,9 +30,9 @@
     "expo-image-picker": "~15.0.7",
     "expo-linking": "~6.3.1",
     "expo-media-library": "^16.0.5",
-    "expo-router": "~3.5.23",
+    "expo-router": "^3.1.0",
     "expo-status-bar": "~1.12.1",
-    "firebase": "^9.23.0",
+    "firebase": "^11.0.1",
     "lottie-react-native": "^6.7.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
@@ -46,12 +46,17 @@
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
+    "@tsconfig/react-native": "^3.0.5",
+    "@types/jest": "^29.5.14",
+    "@types/react": "^18.3.12",
+    "@types/react-test-renderer": "^18.3.0",
     "eslint": "^8.57.0",
     "eslint-config-expo": "^7.1.2",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.2.1",
     "husky": "^9.1.6",
-    "prettier": "^3.3.3"
+    "prettier": "^3.3.3",
+    "typescript": "^5.6.3"
   },
   "private": true
 }
