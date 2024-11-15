@@ -8,15 +8,23 @@ import {
   TouchableOpacity,
 } from "react-native";
 
+interface ProblemListType {
+  problems: Array<string>;
+  isLoading: Boolean;
+  prevPage: String;
+  offset: Number;
+  getProblemsList: () => void;
+}
+
 export default function ProblemList({
   problems,
   isLoading,
   prevPage,
   offset,
   getProblemsList,
-}) {
+}: ProblemListType) {
   const [offsetY, setOffsetY] = useState();
-  const scrollRef = useRef();
+  const scrollRef = useRef<FlatList>(null);
 
   const onEndReached = () => {
     if (!isLoading && offset) {
@@ -65,7 +73,6 @@ export default function ProblemList({
       ref={scrollRef}
       style={styles.container}
       data={problems}
-      contentOffset={{ y: offsetY }}
       renderItem={renderItem}
       keyExtractor={(item) => item["Key"]}
       onEndReached={onEndReached}
