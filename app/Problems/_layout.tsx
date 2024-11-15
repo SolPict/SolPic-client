@@ -3,10 +3,12 @@ import { StyleSheet } from "react-native";
 import { TouchableOpacity } from "react-native";
 import { AntDesign, MaterialIcons } from "@expo/vector-icons";
 import useClientStore from "../../store/store";
+import { getAuth, signOut } from "firebase/auth";
 
 export default function ProblemLayout() {
   const { setClientStatus, getClientStatus } = useClientStore();
   const { isLogin } = getClientStatus();
+  const auth = getAuth();
 
   const handleLoginAndLogout = () => {
     if (isLogin) {
@@ -23,12 +25,8 @@ export default function ProblemLayout() {
         name="[problemId]"
         options={{
           headerTitle: "풀어보기",
-          headerTitle: "",
           headerLeft: () => (
-            <TouchableOpacity
-              style={styles.backButton}
-              onPress={() => router.push("/")}
-            >
+            <TouchableOpacity onPress={() => router.push("/")}>
               <AntDesign name="left" size={26} color="black" />
             </TouchableOpacity>
           ),
@@ -38,7 +36,6 @@ export default function ProblemLayout() {
               style={styles.logoutContainer}
             >
               <MaterialIcons
-                style={styles.logoutButton}
                 name={isLogin ? "logout" : "login"}
                 size={28}
                 color="black"
