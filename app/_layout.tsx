@@ -1,6 +1,6 @@
 import { router, Tabs } from "expo-router";
 import { MaterialIcons } from "@expo/vector-icons";
-import { Image, StatusBar, StyleSheet, Text, View } from "react-native";
+import { Image, StyleSheet, View } from "react-native";
 import { TouchableOpacity } from "react-native";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { useEffect } from "react";
@@ -10,6 +10,7 @@ import TabBar from "../components/TabBar";
 import useClientStore from "../store/store";
 
 import logoImage from "../assets/logo.png";
+import ExpoStatusBar from "expo-status-bar/build/ExpoStatusBar";
 
 export default function TabLayout() {
   const { setClientStatus, getClientStatus } = useClientStore();
@@ -38,7 +39,7 @@ export default function TabLayout() {
 
   return (
     <>
-      <StatusBar style="black" translucent={false} />
+      <ExpoStatusBar style="dark" translucent={false} />
       <Tabs tabBar={(props) => <TabBar {...props} />}>
         <Tabs.Screen
           name="(AnalyzingProblem)"
@@ -55,7 +56,7 @@ export default function TabLayout() {
             headerLeft: () => (
               <View style={styles.logoContainer}>
                 <View style={styles.logoContainer}>
-                  <Image source={logoImage} style={styles.logoImage} />
+                  <Image source={{ uri: logoImage }} style={styles.logoImage} />
                 </View>
               </View>
             ),
@@ -65,7 +66,6 @@ export default function TabLayout() {
                 style={styles.logoutContainer}
               >
                 <MaterialIcons
-                  style={styles.logoutButton}
                   name={isLogin ? "logout" : "login"}
                   size={28}
                   color="black"
@@ -81,7 +81,7 @@ export default function TabLayout() {
             headerTitle: "",
             headerLeft: () => (
               <View style={styles.logoContainer}>
-                <Image source={logoImage} style={styles.logoImage} />
+                <Image source={{ uri: logoImage }} style={styles.logoImage} />
               </View>
             ),
             headerRight: () => (
@@ -90,7 +90,6 @@ export default function TabLayout() {
                 style={styles.logoutContainer}
               >
                 <MaterialIcons
-                  style={styles.logoutButton}
                   name={isLogin ? "logout" : "login"}
                   size={28}
                   color="black"
@@ -121,7 +120,7 @@ export default function TabLayout() {
             headerTitle: "",
             headerLeft: () => (
               <View style={styles.logoContainer}>
-                <Image source={logoImage} style={styles.logoImage} />
+                <Image source={{ uri: logoImage }} style={styles.logoImage} />
               </View>
             ),
             headerRight: () => (
@@ -130,7 +129,6 @@ export default function TabLayout() {
                 style={styles.logoutContainer}
               >
                 <MaterialIcons
-                  style={styles.logoutButton}
                   name={isLogin ? "logout" : "login"}
                   size={28}
                   color="black"
@@ -146,7 +144,7 @@ export default function TabLayout() {
             headerTitle: "",
             headerLeft: () => (
               <View style={styles.logoContainer}>
-                <Image source={logoImage} style={styles.logoImage} />
+                <Image source={{ uri: logoImage }} style={styles.logoImage} />
               </View>
             ),
             headerRight: () => (
@@ -155,7 +153,6 @@ export default function TabLayout() {
                 style={styles.logoutContainer}
               >
                 <MaterialIcons
-                  style={styles.logoutButton}
                   name={isLogin ? "logout" : "login"}
                   size={28}
                   color="black"
