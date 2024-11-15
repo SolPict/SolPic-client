@@ -8,8 +8,8 @@ import CameraBottom from "../components/CameraBottom";
 
 export default function Camera() {
   const [cameraPermission, requestCameraPermission] = useCameraPermissions();
-  const [image, setImage] = useState(null);
-  const cameraRef = useRef();
+  const [image, setImage] = useState<string>(null);
+  const cameraRef = useRef<CameraView>();
 
   useFocusEffect(
     useCallback(() => {
