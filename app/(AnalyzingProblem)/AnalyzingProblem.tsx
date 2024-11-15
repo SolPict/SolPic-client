@@ -14,10 +14,10 @@ import LoadingLottie from "../../components/LoadingLottie";
 
 export default function AnalyzingProblem() {
   const { image } = useLocalSearchParams();
-  const imageInfo = JSON.parse(decodeURIComponent(image));
+  const imageInfo = JSON.parse(decodeURIComponent(image as string));
   const [imageURI, setImageURI] = useState("");
   const [isFocused, setIsFocused] = useState(true);
-  const [problemInfo, setProblemInfo] = useState({});
+  const [problemInfo, setProblemInfo] = useState("");
   const { getClientStatus, setClientStatus } = useClientStore();
   const { email, loadingState } = getClientStatus();
 
@@ -35,11 +35,14 @@ export default function AnalyzingProblem() {
       setClientStatus({ loadingState: "loading" });
 
       const formData = new FormData();
-      formData.append("file", {
-        uri: imageURI,
-        name: imageInfo.fileName,
-        type: imageInfo.mimeType,
-      });
+
+      formData.append(
+        "file",
+        new Blob([imageInfo.fileData], {
+          type: imageInfo.mimeType,
+        }),
+        imageInfo.fileName
+      );
 
       const { data } = await axios.post(
         process.env.EXPO_PUBLIC_SERVER_URL + "problem/analyze",
@@ -103,7 +106,7 @@ export default function AnalyzingProblem() {
       </View>
       <View style={styles.bottomContainer}>
         <TouchableOpacity style={styles.rotateButton} onPress={rotate90andFlip}>
-          <Image source={rotateButton} style={styles.rotateImage} />
+          <Image source={{ uri: rotateButton }} style={styles.rotateImage} />
         </TouchableOpacity>
         <NextButton onPressEvent={analyzeProblemImage} content="검색하기" />
       </View>
