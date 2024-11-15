@@ -2,8 +2,18 @@ import { Image, StyleSheet, View } from "react-native";
 import { TouchableOpacity } from "react-native";
 import cameraImage from "../assets/photo_shot.png";
 import CameraBottomGallery from "./CameraBottomGallery";
+import { CameraView } from "expo-camera";
+import { MutableRefObject } from "react";
 
-export default function CameraBottom({ setImage, cameraRef }) {
+interface CameraBottomProps {
+  setImage: (image: string) => void;
+  cameraRef: MutableRefObject<CameraView>;
+}
+
+export default function CameraBottom({
+  setImage,
+  cameraRef,
+}: CameraBottomProps) {
   const takePhoto = async () => {
     if (!cameraRef.current) {
       return;
@@ -23,7 +33,7 @@ export default function CameraBottom({ setImage, cameraRef }) {
       <CameraBottomGallery />
       <TouchableOpacity style={styles.buttonOuter} onPress={takePhoto}>
         <View style={styles.buttonInner}>
-          <Image style={styles.photoShotImage} source={{ uri: cameraImage}} />
+          <Image style={styles.photoShotImage} source={cameraImage} />
         </View>
       </TouchableOpacity>
     </View>

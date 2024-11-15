@@ -1,7 +1,15 @@
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
 import { COLORS } from "../constants/colors";
 
-export default function NextButton({ content, onPressEvent }) {
+interface NavigationButtonProps {
+  content: string;
+  onPressEvent: () => void;
+}
+
+export default function NavigationButton({
+  content,
+  onPressEvent,
+}: NavigationButtonProps) {
   return (
     <TouchableOpacity style={styles.buttonContainer} onPress={onPressEvent}>
       <Text style={styles.buttonText}>{content}</Text>
