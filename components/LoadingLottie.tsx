@@ -4,7 +4,11 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import useClientStore from "../store/store";
 import { COLORS } from "../constants/colors";
 
-export default function LoadingLottie({ goToAnswerPage }) {
+interface LoadingLottieProps {
+  goToAnswerPage: () => void;
+}
+
+export default function LoadingLottie({ goToAnswerPage }: LoadingLottieProps) {
   const { getClientStatus } = useClientStore();
   const { loadingState } = getClientStatus();
 
@@ -33,8 +37,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   lottie: {
-    width: "100%",
-    height: "100%",
+    width: "60%",
+    height: "60%",
     resizeMode: "contain",
   },
   Button: {
@@ -44,7 +48,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 10,
-    bottom: 70,
+    top: 100,
   },
   disabledButton: {
     opacity: 0.5,
