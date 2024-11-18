@@ -1,9 +1,11 @@
 import { router, useFocusEffect } from "expo-router";
-import { useCallback, useRef, useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import {
   ActivityIndicator,
   FlatList,
   Image,
+  NativeScrollEvent,
+  NativeSyntheticEvent,
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
@@ -16,6 +18,19 @@ interface ProblemListType {
   getProblemsList: () => void;
 }
 
+interface ProblemInfoType {
+  ETag: string;
+  Key: string;
+  LastModified: {
+    date: Date;
+  };
+  Owner: {
+    ID: string;
+  };
+  Size: number;
+  StorageClass: string;
+}
+
 export default function ProblemList({
   problems,
   isLoading,
@@ -23,7 +38,7 @@ export default function ProblemList({
   offset,
   getProblemsList,
 }: ProblemListType) {
-  const [offsetY, setOffsetY] = useState();
+  const [offsetY, setOffsetY] = useState<number>();
   const scrollRef = useRef<FlatList>(null);
 
   const onEndReached = () => {
@@ -38,13 +53,13 @@ export default function ProblemList({
     }, [offsetY])
   );
 
-  const onScroll = (event) => {
+  const onScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const { contentOffset } = event.nativeEvent;
 
     setOffsetY(contentOffset.y);
   };
 
-  const renderItem = ({ item }) => {
+  const renderItem = ({ item }: { item: ProblemInfoType }) => {
     const handleGoNextPage = () => {
       const nextURL =
         prevPage === "home"
