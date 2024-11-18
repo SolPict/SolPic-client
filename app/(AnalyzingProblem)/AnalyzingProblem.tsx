@@ -6,7 +6,7 @@ import axios from "axios";
 import rotateButton from "../../assets/rotate.png";
 import useClientStore from "../../store/store";
 import { useCallback, useState } from "react";
-import NextButton from "../../components/NextButton";
+import NextButton from "../../components/NavigationButton";
 import { manipulateAsync, SaveFormat } from "expo-image-manipulator";
 
 import { COLORS } from "../../constants/colors";
@@ -36,22 +36,18 @@ export default function AnalyzingProblem() {
 
       const formData = new FormData();
 
-      formData.append(
-        "file",
-        new Blob([imageInfo.fileData], {
-          type: imageInfo.mimeType,
-        }),
-        imageInfo.fileName
-      );
+      formData.append("file", {
+        uri: imageURI,
+        name: imageInfo.fileName,
+        type: imageInfo.mimeType,
+      });
 
       const { data } = await axios.post(
-        process.env.EXPO_PUBLIC_SERVER_URL + "problem/analyze",
+        process.env.EXPO_PUBLIC_SUB_SERVER_URL + "problem/analyze",
         formData,
         {
           headers: {
             "Content-Type": "multipart/form-data",
-            email: email || "",
-            uri: imageURI,
           },
         }
       );
@@ -65,7 +61,7 @@ export default function AnalyzingProblem() {
     }
   };
 
-  const goToAnswerPage = () => {
+  const goToAnswerPage = (): void => {
     router.push(`/Answers/${encodeURIComponent(JSON.parse(problemInfo).key)}`);
 
     setClientStatus({ loadingState: "pending" });
@@ -106,7 +102,7 @@ export default function AnalyzingProblem() {
       </View>
       <View style={styles.bottomContainer}>
         <TouchableOpacity style={styles.rotateButton} onPress={rotate90andFlip}>
-          <Image source={{ uri: rotateButton }} style={styles.rotateImage} />
+          <Image source={rotateButton} style={styles.rotateImage} />
         </TouchableOpacity>
         <NextButton onPressEvent={analyzeProblemImage} content="검색하기" />
       </View>
