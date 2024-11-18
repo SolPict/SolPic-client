@@ -7,16 +7,25 @@ import focusInReview from "../assets/review_focus.png";
 import focusOutReview from "../assets/review_not_focus.png";
 import { COLORS } from "../constants/colors";
 import { EXCEPT_PAGES } from "../constants/exceptPages";
+import { BottomTabBarProps } from "@react-navigation/bottom-tabs/src/types";
 
-export default function TabBar({ state, descriptors, navigation }) {
+interface IconsTypes {
+  [pageName: string]: (isFocused?: boolean) => React.JSX.Element;
+}
+
+export default function TabBar({
+  state,
+  descriptors,
+  navigation,
+}: BottomTabBarProps) {
   if (Object.values(EXCEPT_PAGES).includes(state.index)) {
     return;
   }
 
-  const icons = {
-    index: (focused) => (
+  const icons: IconsTypes = {
+    index: (focused: boolean) => (
       <Image
-        source={{ uri: focused ? focusInHome : focusOutHome}}
+        source={focused ? focusInHome : focusOutHome}
         style={[styles.tabImages, { width: "50%" }]}
       />
     ),
@@ -25,9 +34,9 @@ export default function TabBar({ state, descriptors, navigation }) {
         <Fontisto name="camera" size={24} color={"white"} />
       </View>
     ),
-    ProblemReviews: (focused) => (
+    ProblemReviews: (focused: boolean) => (
       <Image
-        source={{ uri: focused ? focusInReview : focusOutReview}}
+        source={focused ? focusInReview : focusOutReview}
         style={styles.tabImages}
       />
     ),
@@ -63,12 +72,13 @@ export default function TabBar({ state, descriptors, navigation }) {
             accessibilityRole="button"
             accessibilityState={isFocused ? { selected: true } : {}}
             accessibilityLabel={options.tabBarAccessibilityLabel}
-            testID={options.tabBarTestID}
             onPress={onPress}
           >
             <View style={styles.tabContainer}>
               {icons[route.name](isFocused)}
-              <Text style={styles.tabText}>{label !== "카메라" && label}</Text>
+              {label !== "카메라" && (
+                <Text style={styles.tabText}>{label as string}</Text>
+              )}
             </View>
           </TouchableOpacity>
         );
