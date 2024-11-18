@@ -53,7 +53,7 @@ export default function CameraBottomGallery() {
 
   const uploadImage = async () => {
     const { assets } = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      mediaTypes: ["images"],
       aspect: [4, 3],
       quality: 1,
       allowsEditing: true,
