@@ -7,7 +7,8 @@
 Sol.Pic(Solve Picture)은 수학문제 이미지를 AI를 활용해 풀이과정과 정답을 제공해주는 모바일기반 어플리케이션 입니다.
 </p>
 <a href="https://github.com/SolPict/SolPict-server">클라이언트</a> |
-<a href="https://github.com/SolPict/SolPict-server">서버</a> 
+<a href="https://github.com/SolPict/SolPict-server">서버</a> |
+<a href="https://github.com/SolPict/SolPict-sub-server">서브서버</a>
 </div>
 
 ## 구성
