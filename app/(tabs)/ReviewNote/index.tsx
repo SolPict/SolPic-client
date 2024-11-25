@@ -1,9 +1,10 @@
 import { Alert, SafeAreaView, StyleSheet, Text, View } from "react-native";
-import useClientStore from "../../store/store";
+import useClientStore from "@/store/store";
 import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
+import ProblemList from "@/components/ProblemList";
+import { PROBLEM_LIMIT } from "@/constants/pageLimit";
 import { useFocusEffect } from "expo-router";
-import ProblemList from "../../components/ProblemList";
 
 export default function ReviewNote() {
   const [ReviewNote, setReviewNote] = useState([]);
@@ -14,31 +15,34 @@ export default function ReviewNote() {
 
   useFocusEffect(
     useCallback(() => {
-      if (isLogin) {
+      if (isLogin && email && offset !== null) {
         getReviewNote();
       }
-    }, [email, isLogin])
+    }, [isLogin, email])
   );
-
-  useEffect(() => {
-    if (isLogin) {
-      getReviewNote();
-    }
-  }, [email, isLogin]);
 
   const getReviewNote = async () => {
     try {
-      const { data } = await axios.post(
-        process.env.EXPO_PUBLIC_SERVER_URL + "problems/reviewNote",
+      setIsLoading(true);
+      const { data: reviewImage } = await axios.post(
+        `${process.env.EXPO_PUBLIC_SERVER_URL}problems/reviewNote`,
         {
           email,
+        },
+        {
+          params: {
+            offset,
+            problemLimit: PROBLEM_LIMIT,
+          },
         }
       );
-
-      setReviewNote(JSON.parse(data));
+      setOffset(reviewImage["offset"]);
+      setReviewNote(ReviewNote.concat(...reviewImage["image_list"]));
     } catch (error) {
-      Alert.alert("리뷰노트 데이터를 가져오는데 실패하였습니다.", error);
-      console.error("리뷰노트 데이터를 가져오는데 실패하였습니다.", error);
+      Alert.alert("리뷰노트 데이터를 가져오는데 실패하였습니다.");
+      console.log("리뷰노트 데이터를 가져오는데 실패하였습니다.", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 

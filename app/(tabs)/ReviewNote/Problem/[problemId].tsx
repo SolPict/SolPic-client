@@ -1,34 +1,37 @@
 import { router, useFocusEffect, useLocalSearchParams } from "expo-router";
 import { Alert, Image, StyleSheet, Text, View } from "react-native";
-import RadioButton from "../../components/RadioButton";
-import { useCallback, useState } from "react";
+import RadioButton from "@/components/RadioButton";
+import { useCallback, useEffect, useState } from "react";
 import { TouchableOpacity } from "react-native";
 import axios from "axios";
-import useClientStore from "../../store/store";
-import { COLORS } from "../../constants/colors";
-import DeleteModal from "../../components/DeleteModal";
+import useClientStore from "@/store/store";
+import { COLORS } from "@/constants/colors";
+import DeleteModal from "@/components/DeleteModal";
 
 export default function ProblemPage() {
   const [modalVisible, setModalVisible] = useState(false);
-  const [problemInfo, setProblemInfo] = useState("");
+  const [problemInfo, setProblemInfo] = useState({});
   const { problemId } = useLocalSearchParams();
   const [selectedRadio, setSelectedRadio] = useState(1);
   const { getClientStatus } = useClientStore();
   const { email } = getClientStatus();
-  const key = decodeURIComponent(problemId as string);
+  const problemJSONId = JSON.stringify((problemId as string).split("/"));
 
-  useFocusEffect(
-    useCallback(() => {
-      getProblemInfo();
-    }, [problemInfo])
-  );
+  useEffect(() => {
+    getProblemInfo();
+  }, []);
 
   const getProblemInfo = async () => {
-    const { data } = await axios.get(
-      process.env.EXPO_PUBLIC_SERVER_URL + "problem/" + key
-    );
+    try {
+      const { data } = await axios.get(
+        process.env.EXPO_PUBLIC_SERVER_URL + "problem/" + problemJSONId
+      );
 
-    setProblemInfo(data);
+      setProblemInfo(data);
+    } catch (error) {
+      Alert.alert("문제 정보를 불러오는데 문제가 발생하였습니다.");
+      console.error(error);
+    }
   };
 
   const deleteReviewNote = async () => {
@@ -36,7 +39,9 @@ export default function ProblemPage() {
       setModalVisible(true);
 
       await axios.delete(
-        process.env.EXPO_PUBLIC_SERVER_URL + "problem/reviewNote/" + problemId,
+        process.env.EXPO_PUBLIC_SERVER_URL +
+          "problem/reviewNote/" +
+          problemJSONId,
         {
           data: {
             email,
@@ -44,7 +49,7 @@ export default function ProblemPage() {
         }
       );
 
-      router.push("/ProblemReviews/ReviewNote");
+      router.replace("(tabs)/ReviewNote");
       setModalVisible(false);
     } catch (error) {
       Alert.alert("리뷰를 삭제하지 못하였습니다.");
@@ -63,9 +68,9 @@ export default function ProblemPage() {
         }
       );
 
-      router.push(`/Answers/${problemId}`);
+      router.replace("/(tabs)/Home/Answer/" + encodeURIComponent(problemId));
     } catch (error) {
-      Alert.alert(error);
+      Alert.alert("제출에 실패하였습니다.");
       console.error(error);
     }
   };

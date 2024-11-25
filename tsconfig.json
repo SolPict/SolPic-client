@@ -3,7 +3,11 @@
   "include": ["**/*.ts", "**/*.tsx", "app", "custom.d.ts"],
   "compilerOptions": {
     "jsx": "react-native",
-    "noImplicitAny": true
+    "noImplicitAny": true,
+    "paths": {
+      "@/*": ["./*"],
+      "@firebase/auth": ["./node_modules/@firebase/auth/dist/index.rn.d.ts"]
+    }
   },
   "extends": "expo/tsconfig.base"
 }
