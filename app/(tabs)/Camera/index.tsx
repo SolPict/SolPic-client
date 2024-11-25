@@ -2,20 +2,24 @@ import { CameraView, useCameraPermissions } from "expo-camera";
 import { useCallback, useRef, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { router, useFocusEffect } from "expo-router";
-import CameraHeader from "../components/CameraHeader";
+
 import { AntDesign } from "@expo/vector-icons";
-import CameraBottom from "../components/CameraBottom";
+
+import CameraHeader from "@/components/CameraHeader";
+import CameraBottom from "@/components/CameraBottom";
 
 export default function Camera() {
   const [cameraPermission, requestCameraPermission] = useCameraPermissions();
-  const [image, setImage] = useState<string>(null);
-  const cameraRef = useRef<CameraView>();
+  const [image, setImage] = useState<string>("");
+  const cameraRef = useRef<CameraView>(null);
 
   useFocusEffect(
     useCallback(() => {
       if (image) {
-        router.push("/AnalyzingProblem?image=" + encodeURIComponent(image));
-        setImage(null);
+        router.push(
+          "/(tabs)/Camera/Preview?image=" + encodeURIComponent(image)
+        );
+        setImage("");
       }
     }, [image])
   );

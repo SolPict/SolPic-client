@@ -19,13 +19,13 @@ import {
 import axios from "axios";
 import { router } from "expo-router";
 
-import { auth } from "../auth/firebaseConfig";
-import useClientStore from "../store/store";
-import { COLORS } from "../constants/colors";
+import { auth } from "@/auth/firebaseConfig";
+import useClientStore from "@/store/store";
+import { COLORS } from "@/constants/colors";
 import { AntDesign } from "@expo/vector-icons";
 
 export default function Login() {
-  const [email, setEmail] = useState("admin@gmail.com");
+  const [email, setEmail] = useState("admin1@gmail.com");
   const [password, setPassword] = useState("");
   const [IsLoginPage, setIsLoginPage] = useState(true);
   const { setClientStatus } = useClientStore();
@@ -72,7 +72,7 @@ export default function Login() {
       <ScrollView contentContainerStyle={styles.container}>
         <View style={styles.authContainer}>
           <View style={styles.header}>
-            <TouchableOpacity onPress={() => router.push("/")}>
+            <TouchableOpacity onPress={() => router.replace("/(tabs)/Home")}>
               <AntDesign name="close" size={28} color="black" />
             </TouchableOpacity>
             <Text style={styles.headerText}>

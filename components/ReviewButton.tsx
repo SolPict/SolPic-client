@@ -17,7 +17,7 @@ export default function ReviewButton({ problemId, chosenAnswer = 0 }) {
         }
       );
 
-      router.push("/ProblemReviews/ReviewNote");
+      router.push("/Home");
     } catch (error) {
       Alert.alert("리뷰노트 추가하는데 문제가 발생하였습니다.");
       console.error("리뷰노트 추가하는데 문제가 발생하였습니다.", error);

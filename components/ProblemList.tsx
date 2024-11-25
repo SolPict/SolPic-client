@@ -50,7 +50,7 @@ export default function ProblemList({
   useFocusEffect(
     useCallback(() => {
       scrollRef.current.scrollToOffset({ offset: offsetY, animated: true });
-    }, [offsetY])
+    }, [])
   );
 
   const onScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
@@ -63,8 +63,8 @@ export default function ProblemList({
     const handleGoNextPage = () => {
       const nextURL =
         prevPage === "home"
-          ? "/Answers/" + encodeURIComponent(item["Key"])
-          : "/Problems/" + encodeURIComponent(item["Key"]);
+          ? "/(tabs)/Home/Answer/" + encodeURIComponent(item["Key"])
+          : "/(tabs)/ReviewNote/Problem/" + encodeURIComponent(item["Key"]);
       router.push(nextURL);
     };
 
