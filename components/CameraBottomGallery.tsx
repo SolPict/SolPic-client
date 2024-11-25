@@ -6,7 +6,7 @@ import * as MediaLibrary from "expo-media-library";
 import * as ImagePicker from "expo-image-picker";
 
 export default function CameraBottomGallery() {
-  const [firstImage, setFirstImage] = useState(null);
+  const [firstImage, setFirstImage] = useState("");
   const [permissionGranted, setPermissionGranted] = useState(false);
 
   useEffect(() => {
@@ -45,7 +45,9 @@ export default function CameraBottomGallery() {
       const asset = media.assets[0];
       const assetInfo = await MediaLibrary.getAssetInfoAsync(asset.id);
 
-      setFirstImage(assetInfo.localUri);
+      if (assetInfo.localUri) {
+        setFirstImage(assetInfo.localUri);
+      }
     } else {
       Alert.alert("갤러리에 이미지가 없습니다.");
     }
@@ -59,9 +61,14 @@ export default function CameraBottomGallery() {
       allowsEditing: true,
     });
 
-    router.push(
-      "/AnalyzingProblem?image=" + encodeURIComponent(JSON.stringify(assets[0]))
-    );
+    if (assets) {
+      router.push({
+        pathname: "/(tabs)/Camera/Preview",
+        params: {
+          image: JSON.stringify(assets[0]),
+        },
+      });
+    }
   };
 
   return (

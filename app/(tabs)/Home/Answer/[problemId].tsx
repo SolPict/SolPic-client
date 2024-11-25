@@ -10,12 +10,12 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import useClientStore from "../../store/store";
-import LaTeXView from "../../components/LaTeXView";
-import { COLORS } from "../../constants/colors";
+import useClientStore from "@/store/store";
+import LaTeXView from "@/components/LaTeXView";
+import { COLORS } from "@/constants/colors";
 import { AntDesign } from "@expo/vector-icons";
 import { useState, useCallback } from "react";
-import ReviewModal from "../../components/ReviewModal";
+import ReviewModal from "@/components/ReviewModal";
 
 export default function AnswerPage() {
   const [modalVisible, setModalVisible] = useState(false);
@@ -26,7 +26,7 @@ export default function AnswerPage() {
   const { email, isLogin } = getClientStatus();
 
   const goToHome = () => {
-    router.push("/");
+    router.replace("/");
   };
 
   useFocusEffect(
@@ -65,7 +65,7 @@ export default function AnswerPage() {
         }
       );
 
-      router.push("/ProblemReviews/ReviewNote");
+      router.replace("/(tabs)/ReviewNote");
     } catch (error) {
       if (!email) {
         Alert.alert("로그인하지 않은 유저입니다.");
@@ -126,6 +126,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: "100%",
     height: "100%",
+    paddingBottom: 70,
   },
   answerScrollContainer: {
     height: "200%",

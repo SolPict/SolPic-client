@@ -7,7 +7,7 @@ import { MutableRefObject } from "react";
 
 interface CameraBottomProps {
   setImage: (image: string) => void;
-  cameraRef: MutableRefObject<CameraView>;
+  cameraRef: MutableRefObject<CameraView> | null;
 }
 
 export default function CameraBottom({
@@ -15,7 +15,7 @@ export default function CameraBottom({
   cameraRef,
 }: CameraBottomProps) {
   const takePhoto = async () => {
-    if (!cameraRef.current) {
+    if (!cameraRef?.current) {
       return;
     }
 

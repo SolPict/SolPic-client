@@ -3,14 +3,14 @@ import { router, useFocusEffect, useLocalSearchParams } from "expo-router";
 import { Alert, Image, StyleSheet, TouchableOpacity, View } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import axios from "axios";
-import rotateButton from "../../assets/rotate.png";
-import useClientStore from "../../store/store";
+import rotateButton from "@/assets/rotate.png";
+import useClientStore from "@/store/store";
 import { useCallback, useState } from "react";
-import NextButton from "../../components/NavigationButton";
+import NextButton from "@/components/NavigationButton";
 import { manipulateAsync, SaveFormat } from "expo-image-manipulator";
 
-import { COLORS } from "../../constants/colors";
-import LoadingLottie from "../../components/LoadingLottie";
+import { COLORS } from "@/constants/colors";
+import LoadingLottie from "@/components/LoadingLottie";
 
 export default function AnalyzingProblem() {
   const { image } = useLocalSearchParams();
@@ -26,8 +26,8 @@ export default function AnalyzingProblem() {
       compress: 1,
       format: SaveFormat.PNG,
     });
-    setImageURI(rotatedImage.uri);
     imageInfo.uri = rotatedImage.uri;
+    setImageURI(rotatedImage.uri);
   };
 
   const analyzeProblemImage = async () => {

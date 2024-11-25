@@ -6,11 +6,12 @@ import focusOutHome from "../assets/home_not_focus.png";
 import focusInReview from "../assets/review_focus.png";
 import focusOutReview from "../assets/review_not_focus.png";
 import { COLORS } from "../constants/colors";
-import { EXCEPT_PAGES } from "../constants/exceptPages";
 import { BottomTabBarProps } from "@react-navigation/bottom-tabs/src/types";
+import { useMemo } from "react";
+import { EXCEPT_PAGES } from "@/constants/exceptPages";
 
 interface IconsTypes {
-  [pageName: string]: (isFocused?: boolean) => React.JSX.Element;
+  [pageName: string]: (isFocused?: boolean | undefined) => React.JSX.Element;
 }
 
 export default function TabBar({
@@ -18,35 +19,41 @@ export default function TabBar({
   descriptors,
   navigation,
 }: BottomTabBarProps) {
-  if (Object.values(EXCEPT_PAGES).includes(state.index)) {
+  const currentIndex = state.index;
+  const answerAndProblemPage = state.routes[currentIndex].state?.index;
+
+  if (EXCEPT_PAGES.includes(currentIndex) || answerAndProblemPage) {
     return;
   }
 
-  const icons: IconsTypes = {
-    index: (focused: boolean) => (
-      <Image
-        source={focused ? focusInHome : focusOutHome}
-        style={[styles.tabImages, { width: "50%" }]}
-      />
-    ),
-    Camera: () => (
-      <View style={styles.cameraContainer}>
-        <Fontisto name="camera" size={24} color={"white"} />
-      </View>
-    ),
-    ProblemReviews: (focused: boolean) => (
-      <Image
-        source={focused ? focusInReview : focusOutReview}
-        style={styles.tabImages}
-      />
-    ),
-  };
+  const icons: IconsTypes = useMemo(
+    () => ({
+      Home: (focused) => (
+        <Image
+          source={focused ? focusInHome : focusOutHome}
+          style={[styles.tabImages, { width: "50%" }]}
+        />
+      ),
+      Camera: () => (
+        <View style={styles.cameraContainer}>
+          <Fontisto name="camera" size={24} color={"white"} />
+        </View>
+      ),
+      ReviewNote: (focused) => (
+        <Image
+          source={focused ? focusInReview : focusOutReview}
+          style={styles.tabImages}
+        />
+      ),
+    }),
+    []
+  );
   return (
     <View style={styles.tabBar}>
       {state.routes.map((route, index) => {
         const { options } = descriptors[route.key];
         const label = options.tabBarLabel || options.title || route.name;
-        if (!["index", "Camera", "ProblemReviews"].includes(route.name)) {
+        if (!["Home", "Camera", "ReviewNote"].includes(route.name)) {
           return;
         }
 
@@ -76,9 +83,7 @@ export default function TabBar({
           >
             <View style={styles.tabContainer}>
               {icons[route.name](isFocused)}
-              {label !== "카메라" && (
-                <Text style={styles.tabText}>{label as string}</Text>
-              )}
+              {label !== "카메라" && <Text>{label as string}</Text>}
             </View>
           </TouchableOpacity>
         );
@@ -123,7 +128,6 @@ const styles = StyleSheet.create({
     width: "60%",
     height: "100%",
   },
-  tabText: {},
   cameraContainer: {
     backgroundColor: COLORS.PRIMARY,
     justifyContent: "center",
@@ -131,6 +135,5 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 40,
-    top: 5,
   },
 });
