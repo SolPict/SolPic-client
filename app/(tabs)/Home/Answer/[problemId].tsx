@@ -18,10 +18,10 @@ import { useState, useCallback } from "react";
 import ReviewModal from "@/components/ReviewModal";
 
 export default function AnswerPage() {
-  const [modalVisible, setModalVisible] = useState(false);
-  const [isWideBorder, setIsWideBorder] = useState(false);
-  const [explanation, setExplanation] = useState("");
-  const { problemId } = useLocalSearchParams();
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
+  const [isWideBorder, setIsWideBorder] = useState<boolean>(false);
+  const [explanation, setExplanation] = useState<string>("");
+  const { problemId } = useLocalSearchParams<{ problemId: string }>();
   const { getClientStatus } = useClientStore();
   const { email, isLogin } = getClientStatus();
 

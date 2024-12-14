@@ -1,8 +1,8 @@
 {
   "exclude": ["node_modules", "dist", "@tsconfig/react-native/tsconfig.json"],
-  "include": ["**/*.ts", "**/*.tsx", "app", "custom.d.ts"],
+  "include": ["**/*.ts", "**/*.tsx", "app", "custom.d.ts", "*.tsx"],
   "compilerOptions": {
-    "jsx": "react-native",
+    "jsx": "react-jsx",
     "noImplicitAny": true,
     "paths": {
       "@/*": ["./*"],

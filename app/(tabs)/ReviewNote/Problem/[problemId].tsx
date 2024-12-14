@@ -9,10 +9,10 @@ import { COLORS } from "@/constants/colors";
 import DeleteModal from "@/components/DeleteModal";
 
 export default function ProblemPage() {
-  const [modalVisible, setModalVisible] = useState(false);
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [problemInfo, setProblemInfo] = useState({});
   const { problemId } = useLocalSearchParams();
-  const [selectedRadio, setSelectedRadio] = useState(1);
+  const [selectedRadio, setSelectedRadio] = useState<number>(1);
   const { getClientStatus } = useClientStore();
   const { email } = getClientStatus();
   const problemJSONId = JSON.stringify((problemId as string).split("/"));
@@ -68,7 +68,9 @@ export default function ProblemPage() {
         }
       );
 
-      router.replace("/(tabs)/Home/Answer/" + encodeURIComponent(problemId));
+      router.replace(
+        "/(tabs)/Home/Answer/" + encodeURIComponent(problemId as string)
+      );
     } catch (error) {
       Alert.alert("제출에 실패하였습니다.");
       console.error(error);

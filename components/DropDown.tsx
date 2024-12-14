@@ -9,8 +9,8 @@ import { AntDesign } from "@expo/vector-icons";
 import { useState } from "react";
 
 export default function DropDown() {
-  const [expanded, setExpanded] = useState(false);
-  const [sortedText, setSortedText] = useState("");
+  const [expanded, setExpanded] = useState<boolean>(false);
+  const [sortedText, setSortedText] = useState<string>("");
 
   return (
     <View style={styles.container}>

@@ -1,6 +1,14 @@
 import { Pressable, ScrollView, StyleSheet, Text } from "react-native";
 
-export default function SortingScrollButton({ sortType, setSortType }) {
+interface SortingScrollButtonProps {
+  sortType: string;
+  setSortType: (sortType: string) => void;
+}
+
+export default function SortingScrollButton({
+  sortType,
+  setSortType,
+}: SortingScrollButtonProps) {
   return (
     <ScrollView
       horizontal={true}

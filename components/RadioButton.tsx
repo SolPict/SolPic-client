@@ -1,7 +1,15 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { COLORS } from "../constants/colors";
 
-export default function RadioButton({ selectedRadio, setSelectedRadio }) {
+interface RadioButtonProps {
+  selectedRadio: number;
+  setSelectedRadio: (selectNumber: number) => void;
+}
+
+export default function RadioButton({
+  selectedRadio,
+  setSelectedRadio,
+}: RadioButtonProps) {
   return (
     <View style={styles.main}>
       {[1, 2, 3, 4, 5].map((number) => {

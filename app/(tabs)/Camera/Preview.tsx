@@ -15,9 +15,9 @@ import LoadingLottie from "@/components/LoadingLottie";
 export default function AnalyzingProblem() {
   const { image } = useLocalSearchParams();
   const imageInfo = JSON.parse(decodeURIComponent(image as string));
-  const [imageURI, setImageURI] = useState("");
-  const [isFocused, setIsFocused] = useState(true);
-  const [problemInfo, setProblemInfo] = useState("");
+  const [imageURI, setImageURI] = useState<string>("");
+  const [isFocused, setIsFocused] = useState<boolean>(true);
+  const [problemInfo, setProblemInfo] = useState<string>("");
   const { getClientStatus, setClientStatus } = useClientStore();
   const { email, loadingState } = getClientStatus();
 

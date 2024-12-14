@@ -3,7 +3,15 @@ import { router } from "expo-router";
 import { Alert, StyleSheet, Text, TouchableOpacity } from "react-native";
 import useClientStore from "../store/store";
 
-export default function ReviewButton({ problemId, chosenAnswer = 0 }) {
+interface ReviewButtonProps {
+  problemId: string;
+  chosenAnswer: 1 | 2 | 3 | 4 | 5 | 0;
+}
+
+export default function ReviewButton({
+  problemId,
+  chosenAnswer = 0,
+}: ReviewButtonProps) {
   const { getClientStatus } = useClientStore();
   const { email } = getClientStatus();
 

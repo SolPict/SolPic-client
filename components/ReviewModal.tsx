@@ -2,11 +2,17 @@ import { Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { QUESTIONS } from "../constants/modalQuestion";
 import { COLORS } from "../constants/colors";
 
+interface ReviewModalProps {
+  modalVisible: boolean;
+  setModalVisible: (modalVisible: boolean) => void;
+  addReviewNote: () => void;
+}
+
 export default function ReviewModal({
   modalVisible,
   setModalVisible,
   addReviewNote,
-}) {
+}: ReviewModalProps) {
   const handleYes = () => {
     addReviewNote();
     setModalVisible(false);

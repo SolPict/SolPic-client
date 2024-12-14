@@ -6,8 +6,8 @@ import * as MediaLibrary from "expo-media-library";
 import * as ImagePicker from "expo-image-picker";
 
 export default function CameraBottomGallery() {
-  const [firstImage, setFirstImage] = useState("");
-  const [permissionGranted, setPermissionGranted] = useState(false);
+  const [firstImage, setFirstImage] = useState<string>("");
+  const [permissionGranted, setPermissionGranted] = useState<boolean>(false);
 
   useEffect(() => {
     const getPermission = async () => {

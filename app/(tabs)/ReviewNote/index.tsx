@@ -8,8 +8,8 @@ import { useFocusEffect } from "expo-router";
 
 export default function ReviewNote() {
   const [ReviewNote, setReviewNote] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [offset, setOffset] = useState(0);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [offset, setOffset] = useState<number>(0);
   const { getClientStatus } = useClientStore();
   const { email, isLogin } = getClientStatus();
 

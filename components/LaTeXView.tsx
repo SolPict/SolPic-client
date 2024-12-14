@@ -2,7 +2,12 @@ import React from "react";
 import { View, StyleSheet, Text } from "react-native";
 import MathView from "react-native-math-view";
 
-export default function LaTeXView({ problemId, children }) {
+interface LaTeXViewProps {
+  problemId: string;
+  children: string;
+}
+
+export default function LaTeXView({ problemId, children }: LaTeXViewProps) {
   children = children.replace(/ +/g, " ").replaceAll("\\boxed", "$\\boxed");
 
   return (

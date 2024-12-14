@@ -10,9 +10,9 @@ import { PROBLEM_LIMIT } from "@/constants/pageLimit";
 
 export default function Problems() {
   const [problemList, setProblemList] = useState([]);
-  const [sortType, setSortType] = useState("전체보기");
-  const [offset, setOffset] = useState(0);
-  const [isLoading, setIsLoading] = useState(false);
+  const [sortType, setSortType] = useState<string>("전체보기");
+  const [offset, setOffset] = useState<number>(0);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const sortedList = [...problemList].filter((problem) => {
     if (sortType === "전체보기") {

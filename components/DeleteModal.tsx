@@ -2,11 +2,17 @@ import { Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { QUESTIONS } from "../constants/modalQuestion";
 import { COLORS } from "../constants/colors";
 
+interface DeleteMOdalProps {
+  modalVisible: boolean;
+  setModalVisible: (modalVisible: boolean) => void;
+  deleteReviewNote: () => void;
+}
+
 export default function DeleteModal({
   modalVisible,
   setModalVisible,
   deleteReviewNote,
-}) {
+}: DeleteMOdalProps) {
   const handleYes = () => {
     deleteReviewNote();
     setModalVisible(false);

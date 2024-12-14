@@ -25,9 +25,9 @@ import { COLORS } from "@/constants/colors";
 import { AntDesign } from "@expo/vector-icons";
 
 export default function Login() {
-  const [email, setEmail] = useState("admin1@gmail.com");
-  const [password, setPassword] = useState("");
-  const [IsLoginPage, setIsLoginPage] = useState(true);
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [IsLoginPage, setIsLoginPage] = useState<boolean>(true);
   const { setClientStatus } = useClientStore();
 
   useEffect(() => {
