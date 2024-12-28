@@ -62,7 +62,7 @@ export default function CameraBottomGallery() {
     });
 
     if (assets) {
-      router.push({
+      router.replace({
         pathname: "/(tabs)/Camera/Preview",
         params: {
           image: JSON.stringify(assets[0]),

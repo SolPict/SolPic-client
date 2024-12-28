@@ -4,13 +4,13 @@ import RadioButton from "@/components/RadioButton";
 import { useCallback, useEffect, useState } from "react";
 import { TouchableOpacity } from "react-native";
 import axios from "axios";
-import useClientStore from "@/store/store";
+import useClientStore, { ProblemInfoType } from "@/store/store";
 import { COLORS } from "@/constants/colors";
 import DeleteModal from "@/components/DeleteModal";
 
 export default function ProblemPage() {
   const [modalVisible, setModalVisible] = useState<boolean>(false);
-  const [problemInfo, setProblemInfo] = useState({});
+  const [problemInfo, setProblemInfo] = useState<ProblemInfoType>(null);
   const { problemId } = useLocalSearchParams();
   const [selectedRadio, setSelectedRadio] = useState<number>(1);
   const { getClientStatus } = useClientStore();

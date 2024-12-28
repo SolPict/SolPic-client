@@ -1,6 +1,7 @@
 import { router, Tabs } from "expo-router";
 import React, { useEffect } from "react";
 import {
+  Alert,
   Image,
   ImageURISource,
   StyleSheet,
@@ -15,10 +16,11 @@ import useClientStore from "@/store/store";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "@/auth/firebaseConfig";
 import TabBar from "@/components/TabBar";
+import RedDot from "@/components/RedDot";
 
 export default function TabLayout() {
   const { setClientStatus, getClientStatus } = useClientStore();
-  const { isLogin } = getClientStatus();
+  const { isLogin, loadingState, AnalyzedProblem } = getClientStatus();
 
   const handleLoginAndLogout = () => {
     if (isLogin) {
@@ -69,10 +71,23 @@ export default function TabLayout() {
             headerRight: () => (
               <>
                 <TouchableOpacity
-                  onPress={handleLoginAndLogout}
+                  onPress={() => {
+                    if (!AnalyzedProblem) {
+                      return;
+                    }
+
+                    router.push(
+                      "/(tabs)/Home/Answer/" +
+                        encodeURIComponent(AnalyzedProblem.key)
+                    );
+
+                    setClientStatus({ loadingState: "pending" });
+                    setClientStatus({ AnalyzedProblem: null });
+                  }}
                   style={styles.alarmContainer}
                 >
                   <Image source={alarmImage} style={styles.alarmImage}></Image>
+                  {AnalyzedProblem && <RedDot></RedDot>}
                 </TouchableOpacity>
                 <TouchableOpacity
                   onPress={handleLoginAndLogout}
@@ -112,10 +127,23 @@ export default function TabLayout() {
             headerRight: () => (
               <>
                 <TouchableOpacity
-                  onPress={handleLoginAndLogout}
+                  onPress={() => {
+                    if (!AnalyzedProblem) {
+                      return;
+                    }
+
+                    router.push(
+                      "/(tabs)/Home/Answer/" +
+                        encodeURIComponent(AnalyzedProblem.key)
+                    );
+
+                    setClientStatus({ loadingState: "pending" });
+                    setClientStatus({ AnalyzedProblem: null });
+                  }}
                   style={styles.alarmContainer}
                 >
                   <Image source={alarmImage} style={styles.alarmImage}></Image>
+                  {AnalyzedProblem && <RedDot></RedDot>}
                 </TouchableOpacity>
                 <TouchableOpacity
                   onPress={handleLoginAndLogout}

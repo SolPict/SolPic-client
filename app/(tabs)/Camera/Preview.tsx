@@ -17,9 +17,8 @@ export default function AnalyzingProblem() {
   const imageInfo = JSON.parse(decodeURIComponent(image as string));
   const [imageURI, setImageURI] = useState<string>("");
   const [isFocused, setIsFocused] = useState<boolean>(true);
-  const [problemInfo, setProblemInfo] = useState<string>("");
   const { getClientStatus, setClientStatus } = useClientStore();
-  const { email, loadingState } = getClientStatus();
+  const { email, loadingState, AnalyzedProblem } = getClientStatus();
 
   const rotate90andFlip = async () => {
     const rotatedImage = await manipulateAsync(imageURI, [{ rotate: -90 }], {
@@ -53,7 +52,7 @@ export default function AnalyzingProblem() {
       );
 
       Alert.alert("문제 분석이 완료되었습니다.");
-      setProblemInfo(data);
+      setClientStatus({ AnalyzedProblem: { ...data } });
     } catch (error) {
       Alert.alert("문제 분석하는데 문제가 발생하였습니다.");
     } finally {
@@ -62,9 +61,12 @@ export default function AnalyzingProblem() {
   };
 
   const goToAnswerPage = (): void => {
-    router.push(`/Answers/${encodeURIComponent(JSON.parse(problemInfo).key)}`);
+    router.push(
+      "/(tabs)/Home/Answer/" + encodeURIComponent(AnalyzedProblem.key)
+    );
 
     setClientStatus({ loadingState: "pending" });
+    setClientStatus({ AnalyzedProblem: null });
   };
 
   useFocusEffect(

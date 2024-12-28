@@ -3,6 +3,8 @@ import LottieView from "lottie-react-native";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import useClientStore from "../store/store";
 import { COLORS } from "../constants/colors";
+import { router } from "expo-router";
+import { AntDesign } from "@expo/vector-icons";
 
 interface LoadingLottieProps {
   goToAnswerPage: () => void;
@@ -16,6 +18,12 @@ export default function LoadingLottie({ goToAnswerPage }: LoadingLottieProps) {
 
   return (
     <View style={styles.lottieContainer}>
+      <TouchableOpacity
+        style={styles.backButton}
+        onPress={() => router.push("/Home")}
+      >
+        <AntDesign name="left" size={36} color="black" />
+      </TouchableOpacity>
       <LottieView source={loadingLottie} autoPlay loop style={styles.lottie} />
       <TouchableOpacity
         disabled={isDisabled}
@@ -29,6 +37,10 @@ export default function LoadingLottie({ goToAnswerPage }: LoadingLottieProps) {
 }
 
 const styles = StyleSheet.create({
+  backButton: {
+    bottom: 60,
+    right: 165,
+  },
   lottieContainer: {
     backgroundColor: "white",
     width: "100%",

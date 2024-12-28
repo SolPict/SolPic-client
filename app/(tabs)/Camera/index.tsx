@@ -7,20 +7,26 @@ import { AntDesign } from "@expo/vector-icons";
 
 import CameraHeader from "@/components/CameraHeader";
 import CameraBottom from "@/components/CameraBottom";
+import useClientStore from "@/store/store";
 
 export default function Camera() {
   const [cameraPermission, requestCameraPermission] = useCameraPermissions();
   const [image, setImage] = useState<string>("");
   const cameraRef = useRef<CameraView>(null);
+  const { getClientStatus } = useClientStore();
+  const { loadingState } = getClientStatus();
 
   useFocusEffect(
     useCallback(() => {
-      if (image) {
-        router.push(
+      if (image || loadingState === "loading") {
+        router.replace(
           "/(tabs)/Camera/Preview?image=" + encodeURIComponent(image)
         );
+
         setImage("");
       }
+
+      return () => setImage("");
     }, [image])
   );
 
@@ -58,6 +64,7 @@ const styles = StyleSheet.create({
     height: 500,
     flex: 1,
     alignItems: "center",
+    justifyContent: "center",
   },
   plusMark: {
     position: "absolute",
