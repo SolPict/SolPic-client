@@ -14,14 +14,12 @@ declare module "*.png" {
 
 declare module "react-native-math-view";
 
-declare global {
-  interface FormDataValue {
-    uri: string;
-    name: string;
-    type: string;
-  }
+interface FormDataValue {
+  uri: string;
+  name: string;
+  type: string;
+}
 
-  interface FormData {
-    append(name: string, value: FormDataValue, fileName?: string): void;
-  }
+interface FormData {
+  append(name: string, value: FormDataValue, fileName?: string): void;
 }

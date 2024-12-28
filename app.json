@@ -1,10 +1,10 @@
 {
   "expo": {
     "name": "Sol.Pic",
-    "slug": "Sol.Pic",
+    "slug": "sol-pic",
     "version": "1.0.0",
     "orientation": "portrait",
-    "scheme": "Sol.Pic",
+    "scheme": "solpic",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
@@ -13,45 +13,43 @@
       "backgroundColor": "#ffffff"
     },
     "newArchEnabled": true,
-    "expo": {
-      "platforms": ["ios", "android"],
-      "newArchEnabled": true,
-      "plugins": [
-        [
-          "expo-camera",
-          {
-            "cameraPermission": "Allow Sol.Pic to access your camera",
-            "microphonePermission": "Allow Sol.Pic to access your microphone",
-            "recordAudioAndroid": true
+    "platforms": ["ios", "android"],
+    "plugins": [
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Allow Sol.Pic to access your camera",
+          "microphonePermission": "Allow Sol.Pic to access your microphone",
+          "recordAudioAndroid": true
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "The app accesses your photos to let you share them with your friends."
+        }
+      ],
+      [
+        "expo-media-library",
+        {
+          "photosPermission": "Allow Sol.Pic to access your photos.",
+          "savePhotosPermission": "Allow Sol.Pic to save photos.",
+          "isAccessMediaLocationEnabled": true
+        }
+      ],
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "usesCleartextTraffic": true
           }
-        ],
-        [
-          "expo-image-picker",
-          {
-            "photosPermission": "The app accesses your photos to let you share them with your friends."
-          }
-        ],
-        [
-          "expo-media-library",
-          {
-            "photosPermission": "Allow Sol.Pic to access your photos.",
-            "savePhotosPermission": "Allow Sol.Pic to save photos.",
-            "isAccessMediaLocationEnabled": true
-          },
-          [
-            "expo-build-properties",
-            {
-              "android": {
-                "usesCleartextTraffic": true
-              }
-            }
-          ]
-        ]
-      ]
-    },
+        }
+      ],
+      "expo-router"
+    ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.anonymous.Sol.Pic"
+      "bundleIdentifier": "com.anonymous.solpic"
     },
     "android": {
       "adaptiveIcon": {
@@ -62,7 +60,6 @@
     "web": {
       "favicon": "./assets/favicon.png",
       "bundler": "metro"
-    },
-    "plugins": ["expo-router"]
+    }
   }
 }
