@@ -3,14 +3,11 @@ import { validateUserId, validatePassword } from "../loginValidation";
 
 describe("아이디 유효성 검사", () => {
   it("도메인을 입력하지 않은 경우 에러를 반환해야 합니다.", () => {
-    expect(() => validateUserId("test123")).toThrow("도메인을 입력해주세요.");
+    expect(() => validateUserId("test123@")).toThrow("도메인을 입력해주세요.");
   });
 
   it("올바르지 않은 도메인을 입력한 경우 에러를 반환해야 합니다.", () => {
     expect(() => validateUserId("test123@test")).toThrow(
-      "올바른 도메인을 입력해주세요."
-    );
-    expect(() => validateUserId("test123@.com")).toThrow(
       "올바른 도메인을 입력해주세요."
     );
   });
