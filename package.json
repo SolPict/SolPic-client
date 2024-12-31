@@ -2,6 +2,7 @@
   "name": "solpict",
   "version": "1.0.0",
   "main": "expo-router/entry",
+  "type": "module",
   "lint-staged": {
     "src/**/*.{js,jsx,ts,tsx}": [
       "prettier --write",
@@ -14,7 +15,23 @@
     "ios": "expo run:ios",
     "web": "expo start --web",
     "lint": "eslint src",
-    "prepare": "husky"
+    "prepare": "husky",
+    "test": "jest --watch"
+  },
+  "jest": {
+    "preset": "jest-expo",
+    "transformIgnorePatterns": [
+      "node_modules/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|react-navigation|@react-navigation/.*|@sentry/react-native|native-base|react-native-svg|native-notify)"
+    ],
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "**/*.{ts,tsx,js,jsx}",
+      "!**/coverage/**",
+      "!**/node_modules/**",
+      "!**/babel.config.js",
+      "!**/expo-env.d.ts",
+      "!**/.expo/**"
+    ]
   },
   "dependencies": {
     "@expo/metro-runtime": "~4.0.0",
@@ -23,6 +40,7 @@
     "@react-native-community/slider": "^4.5.5",
     "@react-navigation/native": "^7.0.3",
     "axios": "^1.7.7",
+    "babel-plugin-module-resolver": "^5.0.2",
     "expo": "~52.0.20",
     "expo-build-properties": "^0.13.1",
     "expo-camera": "~16.0.10",
@@ -36,6 +54,7 @@
     "expo-status-bar": "~2.0.0",
     "firebase": "^11.1.0",
     "lottie-react-native": "^7.1.0",
+    "metro-react-native-babel-preset": "^0.77.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-native": "^0.76.5",
@@ -45,10 +64,13 @@
     "react-native-safe-area-context": "^4.12.0",
     "react-native-screens": "~4.4.0",
     "react-native-web": "~0.19.10",
+    "react-test-renderer": "^18.3.1",
+    "ts-node": "^10.9.2",
     "zustand": "^5.0.0-rc.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
+    "@testing-library/react-native": "^12.9.0",
     "@tsconfig/react-native": "^3.0.5",
     "@types/jest": "^29.5.14",
     "@types/react": "~18.3.12",
@@ -58,7 +80,10 @@
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.2.1",
     "husky": "^9.1.6",
+    "jest": "^29.7.0",
+    "jest-expo": "^52.0.2",
     "prettier": "^3.3.3",
+    "ts-jest": "^29.2.5",
     "typescript": "~5.3.3"
   },
   "private": true
