@@ -1,16 +1,17 @@
 {
-  "exclude": ["node_modules", "dist", "@tsconfig/react-native/tsconfig.json"],
-  "include": [
-    "**/*.ts",
-    "**/*.tsx",
-    "app",
-    "custom.d.ts",
-    "*.tsx",
-    "babel.config.cjs"
+  "exclude": [
+    "node_modules",
+    "dist",
+    "@tsconfig/react-native/tsconfig.json",
+    "__mocks__"
   ],
+  // "include": ["**/*.ts", "**/*.tsx", "app", "custom.d.ts", "babel.config.cjs"],
   "compilerOptions": {
     "jsx": "react-jsx",
     "noImplicitAny": true,
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "skipLibCheck": true,
     "paths": {
       "@/*": ["./*"],
       "@firebase/auth": ["./node_modules/@firebase/auth/dist/index.rn.d.ts"]

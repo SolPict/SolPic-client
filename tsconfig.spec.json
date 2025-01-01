@@ -5,5 +5,6 @@
     "module": "ESNext",
     "target": "ESNext",
     "esModuleInterop": true
-  }
+  },
+  "exclude": ["__mocks__", "node_modules", "dist"]
 }
