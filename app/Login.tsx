@@ -21,8 +21,12 @@ import { router } from "expo-router";
 
 import { auth } from "@/auth/firebaseConfig";
 import useClientStore from "@/store/store";
-import { COLORS } from "@/constants/colors";
+import { COLORS } from "@/constants/COLORS";
 import { AntDesign } from "@expo/vector-icons";
+import {
+  LOGIN_ERROR_MESSAGE,
+  SINGUP_ERROR_MESSAGE,
+} from "@/constants/ERROR_MESSAGES";
 
 export default function Login() {
   const [email, setEmail] = useState<string>("");
@@ -60,9 +64,9 @@ export default function Login() {
       router.push("/");
     } catch (error) {
       if (IsLoginPage) {
-        Alert.alert("이미 존재하거나 올바르지 않은 형식입니다.");
+        Alert.alert(LOGIN_ERROR_MESSAGE);
       } else {
-        Alert.alert("이미 존재하거나 올바르지 않은 형식입니다.");
+        Alert.alert(SINGUP_ERROR_MESSAGE);
       }
     }
   };
@@ -112,7 +116,11 @@ export default function Login() {
         </View>
       </ScrollView>
       <View style={styles.buttonContainer}>
-        <TouchableOpacity onPress={handleAuthentication} style={styles.button}>
+        <TouchableOpacity
+          onPress={handleAuthentication}
+          accessibilityRole="button"
+          style={styles.button}
+        >
           <Text style={styles.buttonText}>
             {IsLoginPage ? "로그인" : "회원가입"}
           </Text>

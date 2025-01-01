@@ -1,6 +1,6 @@
 import { Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { QUESTIONS } from "../constants/modalQuestion";
-import { COLORS } from "../constants/colors";
+import { QUESTIONS } from "../constants/MODAL_QUESTIONS";
+import { COLORS } from "../constants/COLORS";
 
 interface ReviewModalProps {
   modalVisible: boolean;

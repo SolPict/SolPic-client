@@ -3,7 +3,7 @@ import useClientStore from "@/store/store";
 import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import ProblemList from "@/components/ProblemList";
-import { PROBLEM_LIMIT } from "@/constants/pageLimit";
+import { PROBLEM_LIMIT } from "@/constants/PAGE_LIMIT";
 import { useFocusEffect } from "expo-router";
 
 export default function ReviewNote() {

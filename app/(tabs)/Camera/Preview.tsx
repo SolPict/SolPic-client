@@ -9,7 +9,7 @@ import { useCallback, useState } from "react";
 import NextButton from "@/components/NavigationButton";
 import { manipulateAsync, SaveFormat } from "expo-image-manipulator";
 
-import { COLORS } from "@/constants/colors";
+import { COLORS } from "@/constants/COLORS";
 import LoadingLottie from "@/components/LoadingLottie";
 
 export default function AnalyzingProblem() {

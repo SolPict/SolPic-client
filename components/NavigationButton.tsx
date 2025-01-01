@@ -1,5 +1,5 @@
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
-import { COLORS } from "../constants/colors";
+import { COLORS } from "../constants/COLORS";
 
 interface NavigationButtonProps {
   content: string;
