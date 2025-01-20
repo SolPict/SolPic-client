@@ -1,35 +1,14 @@
-import { router, Tabs } from "expo-router";
-import React, { useEffect } from "react";
-import {
-  Alert,
-  Image,
-  ImageURISource,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-} from "react-native";
-import { MaterialIcons } from "@expo/vector-icons";
-
-import logoImage from "@/assets/logo.png";
-import alarmImage from "@/assets/bell.png";
+import { Tabs } from "expo-router";
+import { useEffect } from "react";
 import useClientStore from "@/store/store";
-import { onAuthStateChanged, signOut } from "firebase/auth";
+import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "@/auth/firebaseConfig";
 import TabBar from "@/components/TabBar";
-import RedDot from "@/components/RedDot";
+import HeaderLeftLogo from "@/components/HeaderLeftLogo";
+import HeaderRightLogo from "@/components/HeaderRightLogo";
 
 export default function TabLayout() {
-  const { setClientStatus, getClientStatus } = useClientStore();
-  const { isLogin, loadingState, AnalyzedProblem } = getClientStatus();
-
-  const handleLoginAndLogout = () => {
-    if (isLogin) {
-      signOut(auth);
-      setClientStatus({ isLogin: true });
-    } else {
-      router.push("Login");
-    }
-  };
+  const { setClientStatus } = useClientStore();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -60,47 +39,8 @@ export default function TabLayout() {
           options={{
             title: "홈",
             headerTitle: "",
-            headerLeft: () => (
-              <View style={styles.logoContainer}>
-                <Image
-                  source={logoImage as ImageURISource}
-                  style={styles.logoImage}
-                />
-              </View>
-            ),
-            headerRight: () => (
-              <>
-                <TouchableOpacity
-                  onPress={() => {
-                    if (!AnalyzedProblem) {
-                      return;
-                    }
-
-                    router.push(
-                      "/(tabs)/Home/Answer/" +
-                        encodeURIComponent(AnalyzedProblem.key)
-                    );
-
-                    setClientStatus({ loadingState: "pending" });
-                    setClientStatus({ AnalyzedProblem: null });
-                  }}
-                  style={styles.alarmContainer}
-                >
-                  <Image source={alarmImage} style={styles.alarmImage}></Image>
-                  {AnalyzedProblem && <RedDot></RedDot>}
-                </TouchableOpacity>
-                <TouchableOpacity
-                  onPress={handleLoginAndLogout}
-                  style={styles.logoutContainer}
-                >
-                  <MaterialIcons
-                    name={isLogin ? "logout" : "login"}
-                    size={28}
-                    color="black"
-                  />
-                </TouchableOpacity>
-              </>
-            ),
+            headerLeft: HeaderLeftLogo,
+            headerRight: HeaderRightLogo,
           }}
         />
         <Tabs.Screen
@@ -116,78 +56,11 @@ export default function TabLayout() {
           options={{
             title: "리뷰노트",
             headerTitle: "",
-            headerLeft: () => (
-              <View style={styles.logoContainer}>
-                <Image
-                  source={logoImage as ImageURISource}
-                  style={styles.logoImage}
-                />
-              </View>
-            ),
-            headerRight: () => (
-              <>
-                <TouchableOpacity
-                  onPress={() => {
-                    if (!AnalyzedProblem) {
-                      return;
-                    }
-
-                    router.push(
-                      "/(tabs)/Home/Answer/" +
-                        encodeURIComponent(AnalyzedProblem.key)
-                    );
-
-                    setClientStatus({ loadingState: "pending" });
-                    setClientStatus({ AnalyzedProblem: null });
-                  }}
-                  style={styles.alarmContainer}
-                >
-                  <Image source={alarmImage} style={styles.alarmImage}></Image>
-                  {AnalyzedProblem && <RedDot></RedDot>}
-                </TouchableOpacity>
-                <TouchableOpacity
-                  onPress={handleLoginAndLogout}
-                  style={styles.logoutContainer}
-                >
-                  <MaterialIcons
-                    name={isLogin ? "logout" : "login"}
-                    size={28}
-                    color="black"
-                  />
-                </TouchableOpacity>
-              </>
-            ),
+            headerLeft: HeaderLeftLogo,
+            headerRight: HeaderRightLogo,
           }}
         />
       </Tabs>
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  logoContainer: {
-    width: 100,
-    height: 50,
-  },
-  logoutContainer: {
-    alignItems: "center",
-    right: 24,
-  },
-  logoImage: {
-    resizeMode: "contain",
-    width: "100%",
-    height: "100%",
-    marginLeft: 24,
-    top: 2,
-  },
-  alarmContainer: {
-    alignItems: "center",
-    right: 24,
-  },
-  alarmImage: {
-    resizeMode: "contain",
-    width: "110%",
-    height: "110%",
-    marginRight: 24,
-  },
-});

@@ -27,6 +27,7 @@ import {
   LOGIN_ERROR_MESSAGE,
   SINGUP_ERROR_MESSAGE,
 } from "@/constants/ERROR_MESSAGES";
+import { validatePassword, validateUserId } from "@/utils/loginValidation";
 
 export default function Login() {
   const [email, setEmail] = useState<string>("");
@@ -47,6 +48,16 @@ export default function Login() {
   }, [auth]);
 
   const handleAuthentication = async () => {
+    try {
+      validateUserId(email);
+      validatePassword(password);
+    } catch (error) {
+      if (error instanceof Error) {
+        console.error(error.message);
+        Alert.alert(error.message);
+      }
+    }
+
     try {
       if (IsLoginPage) {
         await signInWithEmailAndPassword(auth, email, password);
