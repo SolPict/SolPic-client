@@ -42,7 +42,7 @@ export default function AnalyzingProblem() {
       });
 
       const { data } = await axios.post(
-        process.env.EXPO_PUBLIC_SUB_SERVER_URL + "problem/analyze",
+        process.env.EXPO_PUBLIC_SERVER_URL + "problem/analyze",
         formData,
         {
           headers: {
