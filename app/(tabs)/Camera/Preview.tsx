@@ -1,13 +1,25 @@
 import { AntDesign } from "@expo/vector-icons";
 import { router, useFocusEffect, useLocalSearchParams } from "expo-router";
-import { Alert, Image, StyleSheet, TouchableOpacity, View } from "react-native";
+import {
+  Alert,
+  Button,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { StatusBar } from "expo-status-bar";
 import axios from "axios";
 import rotateButton from "@/assets/rotate.png";
 import useClientStore from "@/store/store";
 import { useCallback, useState } from "react";
 import NextButton from "@/components/NavigationButton";
-import { manipulateAsync, SaveFormat } from "expo-image-manipulator";
+import * as ImagePicker from "expo-image-picker";
+import {
+  ImageManipulator,
+  SaveFormat,
+  useImageManipulator,
+} from "expo-image-manipulator";
 
 import { COLORS } from "@/constants/COLORS";
 import LoadingLottie from "@/components/LoadingLottie";
@@ -18,25 +30,33 @@ export default function AnalyzingProblem() {
   const [imageURI, setImageURI] = useState<string>("");
   const [isFocused, setIsFocused] = useState<boolean>(true);
   const { getClientStatus, setClientStatus } = useClientStore();
-  const { email, loadingState, AnalyzedProblem } = getClientStatus();
+  const { loadingState, AnalyzedProblem } = getClientStatus();
+  const manipulator = useImageManipulator(imageURI);
 
   const rotate90andFlip = async () => {
-    const rotatedImage = await manipulateAsync(imageURI, [{ rotate: -90 }], {
-      compress: 1,
-      format: SaveFormat.PNG,
+    manipulator.rotate(-90);
+    const result = await manipulator.renderAsync();
+    const savedImage = await result.saveAsync({
+      compress: 0.1,
+      format: SaveFormat.JPEG,
     });
-    imageInfo.uri = rotatedImage.uri;
-    setImageURI(rotatedImage.uri);
+
+    setImageURI(savedImage.uri);
   };
 
   const analyzeProblemImage = async () => {
     try {
       setClientStatus({ loadingState: "loading" });
+      const result = await manipulator.renderAsync();
+      const savedImage = await result.saveAsync({
+        compress: 0.1,
+        format: SaveFormat.JPEG,
+      });
 
       const formData = new FormData();
 
       formData.append("file", {
-        uri: imageURI,
+        uri: savedImage.uri,
         name: imageInfo.fileName,
         type: imageInfo.mimeType,
       });
