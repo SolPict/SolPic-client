@@ -38,7 +38,7 @@ export default function LoadingLottie({ goToAnswerPage }: LoadingLottieProps) {
 
 const styles = StyleSheet.create({
   backButton: {
-    bottom: 60,
+    bottom: 160,
     right: 165,
   },
   lottieContainer: {
@@ -49,8 +49,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   lottie: {
-    width: "60%",
-    height: "60%",
+    width: "30%",
+    height: "30%",
     resizeMode: "contain",
   },
   Button: {
@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 10,
-    top: 100,
+    top: 200,
   },
   disabledButton: {
     opacity: 0.5,
