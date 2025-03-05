@@ -1,5 +1,5 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { COLORS } from "../constants/COLORS";
+import { COLORS } from "../constants/colors";
 
 interface RadioButtonProps {
   selectedRadio: number;

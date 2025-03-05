@@ -5,7 +5,7 @@ import { useCallback, useEffect, useState } from "react";
 import { TouchableOpacity } from "react-native";
 import axios from "axios";
 import useClientStore, { ProblemInfoType } from "@/store/store";
-import { COLORS } from "@/constants/COLORS";
+import { COLORS } from "@/constants/colors";
 import DeleteModal from "@/components/DeleteModal";
 
 export default function ProblemPage() {

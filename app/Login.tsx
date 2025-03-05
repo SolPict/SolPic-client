@@ -21,12 +21,12 @@ import { router } from "expo-router";
 
 import { auth } from "@/auth/firebaseConfig";
 import useClientStore from "@/store/store";
-import { COLORS } from "@/constants/COLORS";
+import { COLORS } from "@/constants/colors";
 import { AntDesign } from "@expo/vector-icons";
 import {
   LOGIN_ERROR_MESSAGE,
   SINGUP_ERROR_MESSAGE,
-} from "@/constants/ERROR_MESSAGES";
+} from "@/constants/error_messages";
 import { validatePassword, validateUserId } from "@/utils/loginValidation";
 
 export default function Login() {

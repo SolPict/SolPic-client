@@ -5,10 +5,10 @@ import focusInHome from "../assets/home_focus.png";
 import focusOutHome from "../assets/home_not_focus.png";
 import focusInReview from "../assets/review_focus.png";
 import focusOutReview from "../assets/review_not_focus.png";
-import { COLORS } from "../constants/COLORS";
+import { COLORS } from "../constants/colors";
 import { BottomTabBarProps } from "@react-navigation/bottom-tabs/src/types";
 import { useMemo } from "react";
-import { EXCEPT_PAGES } from "@/constants/EXCEPT_PAGES";
+import { EXCEPT_PAGES } from "@/constants/except_pages";
 
 interface IconsTypes {
   [pageName: string]: (isFocused?: boolean | undefined) => React.JSX.Element;

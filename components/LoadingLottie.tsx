@@ -2,7 +2,7 @@ import loadingLottie from "../assets/lottie/loadingLottie.json";
 import LottieView from "lottie-react-native";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import useClientStore from "../store/store";
-import { COLORS } from "../constants/COLORS";
+import { COLORS } from "../constants/colors";
 import { router } from "expo-router";
 import { AntDesign } from "@expo/vector-icons";
 

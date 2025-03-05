@@ -1,6 +1,6 @@
 import { Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { QUESTIONS } from "../constants/MODAL_QUESTIONS";
-import { COLORS } from "../constants/COLORS";
+import { QUESTIONS } from "../constants/modal_questions";
+import { COLORS } from "../constants/colors";
 
 interface DeleteMOdalProps {
   modalVisible: boolean;

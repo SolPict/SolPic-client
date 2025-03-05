@@ -21,7 +21,7 @@ import {
   useImageManipulator,
 } from "expo-image-manipulator";
 
-import { COLORS } from "@/constants/COLORS";
+import { COLORS } from "@/constants/colors";
 import LoadingLottie from "@/components/LoadingLottie";
 
 export default function AnalyzingProblem() {

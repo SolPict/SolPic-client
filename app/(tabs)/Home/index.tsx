@@ -6,7 +6,7 @@ import axios from "axios";
 
 import SortingScrollButton from "@/components/SortingScrollButton";
 import ProblemList from "@/components/ProblemList";
-import { PROBLEM_LIMIT } from "@/constants/PAGE_LIMIT";
+import { PROBLEM_LIMIT } from "@/constants/page_limit";
 
 export default function Problems() {
   const [problemList, setProblemList] = useState([]);

@@ -12,7 +12,7 @@ import {
 } from "react-native";
 import useClientStore from "@/store/store";
 import LaTeXView from "@/components/LaTeXView";
-import { COLORS } from "@/constants/COLORS";
+import { COLORS } from "@/constants/colors";
 import { AntDesign } from "@expo/vector-icons";
 import { useState, useCallback } from "react";
 import ReviewModal from "@/components/ReviewModal";

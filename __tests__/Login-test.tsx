@@ -6,7 +6,7 @@ import {
 } from "@testing-library/react-native";
 import Login from "@/app/Login";
 import { Alert } from "react-native";
-import { LOGIN_ERROR_MESSAGE } from "@/constants/ERROR_MESSAGES";
+import { LOGIN_ERROR_MESSAGE } from "@/constants/error_messages";
 
 describe("<Login />", () => {
   beforeEach(() => {
