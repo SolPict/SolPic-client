@@ -1,5 +1,5 @@
-import { router, useFocusEffect } from "expo-router";
-import { useCallback, useEffect, useState } from "react";
+import { router } from "expo-router";
+import {  useEffect, useState } from "react";
 import { Alert, Image } from "react-native";
 import { StyleSheet, TouchableOpacity } from "react-native";
 import * as MediaLibrary from "expo-media-library";
