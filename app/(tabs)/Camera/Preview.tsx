@@ -14,12 +14,7 @@ import rotateButton from "@/assets/rotate.png";
 import useClientStore from "@/store/store";
 import { useCallback, useState } from "react";
 import NextButton from "@/components/NavigationButton";
-import * as ImagePicker from "expo-image-picker";
-import {
-  ImageManipulator,
-  SaveFormat,
-  useImageManipulator,
-} from "expo-image-manipulator";
+import { SaveFormat, useImageManipulator } from "expo-image-manipulator";
 
 import { COLORS } from "@/constants/colors";
 import LoadingLottie from "@/components/LoadingLottie";
@@ -37,7 +32,7 @@ export default function AnalyzingProblem() {
     manipulator.rotate(-90);
     const result = await manipulator.renderAsync();
     const savedImage = await result.saveAsync({
-      compress: 0.1,
+      compress: 0.7,
       format: SaveFormat.JPEG,
     });
 
@@ -49,7 +44,7 @@ export default function AnalyzingProblem() {
       setClientStatus({ loadingState: "loading" });
       const result = await manipulator.renderAsync();
       const savedImage = await result.saveAsync({
-        compress: 0.1,
+        compress: 0.7,
         format: SaveFormat.JPEG,
       });
 
