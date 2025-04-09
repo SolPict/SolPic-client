@@ -78,6 +78,7 @@ export default function ProblemList({
           source={{
             uri: process.env.EXPO_PUBLIC_S3_URL + item["Key"],
           }}
+          defaultSource={require("@/assets/loading.jpg")}
         />
       </TouchableOpacity>
     );
