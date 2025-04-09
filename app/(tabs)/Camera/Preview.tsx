@@ -68,10 +68,14 @@ export default function AnalyzingProblem() {
 
       Alert.alert("문제 분석이 완료되었습니다.");
       setClientStatus({ AnalyzedProblem: { ...data } });
+      setClientStatus({ loadingState: "pending" });
     } catch (error) {
-      Alert.alert("문제 분석하는데 문제가 발생하였습니다.");
-    } finally {
-      setClientStatus({ loadingState: "complete" });
+      Alert.alert(
+        `문제 분석하는데 문제가 발생하였습니다.
+         잠시후 다시 이용해주세요!`
+      );
+      router.replace("/");
+      setClientStatus({ loadingState: "pending" });
     }
   };
 

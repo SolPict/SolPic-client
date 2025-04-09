@@ -12,7 +12,7 @@ export interface ProblemInfoType {
 interface ClientStatusType {
   isLogin: boolean;
   email: string | null;
-  loadingState: string;
+  loadingState: "pending" | "loading" | "complete";
   AnalyzedProblem: ProblemInfoType;
 }
 
