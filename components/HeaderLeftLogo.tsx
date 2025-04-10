@@ -1,10 +1,15 @@
-import { Image, ImageURISource, StyleSheet, View } from "react-native";
+import { ImageURISource, StyleSheet, View } from "react-native";
 import logoImage from "@/assets/logo.png";
+import { Image } from "expo-image";
 
 export default function () {
   return (
     <View style={styles.logoContainer}>
-      <Image source={logoImage as ImageURISource} style={styles.logoImage} />
+      <Image
+        source={logoImage as ImageURISource}
+        style={styles.logoImage}
+        contentFit="contain"
+      />
     </View>
   );
 }

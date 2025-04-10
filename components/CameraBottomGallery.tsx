@@ -1,9 +1,10 @@
 import { router } from "expo-router";
-import {  useEffect, useState } from "react";
-import { Alert, Image } from "react-native";
+import { useEffect, useState } from "react";
+import { Alert } from "react-native";
 import { StyleSheet, TouchableOpacity } from "react-native";
 import * as MediaLibrary from "expo-media-library";
 import * as ImagePicker from "expo-image-picker";
+import { Image } from "expo-image";
 
 export default function CameraBottomGallery() {
   const [firstImage, setFirstImage] = useState<string>("");
@@ -74,7 +75,11 @@ export default function CameraBottomGallery() {
   return (
     <TouchableOpacity style={styles.gallery} onPress={uploadImage}>
       {firstImage && (
-        <Image style={styles.firstImage} source={{ uri: firstImage }} />
+        <Image
+          style={styles.firstImage}
+          source={{ uri: firstImage }}
+          contentFit="contain"
+        />
       )}
     </TouchableOpacity>
   );

@@ -1,14 +1,15 @@
 import { router, useFocusEffect } from "expo-router";
-import React, { useCallback, useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import {
   ActivityIndicator,
   FlatList,
-  Image,
   NativeScrollEvent,
   NativeSyntheticEvent,
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
+import { Image } from "expo-image";
+import defaultImage from "@/assets/defaultImage.png";
 
 interface ProblemListType {
   problems: Array<string>;
@@ -78,7 +79,8 @@ export default function ProblemList({
           source={{
             uri: process.env.EXPO_PUBLIC_S3_URL + item["Key"],
           }}
-          defaultSource={require("@/assets/loading.jpg")}
+          contentFit="contain"
+          placeholder={defaultImage}
         />
       </TouchableOpacity>
     );
@@ -119,6 +121,5 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     borderRadius: 20,
-    resizeMode: "contain",
   },
 });

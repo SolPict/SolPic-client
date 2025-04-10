@@ -1,5 +1,5 @@
 import { Fontisto } from "@expo/vector-icons";
-import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 
 import focusInHome from "../assets/home_focus.png";
 import focusOutHome from "../assets/home_not_focus.png";
@@ -9,6 +9,7 @@ import { COLORS } from "../constants/colors";
 import { BottomTabBarProps } from "@react-navigation/bottom-tabs/src/types";
 import { useMemo } from "react";
 import { EXCEPT_PAGES } from "@/constants/except_pages";
+import { Image } from "expo-image";
 
 interface IconsTypes {
   [pageName: string]: (isFocused?: boolean | undefined) => React.JSX.Element;
@@ -32,6 +33,7 @@ export default function TabBar({
         <Image
           source={focused ? focusInHome : focusOutHome}
           style={[styles.tabImages, { width: "50%" }]}
+          contentFit="contain"
         />
       ),
       Camera: () => (
@@ -124,7 +126,6 @@ const styles = StyleSheet.create({
     gap: 5,
   },
   tabImages: {
-    resizeMode: "contain",
     width: "60%",
     height: "100%",
   },

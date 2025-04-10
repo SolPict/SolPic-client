@@ -1,11 +1,12 @@
 import { MaterialIcons } from "@expo/vector-icons";
 import { router } from "expo-router";
-import { Image, StyleSheet, TouchableOpacity } from "react-native";
+import { Alert, StyleSheet, TouchableOpacity } from "react-native";
 import RedDot from "./RedDot";
 import useClientStore from "@/store/store";
 import alarmImage from "@/assets/bell.png";
 import { signOut } from "firebase/auth";
 import { auth } from "@/auth/firebaseConfig";
+import { Image } from "expo-image";
 
 export default function () {
   const { setClientStatus, getClientStatus } = useClientStore();
@@ -15,6 +16,7 @@ export default function () {
     if (isLogin) {
       signOut(auth);
       setClientStatus({ isLogin: true });
+      Alert.alert("정상적으로 로그아웃 되었습니다.");
     } else {
       router.push("Login");
     }
@@ -37,7 +39,11 @@ export default function () {
         }}
         style={styles.alarmContainer}
       >
-        <Image source={alarmImage} style={styles.alarmImage}></Image>
+        <Image
+          source={alarmImage}
+          style={styles.alarmImage}
+          contentFit="contain"
+        ></Image>
         {AnalyzedProblem && <RedDot></RedDot>}
       </TouchableOpacity>
       <TouchableOpacity
