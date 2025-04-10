@@ -2,7 +2,6 @@ import axios from "axios";
 import { router, useFocusEffect, useLocalSearchParams } from "expo-router";
 import {
   Alert,
-  Image,
   SafeAreaView,
   ScrollView,
   StyleSheet,
@@ -15,7 +14,9 @@ import LaTeXView from "@/components/LaTeXView";
 import { COLORS } from "@/constants/colors";
 import { AntDesign } from "@expo/vector-icons";
 import { useState, useCallback } from "react";
-import ReviewModal from "@/components/ReviewModal";
+import { Image } from "expo-image";
+import ConfirmModal from "@/components/ConfirmModal";
+import { QUESTIONS } from "@/constants/modal_questions";
 
 export default function AnswerPage() {
   const [modalVisible, setModalVisible] = useState<boolean>(false);
@@ -84,6 +85,7 @@ export default function AnswerPage() {
         <Image
           source={{ uri: process.env.EXPO_PUBLIC_S3_URL + problemId }}
           style={styles.problemImage}
+          contentFit="contain"
         />
       </View>
       <ScrollView
@@ -110,10 +112,12 @@ export default function AnswerPage() {
           </TouchableOpacity>
         )}
       </View>
-      <ReviewModal
+      <ConfirmModal
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}
-        addReviewNote={addReviewNote}
+        onConfirm={addReviewNote}
+        title="확인"
+        message={QUESTIONS.REVIEW}
       />
     </SafeAreaView>
   );

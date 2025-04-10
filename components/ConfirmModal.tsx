@@ -1,20 +1,25 @@
 import { Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { QUESTIONS } from "../constants/modal_questions";
 import { COLORS } from "../constants/colors";
+import correntLottie from "@/assets/lottie/correct.json"
+import wrongLottie from "@/assets/lottie/wrong.json"
 
-interface ReviewModalProps {
+interface ConfirmModalProps {
   modalVisible: boolean;
   setModalVisible: (modalVisible: boolean) => void;
-  addReviewNote: () => void;
+  onConfirm: () => void;
+  title?: string;
+  message: string;
 }
 
-export default function ReviewModal({
+export default function ConfirmModal({
   modalVisible,
   setModalVisible,
-  addReviewNote,
-}: ReviewModalProps) {
+  onConfirm,
+  title = "확인",
+  message,
+}: ConfirmModalProps) {
   const handleYes = () => {
-    addReviewNote();
+    onConfirm();
     setModalVisible(false);
   };
 
@@ -27,7 +32,7 @@ export default function ReviewModal({
       animationType="none"
       transparent={true}
       visible={modalVisible}
-      onRequestClose={() => setModalVisible(false)}
+      onRequestClose={handleNo}
     >
       <TouchableOpacity
         style={styles.modalBackground}
@@ -36,8 +41,8 @@ export default function ReviewModal({
       >
         <TouchableOpacity activeOpacity={1} onPress={() => {}}>
           <View style={styles.modalContainer}>
-            <Text style={styles.modalTitle}>확인</Text>
-            <Text style={styles.modalMessage}>{QUESTIONS.REVIEW}</Text>
+            <Text style={styles.modalTitle}>{title}</Text>
+            <Text style={styles.modalMessage}>{message}</Text>
 
             <View style={styles.buttonContainer}>
               <TouchableOpacity style={styles.button} onPress={handleYes}>
@@ -75,6 +80,7 @@ const styles = StyleSheet.create({
   },
   modalMessage: {
     marginBottom: 20,
+    textAlign: "center",
   },
   buttonContainer: {
     flexDirection: "row",
