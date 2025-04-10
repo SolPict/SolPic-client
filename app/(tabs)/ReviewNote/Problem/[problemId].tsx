@@ -1,76 +1,59 @@
-import { router, useFocusEffect, useLocalSearchParams } from "expo-router";
-import { Alert, Image, StyleSheet, Text, View } from "react-native";
-import RadioButton from "@/components/RadioButton";
-import { useCallback, useEffect, useState } from "react";
-import { TouchableOpacity } from "react-native";
+import { useState } from "react";
+import { Alert, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { useLocalSearchParams, router } from "expo-router";
+import { Image } from "expo-image";
 import axios from "axios";
-import useClientStore, { ProblemInfoType } from "@/store/store";
+
+import RadioButton from "@/components/RadioButton";
+import ConfirmModal from "@/components/ConfirmModal";
+import ResultModal from "@/components/ResultModal";
+
+import useClientStore from "@/store/store";
 import { COLORS } from "@/constants/colors";
-import DeleteModal from "@/components/DeleteModal";
+import { QUESTIONS } from "@/constants/modal_questions";
 
 export default function ProblemPage() {
-  const [modalVisible, setModalVisible] = useState<boolean>(false);
-  const [problemInfo, setProblemInfo] = useState<ProblemInfoType>(null);
   const { problemId } = useLocalSearchParams();
-  const [selectedRadio, setSelectedRadio] = useState<number>(1);
   const { getClientStatus } = useClientStore();
   const { email } = getClientStatus();
-  const problemJSONId = JSON.stringify((problemId as string).split("/"));
 
-  useEffect(() => {
-    getProblemInfo();
-  }, []);
-
-  const getProblemInfo = async () => {
-    try {
-      const { data } = await axios.get(
-        process.env.EXPO_PUBLIC_SERVER_URL + "problem/" + problemJSONId
-      );
-
-      setProblemInfo(data);
-    } catch (error) {
-      Alert.alert("문제 정보를 불러오는데 문제가 발생하였습니다.");
-      console.error(error);
-    }
-  };
+  const [selectedRadio, setSelectedRadio] = useState<number>(1);
+  const [deleteModalVisible, setDeleteModalVisible] = useState<boolean>(false);
+  const [resultModalVisible, setResultModalVisible] = useState<boolean>(false);
+  const [isAnswer, setIsAnswer] = useState<boolean>(false);
 
   const deleteReviewNote = async () => {
     try {
-      setModalVisible(true);
-
       await axios.delete(
         process.env.EXPO_PUBLIC_SERVER_URL +
           "problem/reviewNote/" +
-          problemJSONId,
+          encodeURIComponent(JSON.stringify((problemId as string).split("/"))),
         {
-          data: {
-            email,
-          },
+          data: { email },
         }
       );
-
+      setDeleteModalVisible(false);
       router.replace("(tabs)/ReviewNote");
-      setModalVisible(false);
     } catch (error) {
       Alert.alert("리뷰를 삭제하지 못하였습니다.");
       console.error(error);
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     try {
-      axios.post(
+      const response = await axios.post(
         process.env.EXPO_PUBLIC_SERVER_URL +
           "problem/solving/" +
-          JSON.stringify((problemId as string).split("/")),
+          encodeURIComponent(problemId as string),
         {
           email: email || "",
+          user_answer: selectedRadio.toString(),
         }
       );
 
-      router.replace(
-        "/(tabs)/Home/Answer/" + encodeURIComponent(problemId as string)
-      );
+      setIsAnswer(response.data.isAnswer);
+      setResultModalVisible(true);
     } catch (error) {
       Alert.alert("제출에 실패하였습니다.");
       console.error(error);
@@ -79,19 +62,23 @@ export default function ProblemPage() {
 
   return (
     <View style={styles.problemContainer}>
-      <Image
-        source={{ uri: process.env.EXPO_PUBLIC_S3_URL + problemId }}
-        style={styles.problemImage}
-      />
+      <View style={styles.imgageContainer}>
+        <Image
+          source={{ uri: process.env.EXPO_PUBLIC_S3_URL + problemId }}
+          style={styles.problemImage}
+          contentFit="contain"
+        />
+      </View>
       <Text style={styles.radioTitle}>번호</Text>
       <RadioButton
         selectedRadio={selectedRadio}
         setSelectedRadio={setSelectedRadio}
       />
+
       <View style={styles.bottomContainer}>
         <TouchableOpacity
           style={styles.deleteContainer}
-          onPress={() => setModalVisible(true)}
+          onPress={() => setDeleteModalVisible(true)}
         >
           <Text style={styles.deleteText}>삭제</Text>
         </TouchableOpacity>
@@ -99,34 +86,41 @@ export default function ProblemPage() {
           <Text style={styles.submitText}>제출하기</Text>
         </TouchableOpacity>
       </View>
-      <DeleteModal
-        modalVisible={modalVisible}
-        setModalVisible={setModalVisible}
-        deleteReviewNote={deleteReviewNote}
-      />
+
+      {deleteModalVisible && (
+        <ConfirmModal
+          modalVisible={deleteModalVisible}
+          setModalVisible={setDeleteModalVisible}
+          onConfirm={deleteReviewNote}
+          title="확인"
+          message={QUESTIONS.DELETE}
+        />
+      )}
+
+      {resultModalVisible && (
+        <ResultModal
+          visible={resultModalVisible}
+          isCorrect={isAnswer}
+          setResultModalVisible={setResultModalVisible}
+        />
+      )}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   problemContainer: {
-    width: "100%",
-    height: "100%",
     backgroundColor: "white",
-    justifyContent: "center",
+    height: "100%",
+    gap: 10,
   },
-  backButton: {
-    width: "10%",
-    height: "5%",
-    justifyContent: "center",
-    alignItems: "center",
-    left: 20,
+  imgageContainer: {
+    marginHorizontal: 24,
+    height: "30%",
   },
   problemImage: {
-    width: "90%",
-    height: "30%",
-    resizeMode: "contain",
-    margin: 20,
+    width: "100%",
+    height: "100%",
   },
   radioTitle: {
     fontWeight: "800",
@@ -134,11 +128,8 @@ const styles = StyleSheet.create({
     margin: 20,
   },
   bottomContainer: {
-    width: "90%",
     flexDirection: "row",
-    alignItems: "center",
-    marginHorizontal: 20,
-    bottom: 50,
+    paddingHorizontal: 24,
     gap: 20,
   },
   deleteContainer: {
@@ -153,7 +144,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.PRIMARY,
     justifyContent: "center",
     alignItems: "center",
-    width: "73%",
+    width: "72%",
     height: 50,
     borderRadius: 10,
   },

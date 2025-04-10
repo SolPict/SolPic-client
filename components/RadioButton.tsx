@@ -37,8 +37,9 @@ export default function RadioButton({
 
 const styles = StyleSheet.create({
   main: {
-    flex: 1,
-    width: "100%",
+    display: "flex",
+    justifyContent: "space-between",
+    gap: 10,
   },
   radioContainer: {
     flexDirection: "row",
