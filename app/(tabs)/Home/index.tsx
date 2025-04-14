@@ -3,6 +3,7 @@ import { SafeAreaView, StyleSheet } from "react-native";
 import { useEffect, useState } from "react";
 import { Alert } from "react-native";
 import axios from "axios";
+import { ERROR_MESSAGES } from "@/constants/error_messages";
 
 import SortingScrollButton from "@/components/SortingScrollButton";
 import ProblemList from "@/components/ProblemList";
@@ -38,7 +39,7 @@ export default function Problems() {
       setOffset(problemImage["offset"]);
       setProblemList(problemList.concat(...problemImage["image_list"]));
     } catch (error) {
-      Alert.alert("문제 데이터를 불러오는데 실패하였습니다.");
+      Alert.alert(ERROR_MESSAGES.OCR_FAIL.KO);
       console.error("문제 데이터를 불러오는데 실패하였습니다.", error);
     } finally {
       setIsLoading(false);
@@ -50,7 +51,7 @@ export default function Problems() {
   }, []);
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={styles.mainContainor}>
       <SortingScrollButton sortType={sortType} setSortType={setSortType} />
       <ProblemList
         problems={sortedList}
@@ -64,28 +65,7 @@ export default function Problems() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    gap: 10,
-    height: "80%",
-  },
-  problems: {
-    backgroundColor: "white",
-    width: "100%",
-    marginBottom: 20,
-    borderRadius: 20,
-  },
-  problemHeader: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginTop: 10,
-    marginHorizontal: 10,
-  },
-  headerText: {
-    fontSize: 16,
-  },
-  imageContainer: {
-    width: "100%",
-    height: 200,
-    padding: 10,
+  mainContainor: {
+    marginBottom: 80,
   },
 });
