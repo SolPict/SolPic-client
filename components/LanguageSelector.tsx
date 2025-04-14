@@ -7,10 +7,17 @@ import {
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { useState } from "react";
+import useClientStore from "@/store/store";
 
-export default function DropDown() {
+const languages: { value: "한국어" | "English"; label: string }[] = [
+  { value: "한국어", label: "🇰🇷 한국어" },
+  { value: "English", label: "🇺🇸 English" },
+];
+
+export default function LanguageSelector() {
   const [expanded, setExpanded] = useState<boolean>(false);
-  const [sortedText, setSortedText] = useState<string>("");
+  const { clientStatus, setClientStatus } = useClientStore();
+  const selectedLanguage = clientStatus.language;
 
   return (
     <View style={styles.container}>
@@ -19,29 +26,26 @@ export default function DropDown() {
         onPress={() => setExpanded(!expanded)}
         activeOpacity={0.9}
       >
-        <Text style={styles.SortingText}>{sortedText || "기록정렬 선택"}</Text>
+        <Text style={styles.SortingText}>
+          {selectedLanguage === "한국어" ? "🇰🇷 한국어" : "🇺🇸 English"}
+        </Text>
         <AntDesign name={expanded ? "caretup" : "caretdown"} />
       </TouchableOpacity>
       {expanded && (
         <View style={styles.options}>
           <FlatList
             keyExtractor={(item) => item.value}
-            data={[
-              { value: "최신순", label: "최신순" },
-              { value: "오래된순", label: "오래된순" },
-              { value: "정답순", label: "정답순" },
-              { value: "오답순", label: "오답순" },
-            ]}
+            data={languages}
             renderItem={({ item }) => (
               <TouchableOpacity
                 activeOpacity={0.8}
                 style={styles.optionItem}
                 onPress={() => {
                   setExpanded(false);
-                  setSortedText(item.value);
+                  setClientStatus({ language: item.value });
                 }}
               >
-                <Text style={styles.SortingText}>{item.value}</Text>
+                <Text style={styles.SortingText}>{item.label}</Text>
               </TouchableOpacity>
             )}
           />
@@ -54,8 +58,7 @@ export default function DropDown() {
 const styles = StyleSheet.create({
   container: {
     zIndex: 1,
-    position: "relative",
-    opacity: 0.8,
+    marginRight: 50,
   },
   optionItem: {
     height: 40,
@@ -63,26 +66,22 @@ const styles = StyleSheet.create({
   },
   options: {
     position: "absolute",
-    backgroundColor: "silver",
-    width: 150,
-    top: 53,
-    marginHorizontal: 10,
+    backgroundColor: "white",
+    width: 120,
+    top: 50,
     padding: 10,
     borderBottomRightRadius: 10,
     borderBottomLeftRadius: 10,
   },
   SortingText: {
     fontSize: 20,
-    opacity: 0.8,
   },
   SortingButton: {
     height: 50,
-    width: 150,
-    backgroundColor: "silver",
+    width: 120,
     justifyContent: "space-between",
     paddingHorizontal: 8,
     borderRadius: 10,
-    margin: 10,
     alignItems: "center",
     flexDirection: "row",
   },

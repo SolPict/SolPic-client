@@ -1,5 +1,6 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { COLORS } from "../constants/colors";
+import useClientStore from "@/store/store";
 
 interface RadioButtonProps {
   selectedRadio: number;
@@ -10,6 +11,8 @@ export default function RadioButton({
   selectedRadio,
   setSelectedRadio,
 }: RadioButtonProps) {
+  const { language } = useClientStore().getClientStatus();
+
   return (
     <View style={styles.main}>
       {[1, 2, 3, 4, 5].map((number) => {
@@ -20,7 +23,9 @@ export default function RadioButton({
             onPress={() => setSelectedRadio(number)}
             key={number}
           >
-            <Text style={styles.radioText}>{number}번</Text>
+            <Text
+              style={styles.radioText}
+            >{`${language === "한국어" ? number + "번" : "Option " + number}`}</Text>
             <View style={styles.wrapper}>
               <View style={styles.radio}>
                 <View
@@ -49,7 +54,8 @@ const styles = StyleSheet.create({
     height: 60,
   },
   radioText: {
-    fontSize: 16,
+    fontWeight: "400",
+    fontSize: 18,
     color: "black",
   },
   radio: {

@@ -1,13 +1,6 @@
 import { AntDesign } from "@expo/vector-icons";
 import { router, useFocusEffect, useLocalSearchParams } from "expo-router";
-import {
-  Alert,
-  Button,
-  Image,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { Alert, Image, StyleSheet, TouchableOpacity, View } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import axios from "axios";
 import rotateButton from "@/assets/rotate.png";
@@ -18,6 +11,7 @@ import { SaveFormat, useImageManipulator } from "expo-image-manipulator";
 
 import { COLORS } from "@/constants/colors";
 import LoadingLottie from "@/components/LoadingLottie";
+import { ERROR_MESSAGES } from "@/constants/error_messages";
 
 export default function AnalyzingProblem() {
   const { image } = useLocalSearchParams();
@@ -25,7 +19,7 @@ export default function AnalyzingProblem() {
   const [imageURI, setImageURI] = useState<string>("");
   const [isFocused, setIsFocused] = useState<boolean>(true);
   const { getClientStatus, setClientStatus } = useClientStore();
-  const { loadingState, AnalyzedProblem } = getClientStatus();
+  const { loadingState, AnalyzedProblem, language } = getClientStatus();
   const manipulator = useImageManipulator(imageURI);
 
   const rotate90andFlip = async () => {
@@ -42,6 +36,7 @@ export default function AnalyzingProblem() {
   const analyzeProblemImage = async () => {
     try {
       setClientStatus({ loadingState: "loading" });
+
       const result = await manipulator.renderAsync();
       const savedImage = await result.saveAsync({
         compress: 0.7,
@@ -57,24 +52,25 @@ export default function AnalyzingProblem() {
       });
 
       const { data } = await axios.post(
-        process.env.EXPO_PUBLIC_SERVER_URL + "problem/analyze",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
+        `${process.env.EXPO_PUBLIC_SERVER_URL}problem/analyze`,
+        formData
       );
 
-      Alert.alert("문제 분석이 완료되었습니다.");
+      Alert.alert(
+        language === "한국어"
+          ? ERROR_MESSAGES.ANALYSIS_SUCCESS.KO
+          : ERROR_MESSAGES.ANALYSIS_SUCCESS.EN
+      );
+
       setClientStatus({ AnalyzedProblem: { ...data } });
-      setClientStatus({ loadingState: "pending" });
+      setClientStatus({ loadingState: "complete" });
     } catch (error) {
       Alert.alert(
-        `문제 분석하는데 문제가 발생하였습니다.
-         잠시후 다시 이용해주세요!`
+        language === "한국어"
+          ? ERROR_MESSAGES.OCR_FAIL.KO
+          : ERROR_MESSAGES.OCR_FAIL.EN
       );
-      router.replace("/");
+
       setClientStatus({ loadingState: "pending" });
     }
   };
@@ -125,7 +121,10 @@ export default function AnalyzingProblem() {
         <TouchableOpacity style={styles.rotateButton} onPress={rotate90andFlip}>
           <Image source={rotateButton} style={styles.rotateImage} />
         </TouchableOpacity>
-        <NextButton onPressEvent={analyzeProblemImage} content="검색하기" />
+        <NextButton
+          onPressEvent={analyzeProblemImage}
+          content={language === "한국어" ? "검색하기" : "Search"}
+        />
       </View>
     </View>
   );

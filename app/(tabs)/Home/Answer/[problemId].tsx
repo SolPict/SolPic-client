@@ -10,13 +10,14 @@ import {
   View,
 } from "react-native";
 import useClientStore from "@/store/store";
-import LaTeXView from "@/components/LaTeXView";
 import { COLORS } from "@/constants/colors";
 import { AntDesign } from "@expo/vector-icons";
 import { useState, useCallback } from "react";
 import { Image } from "expo-image";
 import ConfirmModal from "@/components/ConfirmModal";
 import { QUESTIONS } from "@/constants/modal_questions";
+import { ERROR_MESSAGES } from "@/constants/error_messages";
+import LaTeXView from "@/components/LaTeXView";
 
 export default function AnswerPage() {
   const [modalVisible, setModalVisible] = useState<boolean>(false);
@@ -24,7 +25,7 @@ export default function AnswerPage() {
   const [explanation, setExplanation] = useState<string>("");
   const { problemId } = useLocalSearchParams<{ problemId: string }>();
   const { getClientStatus } = useClientStore();
-  const { email, isLogin } = getClientStatus();
+  const { email, isLogin, language } = getClientStatus();
 
   const goToHome = () => {
     router.replace("/");
@@ -42,25 +43,33 @@ export default function AnswerPage() {
 
   const getProblem = async () => {
     try {
+      const langCode = language === "한국어" ? "KO" : "EN";
+
+      const encodedProblemId = encodeURIComponent(
+        JSON.stringify((problemId as string).split("/"))
+      );
       const { data } = await axios.get(
-        process.env.EXPO_PUBLIC_SERVER_URL +
-          "problem/" +
-          JSON.stringify((problemId as string).split("/"))
+        `${process.env.EXPO_PUBLIC_SERVER_URL}problem/${encodedProblemId}?language=${langCode}`
       );
 
-      setExplanation(JSON.parse(data));
+      setExplanation(data);
     } catch (error) {
       console.error(error);
-      Alert.alert("이미지를 불러오는데 실패하였습니다.");
+      Alert.alert(
+        language === "한국어"
+          ? ERROR_MESSAGES.OCR_FAIL.KO
+          : ERROR_MESSAGES.OCR_FAIL.EN
+      );
     }
   };
 
   const addReviewNote = async () => {
     try {
+      const encodedProblemId = encodeURIComponent(
+        JSON.stringify((problemId as string).split("/"))
+      );
       await axios.post(
-        process.env.EXPO_PUBLIC_SERVER_URL +
-          "problem/reviewNote/" +
-          JSON.stringify((problemId as string).split("/")),
+        `${process.env.EXPO_PUBLIC_SERVER_URL}problem/reviewNote/${encodedProblemId}`,
         {
           email,
         }
@@ -69,9 +78,17 @@ export default function AnswerPage() {
       router.replace("/(tabs)/ReviewNote");
     } catch (error) {
       if (!email) {
-        Alert.alert("로그인하지 않은 유저입니다.");
+        Alert.alert(
+          language === "한국어"
+            ? ERROR_MESSAGES.LOGIN.KO
+            : ERROR_MESSAGES.LOGIN.EN
+        );
       } else {
-        Alert.alert("리뷰 노트를 추가하지 못했습니다.");
+        Alert.alert(
+          language === "한국어"
+            ? ERROR_MESSAGES.SIGNUP.KO
+            : ERROR_MESSAGES.SIGNUP.EN
+        );
       }
       console.error("리뷰 노트를 추가하지 못했습니다.", error);
     }
@@ -96,12 +113,17 @@ export default function AnswerPage() {
           style={styles.answerScrollContainer}
           onPress={() => setIsWideBorder(!isWideBorder)}
         >
-          <LaTeXView problemId={problemId}>{explanation}</LaTeXView>
+          <LaTeXView
+            isWideBorder={isWideBorder}
+            latex={explanation}
+          ></LaTeXView>
         </TouchableOpacity>
       </ScrollView>
       <View style={styles.bottomContainer}>
         <TouchableOpacity style={styles.Button} onPress={goToHome}>
-          <Text style={styles.buttonText}>메인으로</Text>
+          <Text style={styles.buttonText}>
+            {language === "한국어" ? "메인으로" : "Home"}
+          </Text>
         </TouchableOpacity>
         {isLogin && (
           <TouchableOpacity
@@ -116,8 +138,12 @@ export default function AnswerPage() {
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}
         onConfirm={addReviewNote}
-        title="확인"
-        message={QUESTIONS.REVIEW}
+        title={language === "한국어" ? "확인" : "Confirm"}
+        message={
+          language === "한국어"
+            ? QUESTIONS.REVIEW
+            : "Do you want to add this problem to your review note?"
+        }
       />
     </SafeAreaView>
   );

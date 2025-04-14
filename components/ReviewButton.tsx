@@ -13,7 +13,7 @@ export default function ReviewButton({
   chosenAnswer = 0,
 }: ReviewButtonProps) {
   const { getClientStatus } = useClientStore();
-  const { email } = getClientStatus();
+  const { email, language } = getClientStatus();
 
   const addReviewNote = async () => {
     try {
@@ -27,14 +27,20 @@ export default function ReviewButton({
 
       router.push("/Home");
     } catch (error) {
-      Alert.alert("리뷰노트 추가하는데 문제가 발생하였습니다.");
+      Alert.alert(
+        language === "한국어"
+          ? "리뷰노트 추가하는데 문제가 발생하였습니다."
+          : "Failed to add review note."
+      );
       console.error("리뷰노트 추가하는데 문제가 발생하였습니다.", error);
     }
   };
 
   return (
     <TouchableOpacity style={styles.Button} onPress={addReviewNote}>
-      <Text style={styles.buttonText}>복습노트 추가</Text>
+      <Text style={styles.buttonText}>
+        {language === "한국어" ? "복습노트 추가" : "Add to Review Note"}
+      </Text>
     </TouchableOpacity>
   );
 }

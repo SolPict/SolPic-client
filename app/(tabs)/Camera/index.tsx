@@ -8,13 +8,14 @@ import { AntDesign } from "@expo/vector-icons";
 import CameraHeader from "@/components/CameraHeader";
 import CameraBottom from "@/components/CameraBottom";
 import useClientStore from "@/store/store";
+import { ERROR_MESSAGES } from "@/constants/error_messages";
 
 export default function Camera() {
   const [cameraPermission, requestCameraPermission] = useCameraPermissions();
   const [image, setImage] = useState<string>("");
   const cameraRef = useRef<CameraView>(null);
   const { getClientStatus } = useClientStore();
-  const { loadingState } = getClientStatus();
+  const { loadingState, language } = getClientStatus();
 
   useEffect(() => {
     const requestPermission = async () => {
@@ -42,13 +43,21 @@ export default function Camera() {
   if (!cameraPermission || cameraPermission.status !== "granted") {
     return (
       <View style={styles.container}>
-        <Text>카메라에 대한 접근이 필요합니다.</Text>
+        <Text>
+          {language === "한국어"
+            ? ERROR_MESSAGES.CAMERA_ACCESS_REQUIRED.KO
+            : ERROR_MESSAGES.CAMERA_ACCESS_REQUIRED.EN}
+        </Text>
         <TouchableOpacity
           onPress={() => {
             requestCameraPermission();
           }}
         >
-          <Text>접근 요청</Text>
+          <Text>
+            {language === "한국어"
+              ? ERROR_MESSAGES.REQUEST_ACCESS.KO
+              : ERROR_MESSAGES.REQUEST_ACCESS.EN}
+          </Text>
         </TouchableOpacity>
       </View>
     );

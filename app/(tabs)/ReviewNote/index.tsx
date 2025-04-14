@@ -5,13 +5,19 @@ import axios from "axios";
 import ProblemList from "@/components/ProblemList";
 import { PROBLEM_LIMIT } from "@/constants/page_limit";
 import { useFocusEffect } from "expo-router";
+import { ERROR_MESSAGES } from "@/constants/error_messages";
+
+const getErrorMessage = (language: string, key: keyof typeof ERROR_MESSAGES) =>
+  language === "한국어"
+    ? ERROR_MESSAGES[key].KO
+    : ERROR_MESSAGES[key].EN;
 
 export default function ReviewNote() {
   const [ReviewNote, setReviewNote] = useState([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [offset, setOffset] = useState<number>(0);
   const { getClientStatus } = useClientStore();
-  const { email, isLogin } = getClientStatus();
+  const { email, isLogin, language } = getClientStatus();
 
   useFocusEffect(
     useCallback(() => {
@@ -39,7 +45,7 @@ export default function ReviewNote() {
       setOffset(reviewImage["offset"]);
       setReviewNote(ReviewNote.concat(...reviewImage["image_list"]));
     } catch (error) {
-      Alert.alert("리뷰노트 데이터를 가져오는데 실패하였습니다.");
+      Alert.alert(getErrorMessage(language, "REVIEWNOTE_FAIL"));
       console.log("리뷰노트 데이터를 가져오는데 실패하였습니다.", error);
     } finally {
       setIsLoading(false);
@@ -49,7 +55,11 @@ export default function ReviewNote() {
   if (!isLogin) {
     return (
       <View style={styles.notLogInPage}>
-        <Text>해당 페이지는 로그인이 필요한 페이지입니다.</Text>
+        <Text>
+          {language === "한국어"
+            ? "해당 페이지는 로그인이 필요한 페이지입니다."
+            : "This page requires login."}
+        </Text>
       </View>
     );
   }
@@ -69,9 +79,8 @@ export default function ReviewNote() {
 
 const styles = StyleSheet.create({
   reviewContainer: {
-    top: 50,
-    height: "90%",
     paddingVertical: 40,
+    marginTop: 20,
   },
   notLogInPage: {
     width: "100%",

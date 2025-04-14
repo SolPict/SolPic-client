@@ -7,16 +7,34 @@ import alarmImage from "@/assets/bell.png";
 import { signOut } from "firebase/auth";
 import { auth } from "@/auth/firebaseConfig";
 import { Image } from "expo-image";
+import LanguageSelector from "./LanguageSelector";
 
 export default function () {
   const { setClientStatus, getClientStatus } = useClientStore();
-  const { isLogin, AnalyzedProblem } = getClientStatus();
+  const { isLogin, AnalyzedProblem, language } = getClientStatus();
+
+  const handleAlarmPress = () => {
+    if (!AnalyzedProblem) {
+      return;
+    }
+
+    router.push(
+      "/(tabs)/Home/Answer/" + encodeURIComponent(AnalyzedProblem.key)
+    );
+
+    setClientStatus({ loadingState: "pending" });
+    setClientStatus({ AnalyzedProblem: null });
+  };
 
   const handleLoginAndLogout = () => {
     if (isLogin) {
       signOut(auth);
       setClientStatus({ isLogin: true });
-      Alert.alert("정상적으로 로그아웃 되었습니다.");
+      Alert.alert(
+        language === "한국어"
+          ? "정상적으로 로그아웃 되었습니다."
+          : "Successfully logged out."
+      );
     } else {
       router.push("Login");
     }
@@ -24,19 +42,9 @@ export default function () {
 
   return (
     <>
+      <LanguageSelector />
       <TouchableOpacity
-        onPress={() => {
-          if (!AnalyzedProblem) {
-            return;
-          }
-
-          router.push(
-            "/(tabs)/Home/Answer/" + encodeURIComponent(AnalyzedProblem.key)
-          );
-
-          setClientStatus({ loadingState: "pending" });
-          setClientStatus({ AnalyzedProblem: null });
-        }}
+        onPress={handleAlarmPress}
         style={styles.alarmContainer}
       >
         <Image

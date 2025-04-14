@@ -5,10 +5,12 @@ import { StyleSheet, TouchableOpacity } from "react-native";
 import * as MediaLibrary from "expo-media-library";
 import * as ImagePicker from "expo-image-picker";
 import { Image } from "expo-image";
+import useClientStore from "@/store/store";
 
 export default function CameraBottomGallery() {
   const [firstImage, setFirstImage] = useState<string>("");
   const [permissionGranted, setPermissionGranted] = useState<boolean>(false);
+  const { language } = useClientStore().getClientStatus();
 
   useEffect(() => {
     const getPermission = async () => {
@@ -17,7 +19,11 @@ export default function CameraBottomGallery() {
       if (status === "granted") {
         setPermissionGranted(true);
       } else {
-        Alert.alert("갤러리 접근 권한이 필요합니다.");
+        Alert.alert(
+          language === "한국어"
+            ? "갤러리 접근 권한이 필요합니다."
+            : "Gallery access permission is required."
+        );
       }
     };
 
@@ -32,7 +38,9 @@ export default function CameraBottomGallery() {
 
   const getFirstImage = async () => {
     if (!permissionGranted) {
-      Alert.alert("권한이 없습니다.");
+      Alert.alert(
+        language === "한국어" ? "권한이 없습니다." : "Permission denied."
+      );
       return;
     }
 
@@ -50,7 +58,11 @@ export default function CameraBottomGallery() {
         setFirstImage(assetInfo.localUri);
       }
     } else {
-      Alert.alert("갤러리에 이미지가 없습니다.");
+      Alert.alert(
+        language === "한국어"
+          ? "갤러리에 이미지가 없습니다."
+          : "No images available in the gallery."
+      );
     }
   };
 

@@ -5,6 +5,7 @@ import CameraBottomGallery from "./CameraBottomGallery";
 import { CameraView } from "expo-camera";
 import { MutableRefObject } from "react";
 import { Image } from "expo-image";
+import useClientStore from "@/store/store";
 
 interface CameraBottomProps {
   setImage: (image: string) => void;
@@ -15,6 +16,7 @@ export default function CameraBottom({
   setImage,
   cameraRef,
 }: CameraBottomProps) {
+  const { language } = useClientStore().getClientStatus();
   const takePhoto = async () => {
     if (!cameraRef?.current) {
       return;
@@ -25,7 +27,12 @@ export default function CameraBottom({
 
       setImage(JSON.stringify(takedPhoto));
     } catch (error) {
-      console.error("사진찍는중 에러가 발생하였습니다.", error);
+      console.error(
+        language === "한국어"
+          ? "사진 찍는 중 에러가 발생하였습니다."
+          : "An error occurred while taking a photo.",
+        error
+      );
     }
   };
 

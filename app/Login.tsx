@@ -23,17 +23,15 @@ import { auth } from "@/auth/firebaseConfig";
 import useClientStore from "@/store/store";
 import { COLORS } from "@/constants/colors";
 import { AntDesign } from "@expo/vector-icons";
-import {
-  LOGIN_ERROR_MESSAGE,
-  SINGUP_ERROR_MESSAGE,
-} from "@/constants/error_messages";
+import { ERROR_MESSAGES } from "@/constants/error_messages";
 import { validatePassword, validateUserId } from "@/utils/loginValidation";
 
 export default function Login() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [IsLoginPage, setIsLoginPage] = useState<boolean>(true);
-  const { setClientStatus } = useClientStore();
+  const { setClientStatus, getClientStatus } = useClientStore();
+  const { language } = getClientStatus();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -75,9 +73,9 @@ export default function Login() {
       router.push("/");
     } catch (error) {
       if (IsLoginPage) {
-        Alert.alert(LOGIN_ERROR_MESSAGE);
+        Alert.alert(ERROR_MESSAGES.LOGIN.KO);
       } else {
-        Alert.alert(SINGUP_ERROR_MESSAGE);
+        Alert.alert(ERROR_MESSAGES.SIGNUP.KO);
       }
     }
   };
@@ -91,12 +89,20 @@ export default function Login() {
               <AntDesign name="close" size={28} color="black" />
             </TouchableOpacity>
             <Text style={styles.headerText}>
-              {IsLoginPage ? "로그인" : "회원가입"}
+              {IsLoginPage
+                ? language === "한국어"
+                  ? "로그인"
+                  : "Login"
+                : language === "한국어"
+                  ? "회원가입"
+                  : "Sign Up"}
             </Text>
           </View>
           <View style={styles.inputContainer}>
             <View>
-              <Text style={styles.inputTitle}>이메일</Text>
+              <Text style={styles.inputTitle}>
+                {language === "한국어" ? "이메일" : "Email"}
+              </Text>
               <TextInput
                 style={styles.input}
                 onChangeText={setEmail}
@@ -106,7 +112,9 @@ export default function Login() {
               />
             </View>
             <View>
-              <Text style={styles.inputTitle}>비밀번호</Text>
+              <Text style={styles.inputTitle}>
+                {language === "한국어" ? "비밀번호" : "Password"}
+              </Text>
               <TextInput
                 style={styles.input}
                 value={password}
@@ -121,7 +129,13 @@ export default function Login() {
               style={styles.toggleText}
               onPress={() => setIsLoginPage(!IsLoginPage)}
             >
-              {IsLoginPage ? "아이디가 없으신가요?" : "이미 회원이신가요?"}
+              {IsLoginPage
+                ? language === "한국어"
+                  ? "아이디가 없으신가요?"
+                  : "Don't have an account?"
+                : language === "한국어"
+                  ? "이미 회원이신가요?"
+                  : "Already have an account?"}
             </Text>
           </View>
         </View>
@@ -133,7 +147,13 @@ export default function Login() {
           style={styles.button}
         >
           <Text style={styles.buttonText}>
-            {IsLoginPage ? "로그인" : "회원가입"}
+            {IsLoginPage
+              ? language === "한국어"
+                ? "로그인"
+                : "Login"
+              : language === "한국어"
+                ? "회원가입"
+                : "Sign Up"}
           </Text>
         </TouchableOpacity>
       </View>

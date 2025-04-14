@@ -1,7 +1,6 @@
 import { Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { COLORS } from "../constants/colors";
-import correntLottie from "@/assets/lottie/correct.json"
-import wrongLottie from "@/assets/lottie/wrong.json"
+import useClientStore from "@/store/store";
 
 interface ConfirmModalProps {
   modalVisible: boolean;
@@ -18,6 +17,8 @@ export default function ConfirmModal({
   title = "확인",
   message,
 }: ConfirmModalProps) {
+  const { language } = useClientStore().getClientStatus();
+
   const handleYes = () => {
     onConfirm();
     setModalVisible(false);
@@ -46,10 +47,14 @@ export default function ConfirmModal({
 
             <View style={styles.buttonContainer}>
               <TouchableOpacity style={styles.button} onPress={handleYes}>
-                <Text style={styles.buttonText}>예</Text>
+                <Text style={styles.buttonText}>
+                  {language === "한국어" ? "예" : "Yes"}
+                </Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.button} onPress={handleNo}>
-                <Text style={styles.buttonText}>아니요</Text>
+                <Text style={styles.buttonText}>
+                  {language === "한국어" ? "아니요" : "No"}
+                </Text>
               </TouchableOpacity>
             </View>
           </View>

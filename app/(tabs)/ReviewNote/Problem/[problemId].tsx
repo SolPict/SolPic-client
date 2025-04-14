@@ -11,11 +11,12 @@ import ResultModal from "@/components/ResultModal";
 import useClientStore from "@/store/store";
 import { COLORS } from "@/constants/colors";
 import { QUESTIONS } from "@/constants/modal_questions";
+import { ERROR_MESSAGES } from "@/constants/error_messages";
 
 export default function ProblemPage() {
   const { problemId } = useLocalSearchParams();
   const { getClientStatus } = useClientStore();
-  const { email } = getClientStatus();
+  const { email, language } = getClientStatus();
 
   const [selectedRadio, setSelectedRadio] = useState<number>(1);
   const [deleteModalVisible, setDeleteModalVisible] = useState<boolean>(false);
@@ -35,7 +36,11 @@ export default function ProblemPage() {
       setDeleteModalVisible(false);
       router.replace("(tabs)/ReviewNote");
     } catch (error) {
-      Alert.alert("리뷰를 삭제하지 못하였습니다.");
+      Alert.alert(
+        language === "한국어"
+          ? ERROR_MESSAGES.DELETE_FAIL.KO
+          : ERROR_MESSAGES.DELETE_FAIL.EN
+      );
       console.error(error);
     }
   };
@@ -55,7 +60,11 @@ export default function ProblemPage() {
       setIsAnswer(response.data.isAnswer);
       setResultModalVisible(true);
     } catch (error) {
-      Alert.alert("제출에 실패하였습니다.");
+      Alert.alert(
+        language === "한국어"
+          ? ERROR_MESSAGES.SUBMIT_FAIL.KO
+          : ERROR_MESSAGES.SUBMIT_FAIL.EN
+      );
       console.error(error);
     }
   };
@@ -69,7 +78,9 @@ export default function ProblemPage() {
           contentFit="contain"
         />
       </View>
-      <Text style={styles.radioTitle}>번호</Text>
+      <Text style={styles.radioTitle}>
+        {language === "한국어" ? "번호" : "Number"}
+      </Text>
       <RadioButton
         selectedRadio={selectedRadio}
         setSelectedRadio={setSelectedRadio}
@@ -80,10 +91,14 @@ export default function ProblemPage() {
           style={styles.deleteContainer}
           onPress={() => setDeleteModalVisible(true)}
         >
-          <Text style={styles.deleteText}>삭제</Text>
+          <Text style={styles.deleteText}>
+            {language === "한국어" ? "삭제" : "Delete"}
+          </Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.submitContainer} onPress={handleSubmit}>
-          <Text style={styles.submitText}>제출하기</Text>
+          <Text style={styles.submitText}>
+            {language === "한국어" ? "제출하기" : "Submit"}
+          </Text>
         </TouchableOpacity>
       </View>
 
@@ -92,8 +107,12 @@ export default function ProblemPage() {
           modalVisible={deleteModalVisible}
           setModalVisible={setDeleteModalVisible}
           onConfirm={deleteReviewNote}
-          title="확인"
-          message={QUESTIONS.DELETE}
+          title={language === "한국어" ? "확인" : "Confirm"}
+          message={
+            language === "한국어"
+              ? QUESTIONS.DELETE
+              : "Do you want to delete this review?"
+          }
         />
       )}
 
@@ -123,7 +142,7 @@ const styles = StyleSheet.create({
     height: "100%",
   },
   radioTitle: {
-    fontWeight: "800",
+    fontWeight: "700",
     fontSize: 20,
     margin: 20,
   },

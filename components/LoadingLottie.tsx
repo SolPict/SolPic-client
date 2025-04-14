@@ -1,7 +1,7 @@
 import loadingLottie from "../assets/lottie/loadingLottie.json";
 import LottieView from "lottie-react-native";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import useClientStore from "../store/store";
+import useClientStore from "@/store/store";
 import { COLORS } from "../constants/colors";
 import { router } from "expo-router";
 import { AntDesign } from "@expo/vector-icons";
@@ -12,7 +12,7 @@ interface LoadingLottieProps {
 
 export default function LoadingLottie({ goToAnswerPage }: LoadingLottieProps) {
   const { getClientStatus } = useClientStore();
-  const { loadingState } = getClientStatus();
+  const { loadingState, language } = getClientStatus();
 
   const isDisabled = loadingState === "loading";
 
@@ -30,7 +30,9 @@ export default function LoadingLottie({ goToAnswerPage }: LoadingLottieProps) {
         style={[styles.Button, isDisabled && styles.disabledButton]}
         onPress={goToAnswerPage}
       >
-        <Text style={styles.buttonText}>결과보기</Text>
+        <Text style={styles.buttonText}>
+          {language === "한국어" ? "결과보기" : "View Solution"}
+        </Text>
       </TouchableOpacity>
     </View>
   );

@@ -8,7 +8,8 @@ import HeaderLeftLogo from "@/components/HeaderLeftLogo";
 import HeaderRightLogo from "@/components/HeaderRightLogo";
 
 export default function TabLayout() {
-  const { setClientStatus } = useClientStore();
+  const { setClientStatus, getClientStatus } = useClientStore();
+  const { language } = getClientStatus();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -37,7 +38,7 @@ export default function TabLayout() {
         <Tabs.Screen
           name="Home"
           options={{
-            title: "홈",
+            title: language === "한국어" ? "홈" : "Home",
             headerTitle: "",
             headerLeft: HeaderLeftLogo,
             headerRight: HeaderRightLogo,
@@ -54,7 +55,7 @@ export default function TabLayout() {
         <Tabs.Screen
           name="ReviewNote"
           options={{
-            title: "리뷰노트",
+            title: language === "한국어" ? "리뷰노트" : "Review",
             headerTitle: "",
             headerLeft: HeaderLeftLogo,
             headerRight: HeaderRightLogo,

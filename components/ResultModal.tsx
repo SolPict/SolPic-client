@@ -4,7 +4,7 @@ import { COLORS } from "../constants/colors";
 import LottieView from "lottie-react-native";
 import correctLottie from "@/assets/lottie/correct.json";
 import wrongLottie from "@/assets/lottie/wrong.json";
-import { useCallback, useEffect } from "react";
+import useClientStore from "@/store/store";
 
 interface ResultModalProps {
   visible: boolean;
@@ -17,6 +17,7 @@ export default function ResultModal({
   setResultModalVisible,
   isCorrect,
 }: ResultModalProps) {
+  const { language } = useClientStore().getClientStatus();
   const { problemId } = useLocalSearchParams();
 
   const handleRetry = () => {
@@ -49,18 +50,28 @@ export default function ResultModal({
             style={styles.lottie}
           />
           <Text style={styles.resultText}>
-            {isCorrect ? "정답입니다!" : "틀렸습니다..."}
+            {isCorrect
+              ? language === "한국어"
+                ? "정답입니다!"
+                : "Correct!"
+              : language === "한국어"
+                ? "틀렸습니다..."
+                : "Incorrect..."}
           </Text>
 
           <View style={styles.buttonGroup}>
             <TouchableOpacity style={styles.button} onPress={handleRetry}>
-              <Text style={styles.buttonText}>다시 풀기</Text>
+              <Text style={styles.buttonText}>
+                {language === "한국어" ? "다시 풀기" : "Retry"}
+              </Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.button}
               onPress={handleViewSolution}
             >
-              <Text style={styles.buttonText}>풀이 보기</Text>
+              <Text style={styles.buttonText}>
+                {language === "한국어" ? "풀이 보기" : "View Solution"}
+              </Text>
             </TouchableOpacity>
           </View>
         </View>
