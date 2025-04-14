@@ -1,40 +1,64 @@
-import React from "react";
-import { View, StyleSheet, Text } from "react-native";
-import MathView from "react-native-math-view";
+import { WebView } from "react-native-webview";
+import { StyleSheet, View } from "react-native";
 
 interface LaTeXViewProps {
-  problemId: string;
-  children: string;
+  latex: string;
+  isWideBorder: boolean;
 }
 
-export default function LaTeXView({ problemId, children }: LaTeXViewProps) {
-  children = children.replace(/ +/g, " ").replaceAll("\\boxed", "$\\boxed");
+export default function LaTeXView({ latex, isWideBorder }: LaTeXViewProps) {
+  const fontSize = isWideBorder ? "1.7rem" : "1.6rem";
+  const containerHeight = isWideBorder ? 610 : 390;
+
+  const html = `
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <meta charset="UTF-8" />
+      <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      <style>
+        html, body {
+          margin: 0;
+          padding: 10px;
+          height: 100%;
+          width: 100%;
+          display: flex;
+          justify-content: start;
+          align-items: start;
+          font-size: ${fontSize};
+        }
+        #math {
+          text-align: left;
+          }
+          #math > mjx-container {
+            justify-content: flex-start !important;
+            text-align: left !important;
+        }
+      </style>
+    </head>
+    <body>
+      <div id="math">
+        ${latex}
+      </div>
+    </body>
+  </html>
+`;
 
   return (
-    <View style={styles.container}>
-      {children.split("$").map((sentence, index) => {
-        const korean = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
-
-        return korean.test(sentence) ? (
-          <Text style={styles.korText} key={problemId + index}>
-            {sentence.trim()}
-          </Text>
-        ) : (
-          <MathView key={problemId + index} math={sentence} />
-        );
-      })}
+    <View style={[styles.latexContainer, { height: containerHeight }]}>
+      <WebView
+        originWhitelist={["*"]}
+        source={{ html }}
+        javaScriptEnabled={true}
+        scrollEnabled={false}
+      />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    gap: 10,
-    margin: 10,
+  latexContainer: {
+    width: 350,
+    backgroundColor: "red",
   },
-  korText: {
-    width: "100%",
-  },
-  mathText: {},
 });
