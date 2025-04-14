@@ -104,9 +104,6 @@ export default function ProblemList({
 const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 20,
-    width: "100%",
-    height: "85%",
-    bottom: 20,
   },
   problemContainer: {
     backgroundColor: "white",
