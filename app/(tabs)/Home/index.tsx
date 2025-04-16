@@ -15,29 +15,42 @@ export default function Problems() {
   const [offset, setOffset] = useState<number>(0);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const sortedList = [...problemList].filter((problem) => {
-    if (sortType === "전체보기") {
-      return problem;
-    }
-
-    return problem.problemType === sortType;
-  });
-
-  const getProblemsList = async () => {
+  const getProblemsList = async (newSortType?: string) => {
     try {
       setIsLoading(true);
+
+      if (newSortType && newSortType !== sortType) {
+        setProblemList([]);
+        setOffset(0);
+        setSortType(newSortType);
+      }
+
+      if (!newSortType || newSortType === "전체보기") {
+      } else if (newSortType === "수와 연산") {
+        newSortType = "Number & Operation";
+      } else if (newSortType === "대수학") {
+        newSortType = "Algebra";
+      } else if (newSortType === "기하학") {
+        newSortType = "Geometry";
+      }
+
       const { data: problemImage } = await axios.get(
         process.env.EXPO_PUBLIC_SERVER_URL + "problems",
         {
           params: {
-            offset,
+            offset: newSortType ? 0 : offset,
             problemLimit: PROBLEM_LIMIT,
+            problemType: newSortType || sortType,
           },
         }
       );
 
       setOffset(problemImage["offset"]);
-      setProblemList(problemList.concat(...problemImage["image_list"]));
+      setProblemList((prev) =>
+        newSortType
+          ? problemImage["image_list"]
+          : prev.concat(...problemImage["image_list"])
+      );
     } catch (error) {
       Alert.alert(ERROR_MESSAGES.OCR_FAIL.KO);
       console.error("문제 데이터를 불러오는데 실패하였습니다.", error);
@@ -52,9 +65,12 @@ export default function Problems() {
 
   return (
     <SafeAreaView style={styles.mainContainor}>
-      <SortingScrollButton sortType={sortType} setSortType={setSortType} />
+      <SortingScrollButton
+        sortType={sortType}
+        setSortType={(selected) => getProblemsList(selected)}
+      />
       <ProblemList
-        problems={sortedList}
+        problems={problemList}
         prevPage="home"
         isLoading={isLoading}
         offset={offset}

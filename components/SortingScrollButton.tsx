@@ -1,21 +1,31 @@
 import { Pressable, ScrollView, StyleSheet, Text } from "react-native";
+import useClientStore from "@/store/store";
 
 interface SortingScrollButtonProps {
   sortType: string;
   setSortType: (sortType: string) => void;
 }
 
+const categoryLabels = {
+  한국어: ["전체보기", "수와 연산", "대수학", "기하학"],
+  English: ["All", "Number & Operation", "Algebra", "Geometry"],
+};
+
 export default function SortingScrollButton({
   sortType,
   setSortType,
 }: SortingScrollButtonProps) {
+  const { clientStatus } = useClientStore();
+  const selectedLanguage = clientStatus.language;
+  const labels = categoryLabels[selectedLanguage];
+
   return (
     <ScrollView
       horizontal={true}
       showsHorizontalScrollIndicator={false}
       style={styles.scrollContainer}
     >
-      {["전체보기", "수와 연산", "대수학", "기하학"].map((content) => {
+      {labels.map((content) => {
         return (
           <Pressable
             key={content}
@@ -48,12 +58,15 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
   },
   sortingButton: {
-    padding: 10,
-    height: 36,
+    display: "flex",
     justifyContent: "center",
-    borderRadius: 15,
-    marginHorizontal: 11.5,
+    alignItems: "center",
     marginVertical: 10,
+    paddingHorizontal: 10,
+    paddingVertical: 3,
+    height: 35,
+    borderRadius: 15,
+    marginHorizontal: 10,
   },
   activatedButton: {
     backgroundColor: "black",
