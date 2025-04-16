@@ -39,4 +39,16 @@ export const ERROR_MESSAGES = {
     KO: "리뷰노트 데이터를 가져오는데 실패하였습니다.",
     EN: "Failed to load review note data.",
   },
+  LOGOUT_SUCCESS: {
+    한국어: "정상적으로 로그아웃 되었습니다.",
+    English: "Successfully logged out.",
+  },
+  DELETE_SUCCESS: {
+    한국어: "정상적으로 회원탈퇴 되었습니다.",
+    English: "Successfully delete account.",
+  },
+  DELETE_ACCOUNT_FAIL: {
+    한국어: "회원탈퇴 중 오류가 발생했습니다.",
+    English: "Failed delete account.",
+  },
 };
