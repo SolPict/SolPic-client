@@ -2,14 +2,22 @@ import { Alert, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useState } from "react";
 import useClientStore from "@/store/store";
-import { signOut } from "firebase/auth";
+import {
+  EmailAuthProvider,
+  reauthenticateWithCredential,
+  signOut,
+} from "firebase/auth";
 import { auth } from "@/auth/firebaseConfig";
 import { router } from "expo-router";
 import axios from "axios";
 import { ERROR_MESSAGES } from "@/constants/error_messages";
+import PasswordModal from "./PasswordModal";
 
 export default function AccountMenu() {
   const [expanded, setExpanded] = useState(false);
+  const [passwordInput, setPasswordInput] = useState("");
+  const [showPasswordModal, setShowPasswordModal] = useState(false);
+
   const { getClientStatus, setClientStatus } = useClientStore();
   const { isLogin, language } = getClientStatus();
 
@@ -17,28 +25,59 @@ export default function AccountMenu() {
     signOut(auth);
     setClientStatus({ isLogin: true });
 
-    Alert.alert(ERROR_MESSAGES.LOGOUT_SUCCESS[language]);
+    Alert.alert(
+      ERROR_MESSAGES.LOGOUT_SUCCESS[language === "한국어" ? "KO" : "EN"]
+    );
     setExpanded(false);
   };
 
   const handleDeleteAccount = () => {
+    setShowPasswordModal(true);
+  };
+
+  const confirmDeleteAccount = () => {
     const currentUser = auth.currentUser;
 
-    currentUser
-      .delete()
-      .then(async () => {
-        Alert.alert(ERROR_MESSAGES.DELETE_SUCCESS[language]);
+    if (!passwordInput || !currentUser) {
+      Alert.alert("비밀번호를 입력해주세요.");
+      return;
+    }
 
-        await axios.delete(process.env.EXPO_PUBLIC_SERVER_URL + "users", {
-          data: { email: currentUser.email },
+    const credential = EmailAuthProvider.credential(
+      currentUser.email,
+      passwordInput
+    );
+
+    reauthenticateWithCredential(currentUser, credential)
+      .then(() => currentUser.delete())
+      .then(async () => {
+        Alert.alert(ERROR_MESSAGES.DELETE_SUCCESS[language === "한국어" ? "KO" : "EN"]);
+
+        await axios.delete(`${process.env.EXPO_PUBLIC_SERVER_URL}users`, {
+          params: { email: currentUser.email },
         });
+
+        setClientStatus({ isLogin: false });
+        router.replace("/");
       })
       .catch((error) => {
         console.error(error);
-        Alert.alert(ERROR_MESSAGES.DELETE_ACCOUNT_FAIL[language]);
+
+        if (error.code === "auth/wrong-password") {
+          Alert.alert("비밀번호가 올바르지 않습니다.");
+        } else if (error.code === "auth/requires-recent-login") {
+          Alert.alert(
+            "보안을 위해 다시 로그인해야 합니다.\n비밀번호를 입력해주세요."
+          );
+          setShowPasswordModal(true);
+        } else {
+          Alert.alert(ERROR_MESSAGES.DELETE_ACCOUNT_FAIL[language === "한국어" ? "KO" : "EN"]);
+        }
       })
       .finally(() => {
         setExpanded(false);
+        setShowPasswordModal(false);
+        setPasswordInput("");
       });
   };
 
@@ -60,6 +99,7 @@ export default function AccountMenu() {
           color="black"
         />
       </TouchableOpacity>
+
       {expanded && (
         <View style={styles.options}>
           <TouchableOpacity
@@ -78,6 +118,14 @@ export default function AccountMenu() {
           </TouchableOpacity>
         </View>
       )}
+
+      <PasswordModal
+        visible={showPasswordModal}
+        password={passwordInput}
+        setPassword={setPasswordInput}
+        onCancel={() => setShowPasswordModal(false)}
+        onConfirm={confirmDeleteAccount}
+      />
     </View>
   );
 }
