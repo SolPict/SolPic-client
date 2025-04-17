@@ -38,7 +38,7 @@ export default function AnswerPage() {
       return () => {
         setExplanation("");
       };
-    }, [problemId])
+    }, [problemId, language])
   );
 
   const getProblem = async () => {
