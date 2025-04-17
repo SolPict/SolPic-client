@@ -8,9 +8,7 @@ import { useFocusEffect } from "expo-router";
 import { ERROR_MESSAGES } from "@/constants/error_messages";
 
 const getErrorMessage = (language: string, key: keyof typeof ERROR_MESSAGES) =>
-  language === "한국어"
-    ? ERROR_MESSAGES[key].KO
-    : ERROR_MESSAGES[key].EN;
+  language === "한국어" ? ERROR_MESSAGES[key].KO : ERROR_MESSAGES[key].EN;
 
 export default function ReviewNote() {
   const [ReviewNote, setReviewNote] = useState([]);

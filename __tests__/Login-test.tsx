@@ -6,7 +6,7 @@ import {
 } from "@testing-library/react-native";
 import Login from "@/app/Login";
 import { Alert } from "react-native";
-import { LOGIN_ERROR_MESSAGE } from "@/constants/error_messages";
+import { ERROR_MESSAGES } from "@/constants/error_messages";
 
 describe("<Login />", () => {
   beforeEach(() => {
@@ -55,7 +55,7 @@ describe("<Login />", () => {
     fireEvent.press(screen.getByRole("button", { name: "로그인" }));
 
     await waitFor(() => {
-      expect(Alert.alert).toHaveBeenCalledWith(LOGIN_ERROR_MESSAGE);
+      expect(Alert.alert).toHaveBeenCalledWith(ERROR_MESSAGES.LOGIN);
     });
   });
 });

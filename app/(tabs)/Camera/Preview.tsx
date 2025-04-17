@@ -44,11 +44,10 @@ export default function AnalyzingProblem() {
       });
 
       const formData = new FormData();
-
       formData.append("file", {
         uri: savedImage.uri,
-        name: imageInfo.fileName,
-        type: imageInfo.mimeType,
+        name: imageInfo.fileName || "mathProblem.jpg",
+        type: imageInfo.mimeType || "image/jpeg",
       });
 
       const { data } = await axios.post(
@@ -64,12 +63,35 @@ export default function AnalyzingProblem() {
 
       setClientStatus({ AnalyzedProblem: { ...data } });
       setClientStatus({ loadingState: "complete" });
-    } catch (error) {
-      Alert.alert(
-        language === "한국어"
-          ? ERROR_MESSAGES.OCR_FAIL.KO
-          : ERROR_MESSAGES.OCR_FAIL.EN
-      );
+    } catch (error: any) {
+      const status = error?.response?.status;
+      const detail = error?.response?.data?.detail;
+
+      if (status === 400 && detail?.error === "수학 이미지가 아닙니다.") {
+        Alert.alert(
+          language === "한국어"
+            ? ERROR_MESSAGES.NOT_MATH_PROBLEM.KO
+            : ERROR_MESSAGES.NOT_MATH_PROBLEM.EN
+        );
+      } else if (status === 503) {
+        Alert.alert(
+          language === "한국어"
+            ? ERROR_MESSAGES.AI_SERVER_UNAVAILABLE.KO
+            : ERROR_MESSAGES.AI_SERVER_UNAVAILABLE.EN
+        );
+      } else if (status === 504) {
+        Alert.alert(
+          language === "한국어"
+            ? ERROR_MESSAGES.AI_TIMEOUT.KO
+            : ERROR_MESSAGES.AI_TIMEOUT.EN
+        );
+      } else {
+        Alert.alert(
+          language === "한국어"
+            ? ERROR_MESSAGES.OCR_FAIL.KO
+            : ERROR_MESSAGES.OCR_FAIL.EN
+        );
+      }
 
       setClientStatus({ loadingState: "pending" });
     }

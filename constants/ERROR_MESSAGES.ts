@@ -40,15 +40,27 @@ export const ERROR_MESSAGES = {
     EN: "Failed to load review note data.",
   },
   LOGOUT_SUCCESS: {
-    한국어: "정상적으로 로그아웃 되었습니다.",
-    English: "Successfully logged out.",
+    KO: "정상적으로 로그아웃 되었습니다.",
+    EN: "Successfully logged out.",
   },
   DELETE_SUCCESS: {
-    한국어: "정상적으로 회원탈퇴 되었습니다.",
-    English: "Successfully delete account.",
+    KO: "정상적으로 회원탈퇴 되었습니다.",
+    EN: "Successfully delete account.",
   },
   DELETE_ACCOUNT_FAIL: {
-    한국어: "회원탈퇴 중 오류가 발생했습니다.",
-    English: "Failed delete account.",
+    KO: "회원탈퇴 중 오류가 발생했습니다.",
+    EN: "Failed delete account.",
+  },
+  NOT_MATH_PROBLEM: {
+    KO: "수학 문제가 인식되지 않았습니다.\n다시 촬영해 주세요!",
+    EN: "Not recognized as a math problem.\nPlease try again!",
+  },
+  AI_SERVER_UNAVAILABLE: {
+    KO: "AI 서버가 일시적으로 사용 불가능합니다.\n잠시 후 다시 시도해주세요!",
+    EN: "The AI server is temporarily unavailable.\nPlease try again later.",
+  },
+  AI_TIMEOUT: {
+    KO: "AI 서버 요청이 시간 초과되었습니다.\n잠시 후 다시 시도해주세요!",
+    EN: "AI server request timed out.\nPlease try again later.",
   },
 };
