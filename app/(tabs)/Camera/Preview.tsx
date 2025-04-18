@@ -5,9 +5,14 @@ import { StatusBar } from "expo-status-bar";
 import axios from "axios";
 import rotateButton from "@/assets/rotate.png";
 import useClientStore from "@/store/store";
-import { useCallback, useState } from "react";
+import { useCallback, useState, useEffect } from "react";
 import NextButton from "@/components/NavigationButton";
-import { SaveFormat, useImageManipulator } from "expo-image-manipulator";
+import {
+  FlipType,
+  manipulateAsync,
+  SaveFormat,
+  useImageManipulator,
+} from "expo-image-manipulator";
 
 import { COLORS } from "@/constants/colors";
 import LoadingLottie from "@/components/LoadingLottie";
@@ -20,34 +25,53 @@ export default function AnalyzingProblem() {
   const [isFocused, setIsFocused] = useState<boolean>(true);
   const { getClientStatus, setClientStatus } = useClientStore();
   const { loadingState, AnalyzedProblem, language } = getClientStatus();
-  const manipulator = useImageManipulator(imageURI);
+  const context = useImageManipulator(imageURI);
+
+  useEffect(() => {
+    const resizeImage = async () => {
+      try {
+        const result = await manipulateAsync(
+          imageInfo.uri,
+          [{ resize: { width: 600 } }],
+          {
+            compress: 0.7,
+            format: SaveFormat.JPEG,
+          }
+        );
+        setImageURI(result.uri);
+      } catch (error) {
+        console.error("이미지 리사이징에 실패하셨습니다.", error);
+      }
+    };
+
+    if (imageInfo?.uri) {
+      resizeImage();
+    }
+  }, [imageInfo?.uri]);
 
   const rotate90andFlip = async () => {
-    manipulator.rotate(-90);
-    const result = await manipulator.renderAsync();
-    const savedImage = await result.saveAsync({
-      compress: 0.7,
-      format: SaveFormat.JPEG,
-    });
+    try {
+      context.rotate(-90);
+      const image = await context.renderAsync();
+      const result = await image.saveAsync({
+        format: SaveFormat.JPEG,
+      });
 
-    setImageURI(savedImage.uri);
+      setImageURI(result.uri);
+    } catch (error) {
+      console.error("이미지 회전 실패", error);
+    }
   };
 
   const analyzeProblemImage = async () => {
     try {
       setClientStatus({ loadingState: "loading" });
 
-      const result = await manipulator.renderAsync();
-      const savedImage = await result.saveAsync({
-        compress: 0.7,
-        format: SaveFormat.JPEG,
-      });
-
       const formData = new FormData();
       formData.append("file", {
-        uri: savedImage.uri,
-        name: imageInfo.fileName || "mathProblem.jpg",
-        type: imageInfo.mimeType || "image/jpeg",
+        uri: imageURI,
+        name: "mathProblem.jpg",
+        type: "image/jpeg",
       });
 
       const { data } = await axios.post(
@@ -61,8 +85,10 @@ export default function AnalyzingProblem() {
           : ERROR_MESSAGES.ANALYSIS_SUCCESS.EN
       );
 
-      setClientStatus({ AnalyzedProblem: { ...data } });
-      setClientStatus({ loadingState: "complete" });
+      setClientStatus({
+        AnalyzedProblem: { ...data },
+        loadingState: "complete",
+      });
     } catch (error: any) {
       const status = error?.response?.status;
       const detail = error?.response?.data?.detail;
@@ -102,19 +128,14 @@ export default function AnalyzingProblem() {
       "/(tabs)/Home/Answer/" + encodeURIComponent(AnalyzedProblem.key)
     );
 
-    setClientStatus({ loadingState: "pending" });
-    setClientStatus({ AnalyzedProblem: null });
+    setClientStatus({ loadingState: "pending", AnalyzedProblem: null });
   };
 
   useFocusEffect(
     useCallback(() => {
-      setImageURI(imageInfo.uri);
       setIsFocused(true);
-
-      return () => {
-        setIsFocused(false);
-      };
-    }, [imageInfo.uri])
+      return () => setIsFocused(false);
+    }, [])
   );
 
   if (loadingState !== "pending") {
