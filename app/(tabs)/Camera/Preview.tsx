@@ -8,7 +8,6 @@ import useClientStore from "@/store/store";
 import { useCallback, useState, useEffect } from "react";
 import NextButton from "@/components/NavigationButton";
 import {
-  FlipType,
   manipulateAsync,
   SaveFormat,
   useImageManipulator,
@@ -23,44 +22,42 @@ export default function AnalyzingProblem() {
   const imageInfo = JSON.parse(decodeURIComponent(image as string));
   const [imageURI, setImageURI] = useState<string>("");
   const [isFocused, setIsFocused] = useState<boolean>(true);
+  const [errorMessage, setErrorMessage] = useState<string>("");
   const { getClientStatus, setClientStatus } = useClientStore();
   const { loadingState, AnalyzedProblem, language } = getClientStatus();
   const context = useImageManipulator(imageURI);
+  const languageKey = language ? "KO" : "EN";
+
+  if (errorMessage) {
+    throw new Error(errorMessage);
+  }
 
   useEffect(() => {
     const resizeImage = async () => {
-      try {
-        const result = await manipulateAsync(
-          imageInfo.uri,
-          [{ resize: { width: 600 } }],
-          {
-            compress: 0.7,
-            format: SaveFormat.JPEG,
-          }
-        );
-        setImageURI(result.uri);
-      } catch (error) {
-        console.error("이미지 리사이징에 실패하셨습니다.", error);
-      }
+      const result = await manipulateAsync(
+        imageInfo.uri,
+        [{ resize: { width: 600 } }],
+        {
+          compress: 0.7,
+          format: SaveFormat.JPEG,
+        }
+      );
+      setImageURI(result.uri);
     };
 
-    if (imageInfo?.uri) {
+    if (imageInfo.uri) {
       resizeImage();
     }
-  }, [imageInfo?.uri]);
+  }, [imageInfo.uri]);
 
   const rotate90andFlip = async () => {
-    try {
-      context.rotate(-90);
-      const image = await context.renderAsync();
-      const result = await image.saveAsync({
-        format: SaveFormat.JPEG,
-      });
+    context.rotate(-90);
+    const image = await context.renderAsync();
+    const result = await image.saveAsync({
+      format: SaveFormat.JPEG,
+    });
 
-      setImageURI(result.uri);
-    } catch (error) {
-      console.error("이미지 회전 실패", error);
-    }
+    setImageURI(result.uri);
   };
 
   const analyzeProblemImage = async () => {
@@ -79,46 +76,32 @@ export default function AnalyzingProblem() {
         formData
       );
 
-      Alert.alert(
-        language === "한국어"
-          ? ERROR_MESSAGES.ANALYSIS_SUCCESS.KO
-          : ERROR_MESSAGES.ANALYSIS_SUCCESS.EN
-      );
+      Alert.alert(ERROR_MESSAGES.ANALYSIS_SUCCESS[languageKey]);
 
       setClientStatus({
         AnalyzedProblem: { ...data },
         loadingState: "complete",
       });
-    } catch (error: any) {
-      const status = error?.response?.status;
-      const detail = error?.response?.data?.detail;
+    } catch (error) {
+      const status = error.response.status;
 
-      if (status === 400 && detail?.error === "수학 이미지가 아닙니다.") {
-        Alert.alert(
-          language === "한국어"
-            ? ERROR_MESSAGES.NOT_MATH_PROBLEM.KO
-            : ERROR_MESSAGES.NOT_MATH_PROBLEM.EN
-        );
-      } else if (status === 503) {
-        Alert.alert(
-          language === "한국어"
-            ? ERROR_MESSAGES.AI_SERVER_UNAVAILABLE.KO
-            : ERROR_MESSAGES.AI_SERVER_UNAVAILABLE.EN
-        );
-      } else if (status === 504) {
-        Alert.alert(
-          language === "한국어"
-            ? ERROR_MESSAGES.AI_TIMEOUT.KO
-            : ERROR_MESSAGES.AI_TIMEOUT.EN
-        );
-      } else {
-        Alert.alert(
-          language === "한국어"
-            ? ERROR_MESSAGES.OCR_FAIL.KO
-            : ERROR_MESSAGES.OCR_FAIL.EN
-        );
+      let errorKey = "OCR_FAIL";
+
+      switch (status) {
+        case 400:
+          errorKey = "NOT_MATH_PROBLEM";
+          break;
+        case 503:
+          errorKey = "AI_SERVER_UNAVAILABLE";
+          break;
+        case 504:
+          errorKey = "AI_TIMEOUT";
+          break;
+        default:
+          errorKey = "OCR_FAIL";
       }
 
+      setErrorMessage(errorKey);
       setClientStatus({ loadingState: "pending" });
     }
   };
