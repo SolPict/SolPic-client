@@ -18,22 +18,22 @@
       [
         "expo-camera",
         {
-          "cameraPermission": "Allow Sol.Pic to access your camera",
-          "microphonePermission": "Allow Sol.Pic to access your microphone",
+          "cameraPermission": "Sol.Pic uses the camera to allow users to take pictures of math problems for AI-based analysis.",
+          "microphonePermission": "Sol.Pic uses the microphone when recording audio during problem explanation or notes.",
           "recordAudioAndroid": true
         }
       ],
       [
         "expo-image-picker",
         {
-          "photosPermission": "The app accesses your photos to let you share them with your friends."
+          "photosPermission": "Sol.Pic uses your photo library so you can select images of math problems to analyze with AI."
         }
       ],
       [
         "expo-media-library",
         {
-          "photosPermission": "Allow Sol.Pic to access your photos.",
-          "savePhotosPermission": "Allow Sol.Pic to save photos.",
+          "photosPermission": "Sol.Pic accesses your media library to let you pick math problem images for solving.",
+          "savePhotosPermission": "Sol.Pic saves processed math problem images and solutions to your gallery.",
           "isAccessMediaLocationEnabled": true
         }
       ],
