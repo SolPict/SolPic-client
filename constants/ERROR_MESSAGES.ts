@@ -15,6 +15,11 @@ export enum ErrorMessageKey {
   NOT_MATH_PROBLEM = "NOT_MATH_PROBLEM",
   AI_SERVER_UNAVAILABLE = "AI_SERVER_UNAVAILABLE",
   AI_TIMEOUT = "AI_TIMEOUT",
+  PHOTO_CAPTURE_FAIL = "PHOTO_CAPTURE_FAIL",
+  GALLERY_PERMISSION_REQUIRED = "GALLERY_PERMISSION_REQUIRED",
+  PERMISSION_DENIED = "PERMISSION_DENIED",
+  NO_IMAGES = "NO_IMAGES",
+  IMAGE_PICKER_FAIL = "IMAGE_PICKER_FAIL",
 }
 
 export const ERROR_MESSAGES = {
@@ -27,7 +32,7 @@ export const ERROR_MESSAGES = {
     EN: "Request Access",
   },
   [ErrorMessageKey.OCR_FAIL]: {
-    KO: "문제 분석 중 오류가 발생했습니다.\n 잠시 후 다시 시도해주세요!",
+    KO: "문제 분석 중 오류가 발생했습니다.\n잠시 후 다시 시도해주세요!",
     EN: "An error occurred while analyzing the problem.\nPlease try again later!",
   },
   [ErrorMessageKey.AI_REQUEST_FAIL]: {
@@ -64,11 +69,11 @@ export const ERROR_MESSAGES = {
   },
   [ErrorMessageKey.DELETE_SUCCESS]: {
     KO: "정상적으로 회원탈퇴 되었습니다.",
-    EN: "Successfully delete account.",
+    EN: "Successfully deleted account.",
   },
   [ErrorMessageKey.DELETE_ACCOUNT_FAIL]: {
     KO: "회원탈퇴 중 오류가 발생했습니다.",
-    EN: "Failed delete account.",
+    EN: "Failed to delete account.",
   },
   [ErrorMessageKey.NOT_MATH_PROBLEM]: {
     KO: "수학 문제가 인식되지 않았습니다.\n다시 촬영해 주세요!",
@@ -81,5 +86,25 @@ export const ERROR_MESSAGES = {
   [ErrorMessageKey.AI_TIMEOUT]: {
     KO: "AI 서버 요청이 시간 초과되었습니다.\n잠시 후 다시 시도해주세요!",
     EN: "AI server request timed out.\nPlease try again later.",
+  },
+  [ErrorMessageKey.PHOTO_CAPTURE_FAIL]: {
+    KO: "사진을 찍는 중 문제가 발생했습니다.",
+    EN: "An error occurred while taking a photo.",
+  },
+  [ErrorMessageKey.GALLERY_PERMISSION_REQUIRED]: {
+    KO: "갤러리 접근 권한이 필요합니다.",
+    EN: "Gallery access permission is required.",
+  },
+  [ErrorMessageKey.PERMISSION_DENIED]: {
+    KO: "갤러리 접근 권한이 거부되었습니다.",
+    EN: "Permission denied.",
+  },
+  [ErrorMessageKey.NO_IMAGES]: {
+    KO: "갤러리에 이미지가 없습니다.",
+    EN: "No images available in the gallery.",
+  },
+  [ErrorMessageKey.IMAGE_PICKER_FAIL]: {
+    KO: "이미지를 불러오는 데 실패했습니다.",
+    EN: "Failed to pick image from gallery.",
   },
 };

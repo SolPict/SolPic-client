@@ -1,7 +1,6 @@
 import axios from "axios";
 import { router, useFocusEffect, useLocalSearchParams } from "expo-router";
 import {
-  Alert,
   SafeAreaView,
   ScrollView,
   StyleSheet,
@@ -16,16 +15,20 @@ import { useState, useCallback } from "react";
 import { Image } from "expo-image";
 import ConfirmModal from "@/components/ConfirmModal";
 import { QUESTIONS } from "@/constants/modal_questions";
-import { ERROR_MESSAGES } from "@/constants/error_messages";
 import LaTeXView from "@/components/LaTeXView";
 
 export default function AnswerPage() {
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [isWideBorder, setIsWideBorder] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string>("");
   const [explanation, setExplanation] = useState<string>("");
   const { problemId } = useLocalSearchParams<{ problemId: string }>();
   const { getClientStatus } = useClientStore();
   const { email, isLogin, language } = getClientStatus();
+
+  if (errorMessage) {
+    throw new Error(errorMessage);
+  }
 
   const goToHome = () => {
     router.replace("/");
@@ -55,11 +58,7 @@ export default function AnswerPage() {
       setExplanation(data);
     } catch (error) {
       console.error(error);
-      Alert.alert(
-        language === "한국어"
-          ? ERROR_MESSAGES.OCR_FAIL.KO
-          : ERROR_MESSAGES.OCR_FAIL.EN
-      );
+      setErrorMessage("OCR_FAIL");
     }
   };
 
@@ -68,6 +67,7 @@ export default function AnswerPage() {
       const encodedProblemId = encodeURIComponent(
         JSON.stringify((problemId as string).split("/"))
       );
+
       await axios.post(
         `${process.env.EXPO_PUBLIC_SERVER_URL}problem/reviewNote/${encodedProblemId}`,
         {
@@ -77,19 +77,18 @@ export default function AnswerPage() {
 
       router.replace("/(tabs)/ReviewNote");
     } catch (error) {
-      if (!email) {
-        Alert.alert(
-          language === "한국어"
-            ? ERROR_MESSAGES.LOGIN.KO
-            : ERROR_MESSAGES.LOGIN.EN
-        );
-      } else {
-        Alert.alert(
-          language === "한국어"
-            ? ERROR_MESSAGES.SIGNUP.KO
-            : ERROR_MESSAGES.SIGNUP.EN
-        );
+      let errorKey: string;
+
+      switch (true) {
+        case !email:
+          errorKey = "LOGIN";
+          break;
+        default:
+          errorKey = "SIGNUP";
+          break;
       }
+
+      setErrorMessage(errorKey);
       console.error("리뷰 노트를 추가하지 못했습니다.", error);
     }
   };

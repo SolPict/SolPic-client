@@ -1,11 +1,9 @@
-import { StyleSheet, View } from "react-native";
-import { TouchableOpacity } from "react-native";
+import { StyleSheet, View, TouchableOpacity } from "react-native";
 import cameraImage from "../assets/photo_shot.png";
 import CameraBottomGallery from "./CameraBottomGallery";
 import { CameraView } from "expo-camera";
-import { MutableRefObject } from "react";
+import { MutableRefObject, useState } from "react";
 import { Image } from "expo-image";
-import useClientStore from "@/store/store";
 
 interface CameraBottomProps {
   setImage: (image: string) => void;
@@ -16,23 +14,23 @@ export default function CameraBottom({
   setImage,
   cameraRef,
 }: CameraBottomProps) {
-  const { language } = useClientStore().getClientStatus();
+  const [errorMessage, setErrorMessage] = useState("");
+
+  if (errorMessage) {
+    throw new Error(errorMessage);
+  }
+
   const takePhoto = async () => {
-    if (!cameraRef?.current) {
+    if (!cameraRef.current) {
       return;
     }
 
     try {
       const takedPhoto = await cameraRef.current.takePictureAsync();
-
       setImage(JSON.stringify(takedPhoto));
     } catch (error) {
-      console.error(
-        language === "한국어"
-          ? "사진 찍는 중 에러가 발생하였습니다."
-          : "An error occurred while taking a photo.",
-        error
-      );
+      console.error(error);
+      setErrorMessage("PHOTO_CAPTURE_FAIL");
     }
   };
 

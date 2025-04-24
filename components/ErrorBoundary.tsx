@@ -9,8 +9,7 @@ export function ErrorBoundary({ error, retry }: ErrorBoundaryProps) {
   const languageKey = language ? "KO" : "EN";
   const errorKey = error.message as ErrorMessageKey;
   const userMessage =
-    ERROR_MESSAGES[errorKey]?.[languageKey] ??
-    "알 수 없는 오류가 발생했습니다.";
+    ERROR_MESSAGES[errorKey][languageKey] ?? "알 수 없는 오류가 발생했습니다.";
 
   return (
     <View style={styles.container}>

@@ -30,8 +30,13 @@ export default function Login() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [IsLoginPage, setIsLoginPage] = useState<boolean>(true);
+  const [errorMessage, setErrorMessage] = useState<string>("");
   const { setClientStatus, getClientStatus } = useClientStore();
   const { language } = getClientStatus();
+
+  if (errorMessage) {
+    throw new Error(errorMessage);
+  }
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -52,7 +57,8 @@ export default function Login() {
     } catch (error) {
       if (error instanceof Error) {
         console.error(error.message);
-        Alert.alert(error.message);
+        setErrorMessage(error.message);
+        return;
       }
     }
 
@@ -72,11 +78,10 @@ export default function Login() {
 
       router.push("/");
     } catch (error) {
-      if (IsLoginPage) {
-        Alert.alert(ERROR_MESSAGES.LOGIN.KO);
-      } else {
-        Alert.alert(ERROR_MESSAGES.SIGNUP.KO);
-      }
+      console.error(error);
+
+      const errorKey = IsLoginPage ? "LOGIN" : "SIGNUP";
+      setErrorMessage(errorKey);
     }
   };
 

@@ -1,9 +1,6 @@
 import { SafeAreaView, StyleSheet } from "react-native";
-
 import { useEffect, useState } from "react";
-import { Alert } from "react-native";
 import axios from "axios";
-import { ERROR_MESSAGES } from "@/constants/error_messages";
 
 import SortingScrollButton from "@/components/SortingScrollButton";
 import ProblemList from "@/components/ProblemList";
@@ -14,6 +11,11 @@ export default function Problems() {
   const [sortType, setSortType] = useState<string>("전체보기");
   const [offset, setOffset] = useState<number>(0);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string>("");
+
+  if (errorMessage) {
+    throw new Error(errorMessage);
+  }
 
   const getProblemsList = async (newSortType?: string) => {
     try {
@@ -25,13 +27,16 @@ export default function Problems() {
         setSortType(newSortType);
       }
 
-      if (!newSortType || newSortType === "전체보기") {
-      } else if (newSortType === "수와 연산") {
-        newSortType = "Number & Operation";
-      } else if (newSortType === "대수학") {
-        newSortType = "Algebra";
-      } else if (newSortType === "기하학") {
-        newSortType = "Geometry";
+      switch (newSortType) {
+        case "수와 연산":
+          newSortType = "Number & Operation";
+          break;
+        case "대수학":
+          newSortType = "Algebra";
+          break;
+        case "기하학":
+          newSortType = "Geometry";
+          break;
       }
 
       const { data: problemImage } = await axios.get(
@@ -52,7 +57,7 @@ export default function Problems() {
           : prev.concat(...problemImage["image_list"])
       );
     } catch (error) {
-      Alert.alert(ERROR_MESSAGES.OCR_FAIL.KO);
+      setErrorMessage("OCR_FAIL");
       console.error("문제 데이터를 불러오는데 실패하였습니다.", error);
     } finally {
       setIsLoading(false);
@@ -75,7 +80,7 @@ export default function Problems() {
         isLoading={isLoading}
         offset={offset}
         getProblemsList={getProblemsList}
-      ></ProblemList>
+      />
     </SafeAreaView>
   );
 }

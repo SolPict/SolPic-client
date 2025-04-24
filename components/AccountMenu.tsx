@@ -1,4 +1,4 @@
-import { Alert, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useState } from "react";
 import useClientStore from "@/store/store";
@@ -10,24 +10,24 @@ import {
 import { auth } from "@/auth/firebaseConfig";
 import { router } from "expo-router";
 import axios from "axios";
-import { ERROR_MESSAGES } from "@/constants/error_messages";
 import PasswordModal from "./PasswordModal";
 
 export default function AccountMenu() {
   const [expanded, setExpanded] = useState(false);
   const [passwordInput, setPasswordInput] = useState("");
   const [showPasswordModal, setShowPasswordModal] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const { getClientStatus, setClientStatus } = useClientStore();
   const { isLogin, language } = getClientStatus();
 
+  if (errorMessage) {
+    throw new Error(errorMessage);
+  }
+
   const handleLoginAndLogout = () => {
     signOut(auth);
     setClientStatus({ isLogin: true });
-
-    Alert.alert(
-      ERROR_MESSAGES.LOGOUT_SUCCESS[language === "한국어" ? "KO" : "EN"]
-    );
     setExpanded(false);
   };
 
@@ -35,50 +35,48 @@ export default function AccountMenu() {
     setShowPasswordModal(true);
   };
 
-  const confirmDeleteAccount = () => {
+  const confirmDeleteAccount = async () => {
     const currentUser = auth.currentUser;
 
     if (!passwordInput || !currentUser) {
-      Alert.alert("비밀번호를 입력해주세요.");
+      setErrorMessage("PASSWORD_REQUIRED");
       return;
     }
 
     const credential = EmailAuthProvider.credential(
-      currentUser.email,
+      currentUser.email!,
       passwordInput
     );
 
-    reauthenticateWithCredential(currentUser, credential)
-      .then(() => currentUser.delete())
-      .then(async () => {
-        Alert.alert(ERROR_MESSAGES.DELETE_SUCCESS[language === "한국어" ? "KO" : "EN"]);
+    try {
+      await reauthenticateWithCredential(currentUser, credential);
+      await currentUser.delete();
 
-        await axios.delete(`${process.env.EXPO_PUBLIC_SERVER_URL}users`, {
-          params: { email: currentUser.email },
-        });
-
-        setClientStatus({ isLogin: false });
-        router.replace("/");
-      })
-      .catch((error) => {
-        console.error(error);
-
-        if (error.code === "auth/wrong-password") {
-          Alert.alert("비밀번호가 올바르지 않습니다.");
-        } else if (error.code === "auth/requires-recent-login") {
-          Alert.alert(
-            "보안을 위해 다시 로그인해야 합니다.\n비밀번호를 입력해주세요."
-          );
-          setShowPasswordModal(true);
-        } else {
-          Alert.alert(ERROR_MESSAGES.DELETE_ACCOUNT_FAIL[language === "한국어" ? "KO" : "EN"]);
-        }
-      })
-      .finally(() => {
-        setExpanded(false);
-        setShowPasswordModal(false);
-        setPasswordInput("");
+      await axios.delete(`${process.env.EXPO_PUBLIC_SERVER_URL}users`, {
+        params: { email: currentUser.email },
       });
+
+      setClientStatus({ isLogin: false });
+      router.replace("/");
+    } catch (error) {
+      console.error(error);
+
+      switch (error.code) {
+        case "auth/wrong-password":
+          setErrorMessage("WRONG_PASSWORD");
+          break;
+        case "auth/requires-recent-login":
+          setErrorMessage("REAUTHENTICATION_REQUIRED");
+          setShowPasswordModal(true);
+          break;
+        default:
+          setErrorMessage("DELETE_ACCOUNT_FAIL");
+      }
+    } finally {
+      setExpanded(false);
+      setShowPasswordModal(false);
+      setPasswordInput("");
+    }
   };
 
   return (
@@ -89,7 +87,6 @@ export default function AccountMenu() {
             router.push("Login");
             return;
           }
-
           setExpanded(!expanded);
         }}
       >
@@ -107,14 +104,18 @@ export default function AccountMenu() {
             style={styles.optionItem}
             onPress={handleLoginAndLogout}
           >
-            <Text style={styles.SortingText}>로그아웃</Text>
+            <Text style={styles.SortingText}>
+              {language === "한국어" ? "로그아웃" : "logOut"}
+            </Text>
           </TouchableOpacity>
           <TouchableOpacity
             activeOpacity={0.8}
             style={styles.optionItem}
             onPress={handleDeleteAccount}
           >
-            <Text style={styles.SortingText}>회원탈퇴</Text>
+            <Text style={styles.SortingText}>
+              {language === "한국어" ? "회원탈퇴" : "Delete Account"}
+            </Text>
           </TouchableOpacity>
         </View>
       )}

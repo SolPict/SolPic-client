@@ -11,7 +11,6 @@ import ResultModal from "@/components/ResultModal";
 import useClientStore from "@/store/store";
 import { COLORS } from "@/constants/colors";
 import { QUESTIONS } from "@/constants/modal_questions";
-import { ERROR_MESSAGES } from "@/constants/error_messages";
 
 export default function ProblemPage() {
   const { problemId } = useLocalSearchParams();
@@ -21,7 +20,12 @@ export default function ProblemPage() {
   const [selectedRadio, setSelectedRadio] = useState<number>(1);
   const [deleteModalVisible, setDeleteModalVisible] = useState<boolean>(false);
   const [resultModalVisible, setResultModalVisible] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string>("");
   const [isAnswer, setIsAnswer] = useState<boolean>(false);
+
+  if (errorMessage) {
+    throw new Error(errorMessage);
+  }
 
   const deleteReviewNote = async () => {
     try {
@@ -36,12 +40,8 @@ export default function ProblemPage() {
       setDeleteModalVisible(false);
       router.replace("(tabs)/ReviewNote");
     } catch (error) {
-      Alert.alert(
-        language === "한국어"
-          ? ERROR_MESSAGES.DELETE_FAIL.KO
-          : ERROR_MESSAGES.DELETE_FAIL.EN
-      );
       console.error(error);
+      setErrorMessage("DELETE_FAIL");
     }
   };
 
@@ -60,12 +60,8 @@ export default function ProblemPage() {
       setIsAnswer(response.data.isAnswer);
       setResultModalVisible(true);
     } catch (error) {
-      Alert.alert(
-        language === "한국어"
-          ? ERROR_MESSAGES.SUBMIT_FAIL.KO
-          : ERROR_MESSAGES.SUBMIT_FAIL.EN
-      );
       console.error(error);
+      setErrorMessage("SUBMIT_FAIL");
     }
   };
 

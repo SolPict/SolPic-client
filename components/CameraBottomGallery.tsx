@@ -1,16 +1,18 @@
 import { router } from "expo-router";
 import { useEffect, useState } from "react";
-import { Alert } from "react-native";
 import { StyleSheet, TouchableOpacity } from "react-native";
 import * as MediaLibrary from "expo-media-library";
 import * as ImagePicker from "expo-image-picker";
 import { Image } from "expo-image";
-import useClientStore from "@/store/store";
 
 export default function CameraBottomGallery() {
   const [firstImage, setFirstImage] = useState<string>("");
   const [permissionGranted, setPermissionGranted] = useState<boolean>(false);
-  const { language } = useClientStore().getClientStatus();
+  const [errorMessage, setErrorMessage] = useState<string>("");
+
+  if (errorMessage) {
+    throw new Error(errorMessage);
+  }
 
   useEffect(() => {
     const getPermission = async () => {
@@ -19,11 +21,7 @@ export default function CameraBottomGallery() {
       if (status === "granted") {
         setPermissionGranted(true);
       } else {
-        Alert.alert(
-          language === "한국어"
-            ? "갤러리 접근 권한이 필요합니다."
-            : "Gallery access permission is required."
-        );
+        setErrorMessage("GALLERY_PERMISSION_REQUIRED");
       }
     };
 
@@ -38,9 +36,7 @@ export default function CameraBottomGallery() {
 
   const getFirstImage = async () => {
     if (!permissionGranted) {
-      Alert.alert(
-        language === "한국어" ? "권한이 없습니다." : "Permission denied."
-      );
+      setErrorMessage("PERMISSION_DENIED");
       return;
     }
 
@@ -58,29 +54,30 @@ export default function CameraBottomGallery() {
         setFirstImage(assetInfo.localUri);
       }
     } else {
-      Alert.alert(
-        language === "한국어"
-          ? "갤러리에 이미지가 없습니다."
-          : "No images available in the gallery."
-      );
+      setErrorMessage("NO_IMAGES");
     }
   };
 
   const uploadImage = async () => {
-    const { assets } = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ["images"],
-      aspect: [4, 3],
-      quality: 1,
-      allowsEditing: true,
-    });
-
-    if (assets) {
-      router.replace({
-        pathname: "/(tabs)/Camera/Preview",
-        params: {
-          image: JSON.stringify(assets[0]),
-        },
+    try {
+      const { assets } = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ["images"],
+        aspect: [4, 3],
+        quality: 1,
+        allowsEditing: true,
       });
+
+      if (assets && assets.length > 0) {
+        router.replace({
+          pathname: "/(tabs)/Camera/Preview",
+          params: {
+            image: JSON.stringify(assets[0]),
+          },
+        });
+      }
+    } catch (error) {
+      console.error(error);
+      setErrorMessage("IMAGE_PICKER_FAIL");
     }
   };
 

@@ -1,7 +1,9 @@
 import axios from "axios";
 import { router } from "expo-router";
-import { Alert, StyleSheet, Text, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, TouchableOpacity } from "react-native";
 import useClientStore from "../store/store";
+import { useState } from "react";
+import { ErrorMessageKey } from "@/constants/error_messages";
 
 interface ReviewButtonProps {
   problemId: string;
@@ -14,25 +16,25 @@ export default function ReviewButton({
 }: ReviewButtonProps) {
   const { getClientStatus } = useClientStore();
   const { email, language } = getClientStatus();
+  const [errorMessage, setErrorMessage] = useState("");
+
+  if (errorMessage) {
+    throw new Error(errorMessage);
+  }
 
   const addReviewNote = async () => {
     try {
-      const result = await axios.post(
-        process.env.EXPO_PUBLIC_SERVER_URL + "problem/reviewNote/" + problemId,
+      await axios.post(
+        `${process.env.EXPO_PUBLIC_SERVER_URL}problem/reviewNote/${problemId}`,
         {
           email,
           chosenAnswer,
         }
       );
-
       router.push("/Home");
     } catch (error) {
-      Alert.alert(
-        language === "한국어"
-          ? "리뷰노트 추가하는데 문제가 발생하였습니다."
-          : "Failed to add review note."
-      );
-      console.error("리뷰노트 추가하는데 문제가 발생하였습니다.", error);
+      console.error("리뷰노트 추가 실패", error);
+      setErrorMessage(ErrorMessageKey.REVIEWNOTE_FAIL);
     }
   };
 
