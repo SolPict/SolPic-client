@@ -12,36 +12,40 @@ import {
   SaveFormat,
   useImageManipulator,
 } from "expo-image-manipulator";
+import * as FileSystem from "expo-file-system";
 
 import { COLORS } from "@/constants/colors";
 import LoadingLottie from "@/components/LoadingLottie";
 import { ERROR_MESSAGES } from "@/constants/error_messages";
+import getDeviceId from "@/utils/getDeviceId";
 
 export default function AnalyzingProblem() {
   const { image } = useLocalSearchParams();
   const imageInfo = JSON.parse(decodeURIComponent(image as string));
   const [imageURI, setImageURI] = useState<string>("");
   const [isFocused, setIsFocused] = useState<boolean>(true);
-  const [errorMessage, setErrorMessage] = useState<string>("");
   const { getClientStatus, setClientStatus } = useClientStore();
   const { loadingState, AnalyzedProblem, language } = getClientStatus();
   const context = useImageManipulator(imageURI);
   const languageKey = language ? "KO" : "EN";
-
-  if (errorMessage) {
-    throw new Error(errorMessage);
-  }
 
   useEffect(() => {
     const resizeImage = async () => {
       const result = await manipulateAsync(
         imageInfo.uri,
         [{ resize: { width: 600 } }],
-        {
-          compress: 0.7,
-          format: SaveFormat.JPEG,
-        }
+        { compress: 0.7, format: SaveFormat.JPEG }
       );
+
+      if (!result.uri) {
+        throw new Error("이미지 저장 실패");
+      }
+
+      const info = await FileSystem.getInfoAsync(result.uri);
+      if (!info.exists) {
+        throw new Error("파일이 존재하지 않습니다.");
+      }
+
       setImageURI(result.uri);
     };
 
@@ -71,9 +75,15 @@ export default function AnalyzingProblem() {
         type: "image/jpeg",
       });
 
+      const deviceId = await getDeviceId();
       const { data } = await axios.post(
         `${process.env.EXPO_PUBLIC_SERVER_URL}problem/analyze`,
-        formData
+        formData,
+        {
+          headers: {
+            "Device-Id": deviceId || "unknown-device",
+          },
+        }
       );
 
       Alert.alert(ERROR_MESSAGES.ANALYSIS_SUCCESS[languageKey]);
@@ -83,26 +93,10 @@ export default function AnalyzingProblem() {
         loadingState: "complete",
       });
     } catch (error) {
-      const status = error.response.status;
+      console.log(error);
 
-      let errorKey = "OCR_FAIL";
-
-      switch (status) {
-        case 400:
-          errorKey = "NOT_MATH_PROBLEM";
-          break;
-        case 503:
-          errorKey = "AI_SERVER_UNAVAILABLE";
-          break;
-        case 504:
-          errorKey = "AI_TIMEOUT";
-          break;
-        default:
-          errorKey = "OCR_FAIL";
-      }
-
-      setErrorMessage(errorKey);
       setClientStatus({ loadingState: "pending" });
+      throw error;
     }
   };
 
