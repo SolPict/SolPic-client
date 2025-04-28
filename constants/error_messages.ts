@@ -20,6 +20,8 @@ export enum ErrorMessageKey {
   PERMISSION_DENIED = "PERMISSION_DENIED",
   NO_IMAGES = "NO_IMAGES",
   IMAGE_PICKER_FAIL = "IMAGE_PICKER_FAIL",
+  PROBLEM_LIST_FAIL = "PROBLEM_LIST_FAIL",
+  RATE_LIMIT_EXCEEDED = "RATE_LIMIT_EXCEEDED",
 }
 
 export const ERROR_MESSAGES = {
@@ -106,5 +108,13 @@ export const ERROR_MESSAGES = {
   [ErrorMessageKey.IMAGE_PICKER_FAIL]: {
     KO: "이미지를 불러오는 데 실패했습니다.",
     EN: "Failed to pick image from gallery.",
+  },
+  [ErrorMessageKey.PROBLEM_LIST_FAIL]: {
+    KO: "문제 데이터를 불러오는데 실패했습니다.",
+    EN: "Failed to load problem data.",
+  },
+  [ErrorMessageKey.RATE_LIMIT_EXCEEDED]: {
+    KO: "요청 횟수를 초과했습니다.",
+    EN: "Request limit exceeded.",
   },
 };

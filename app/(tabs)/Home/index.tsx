@@ -5,6 +5,7 @@ import axios from "axios";
 import SortingScrollButton from "@/components/SortingScrollButton";
 import ProblemList from "@/components/ProblemList";
 import { PROBLEM_LIMIT } from "@/constants/page_limit";
+import { ErrorMessageKey } from "@/constants/error_messages";
 
 export default function Problems() {
   const [problemList, setProblemList] = useState([]);
@@ -57,7 +58,7 @@ export default function Problems() {
           : prev.concat(...problemImage["image_list"])
       );
     } catch (error) {
-      setErrorMessage("OCR_FAIL");
+      setErrorMessage(ErrorMessageKey.PROBLEM_LIST_FAIL);
       console.error("문제 데이터를 불러오는데 실패하였습니다.", error);
     } finally {
       setIsLoading(false);
