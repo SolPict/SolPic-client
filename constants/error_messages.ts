@@ -114,7 +114,7 @@ export const ERROR_MESSAGES = {
     EN: "Failed to load problem data.",
   },
   [ErrorMessageKey.RATE_LIMIT_EXCEEDED]: {
-    KO: "요청 횟수를 초과했습니다.",
-    EN: "Request limit exceeded.",
+    KO: "기기당 API 호출 횟수가 10회를 초과했습니다. 잠시 후 다시 시도해주세요.",
+    EN: "You have exceeded the API call limit of 10 requests per device. Please try again later.",
   },
 };
