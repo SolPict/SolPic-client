@@ -20,8 +20,7 @@
     "ios-simulator": {
       "extends": "development",
       "ios": {
-        "simulator": true,
-        "buildNumber": "2"
+        "simulator": true
       },
       "environment": "development"
     }

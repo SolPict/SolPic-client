@@ -50,6 +50,7 @@
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "com.anonymous.solpic",
+      "buildNumber": "2",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
       }
