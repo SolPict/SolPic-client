@@ -11,35 +11,42 @@
   <a href="https://catnip-puppy-52c.notion.site/0f30ccd74be94f7cb0b00c4bca706361?pvs=4">노션 </a>
 </div>
 
+<br>
+
+<a href="https://apps.apple.com/us/app/sol-pic/id6743796011">앱 스토어에서 다운로드 받기</a>
+
 ## 구성
 
 <!-- toc -->
 
-- [분석과정](#%EB%B6%84%EC%84%9D%EA%B3%BC%EC%A0%95)
-- [미리보기](#%EB%AF%B8%EB%A6%AC%EB%B3%B4%EA%B8%B0)
-  - [다양한 문제 제공](#%EB%8B%A4%EC%96%91%ED%95%9C-%EB%AC%B8%EC%A0%9C-%EC%A0%9C%EA%B3%B5)
-  - [문제풀이 기능](#%EB%AC%B8%EC%A0%9C%ED%92%80%EC%9D%B4-%EA%B8%B0%EB%8A%A5)
-  - [리뷰노트 서비스 제공](#%EB%A6%AC%EB%B7%B0%EB%85%B8%ED%8A%B8-%EC%84%9C%EB%B9%84%EC%8A%A4-%EC%A0%9C%EA%B3%B5)
-- [기술 스택](#%EA%B8%B0%EC%88%A0-%EC%8A%A4%ED%83%9D)
-  - [프론트엔드](#%ED%94%84%EB%A1%A0%ED%8A%B8%EC%97%94%EB%93%9C)
-  - [백엔드](#%EB%B0%B1%EC%97%94%EB%93%9C)
-    - [기술선택이유](#%EA%B8%B0%EC%88%A0%EC%84%A0%ED%83%9D%EC%9D%B4%EC%9C%A0)
-
-* [진행 과정](#%EC%A7%84%ED%96%89-%EA%B3%BC%EC%A0%95)
-  - [사전 설명](#%EC%82%AC%EC%A0%84-%EC%84%A4%EB%AA%85)
-    - [딥러닝 모델이 "사고"해서 수학문제를 풀 수 있을까?](#%EB%94%A5%EB%9F%AC%EB%8B%9D-%EB%AA%A8%EB%8D%B8%EC%9D%B4-%EC%82%AC%EA%B3%A0%ED%95%B4%EC%84%9C-%EC%88%98%ED%95%99%EB%AC%B8%EC%A0%9C%EB%A5%BC-%ED%92%80-%EC%88%98-%EC%9E%88%EC%9D%84%EA%B9%8C)
-    - [기존 수학 문제 풀어주는 AI의 해결과정](#%EA%B8%B0%EC%A1%B4-%EC%88%98%ED%95%99-%EB%AC%B8%EC%A0%9C-%ED%92%80%EC%96%B4%EC%A3%BC%EB%8A%94-ai%EC%9D%98-%ED%95%B4%EA%B2%B0%EA%B3%BC%EC%A0%95)
-* [문제, 해결방안](#%EB%AC%B8%EC%A0%9C-%ED%95%B4%EA%B2%B0%EB%B0%A9%EC%95%88)
-  - [1. 이미지 인식에서 도전 과제](#1-%EC%9D%B4%EB%AF%B8%EC%A7%80-%EC%9D%B8%EC%8B%9D%EC%97%90%EC%84%9C-%EB%8F%84%EC%A0%84-%EA%B3%BC%EC%A0%9C)
-    - [1-1. 수식으로 인한 이미지 분석(OCR) 과정의 어려움](#1-1-%EC%88%98%EC%8B%9D%EC%9C%BC%EB%A1%9C-%EC%9D%B8%ED%95%9C-%EC%9D%B4%EB%AF%B8%EC%A7%80-%EB%B6%84%EC%84%9Docr-%EA%B3%BC%EC%A0%95%EC%9D%98-%EC%96%B4%EB%A0%A4%EC%9B%80)
-  - [2. 딥러닝 모델 적용까지 도전과제](#2-%EB%94%A5%EB%9F%AC%EB%8B%9D-%EB%AA%A8%EB%8D%B8-%EC%A0%81%EC%9A%A9%EA%B9%8C%EC%A7%80-%EB%8F%84%EC%A0%84%EA%B3%BC%EC%A0%9C)
-    - [2-1. 모델 새로 만들기 vs. 학습된 모델 활용하기](#2-1-%EB%AA%A8%EB%8D%B8-%EC%83%88%EB%A1%9C-%EB%A7%8C%EB%93%A4%EA%B8%B0-vs-%ED%95%99%EC%8A%B5%EB%90%9C-%EB%AA%A8%EB%8D%B8-%ED%99%9C%EC%9A%A9%ED%95%98%EA%B8%B0)
-  - [3. 딥러닝 모델 적용 후 도전과제](#3-%EB%94%A5%EB%9F%AC%EB%8B%9D-%EB%AA%A8%EB%8D%B8-%EC%A0%81%EC%9A%A9-%ED%9B%84-%EB%8F%84%EC%A0%84%EA%B3%BC%EC%A0%9C)
-    - [3-1. 수학 문제 해결을 위한 고성능 그래픽 카드(GPU)의 필요성](#3-1-%EC%88%98%ED%95%99-%EB%AC%B8%EC%A0%9C-%ED%95%B4%EA%B2%B0%EC%9D%84-%EC%9C%84%ED%95%9C-%EA%B3%A0%EC%84%B1%EB%8A%A5-%EA%B7%B8%EB%9E%98%ED%94%BD-%EC%B9%B4%EB%93%9Cgpu%EC%9D%98-%ED%95%84%EC%9A%94%EC%84%B1)
-    - [3-2. 고성능 GPU 없는 개발 환경에서 개발하기](#3-2-%EA%B3%A0%EC%84%B1%EB%8A%A5-gpu-%EC%97%86%EB%8A%94-%EA%B0%9C%EB%B0%9C-%ED%99%98%EA%B2%BD%EC%97%90%EC%84%9C-%EA%B0%9C%EB%B0%9C%ED%95%98%EA%B8%B0)
-  - [4. 딥러닝 모델 정확도 향상 전략](#4-%EB%94%A5%EB%9F%AC%EB%8B%9D-%EB%AA%A8%EB%8D%B8-%EC%A0%95%ED%99%95%EB%8F%84-%ED%96%A5%EC%83%81-%EC%A0%84%EB%9E%B5)
-    - [4-1. 딥러닝 모델의 성능을 높이는 이미지 처리 전략](#4-1-%EB%94%A5%EB%9F%AC%EB%8B%9D-%EB%AA%A8%EB%8D%B8%EC%9D%98-%EC%84%B1%EB%8A%A5%EC%9D%84-%EB%86%92%EC%9D%B4%EB%8A%94-%EC%9D%B4%EB%AF%B8%EC%A7%80-%EC%B2%98%EB%A6%AC-%EC%A0%84%EB%9E%B5)
-    - [4-2. 딥러닝 모델의 언어 최적화 전략](#4-2-%EB%94%A5%EB%9F%AC%EB%8B%9D-%EB%AA%A8%EB%8D%B8%EC%9D%98-%EC%96%B8%EC%96%B4-%EC%B5%9C%EC%A0%81%ED%99%94-%EC%A0%84%EB%9E%B5)
+  * [분석과정](#%EB%B6%84%EC%84%9D%EA%B3%BC%EC%A0%95)
+  * [미리보기](#%EB%AF%B8%EB%A6%AC%EB%B3%B4%EA%B8%B0)
+    + [다양한 문제 제공](#%EB%8B%A4%EC%96%91%ED%95%9C-%EB%AC%B8%EC%A0%9C-%EC%A0%9C%EA%B3%B5)
+    + [문제풀이 기능](#%EB%AC%B8%EC%A0%9C%ED%92%80%EC%9D%B4-%EA%B8%B0%EB%8A%A5)
+    + [리뷰노트 서비스 제공](#%EB%A6%AC%EB%B7%B0%EB%85%B8%ED%8A%B8-%EC%84%9C%EB%B9%84%EC%8A%A4-%EC%A0%9C%EA%B3%B5)
+  * [기술 스택](#%EA%B8%B0%EC%88%A0-%EC%8A%A4%ED%83%9D)
+    + [프론트엔드](#%ED%94%84%EB%A1%A0%ED%8A%B8%EC%97%94%EB%93%9C)
+    + [백엔드](#%EB%B0%B1%EC%97%94%EB%93%9C)
+    + [기술선택이유](#%EA%B8%B0%EC%88%A0%EC%84%A0%ED%83%9D%EC%9D%B4%EC%9C%A0)
+- [진행 과정](#%EC%A7%84%ED%96%89-%EA%B3%BC%EC%A0%95)
+  * [사전 설명](#%EC%82%AC%EC%A0%84-%EC%84%A4%EB%AA%85)
+    + [딥러닝 모델이 "사고"해서 수학문제를 풀 수 있을까?](#%EB%94%A5%EB%9F%AC%EB%8B%9D-%EB%AA%A8%EB%8D%B8%EC%9D%B4-%EC%82%AC%EA%B3%A0%ED%95%B4%EC%84%9C-%EC%88%98%ED%95%99%EB%AC%B8%EC%A0%9C%EB%A5%BC-%ED%92%80-%EC%88%98-%EC%9E%88%EC%9D%84%EA%B9%8C)
+    + [기존 수학 문제 풀어주는 AI의 해결과정](#%EA%B8%B0%EC%A1%B4-%EC%88%98%ED%95%99-%EB%AC%B8%EC%A0%9C-%ED%92%80%EC%96%B4%EC%A3%BC%EB%8A%94-ai%EC%9D%98-%ED%95%B4%EA%B2%B0%EA%B3%BC%EC%A0%95)
+- [문제, 해결방안](#%EB%AC%B8%EC%A0%9C-%ED%95%B4%EA%B2%B0%EB%B0%A9%EC%95%88)
+  * [1. 이미지 인식에서 도전 과제](#1-%EC%9D%B4%EB%AF%B8%EC%A7%80-%EC%9D%B8%EC%8B%9D%EC%97%90%EC%84%9C-%EB%8F%84%EC%A0%84-%EA%B3%BC%EC%A0%9C)
+    + [1-1. 수식으로 인한 이미지 분석(OCR) 과정의 어려움](#1-1-%EC%88%98%EC%8B%9D%EC%9C%BC%EB%A1%9C-%EC%9D%B8%ED%95%9C-%EC%9D%B4%EB%AF%B8%EC%A7%80-%EB%B6%84%EC%84%9Docr-%EA%B3%BC%EC%A0%95%EC%9D%98-%EC%96%B4%EB%A0%A4%EC%9B%80)
+  * [2. 딥러닝 모델 적용까지 도전과제](#2-%EB%94%A5%EB%9F%AC%EB%8B%9D-%EB%AA%A8%EB%8D%B8-%EC%A0%81%EC%9A%A9%EA%B9%8C%EC%A7%80-%EB%8F%84%EC%A0%84%EA%B3%BC%EC%A0%9C)
+    + [2-1. 모델 새로 만들기 vs. 학습된 모델 활용하기](#2-1-%EB%AA%A8%EB%8D%B8-%EC%83%88%EB%A1%9C-%EB%A7%8C%EB%93%A4%EA%B8%B0-vs-%ED%95%99%EC%8A%B5%EB%90%9C-%EB%AA%A8%EB%8D%B8-%ED%99%9C%EC%9A%A9%ED%95%98%EA%B8%B0)
+  * [3. 딥러닝 모델 적용 후 도전과제](#3-%EB%94%A5%EB%9F%AC%EB%8B%9D-%EB%AA%A8%EB%8D%B8-%EC%A0%81%EC%9A%A9-%ED%9B%84-%EB%8F%84%EC%A0%84%EA%B3%BC%EC%A0%9C)
+    + [3-1. 수학 문제 해결을 위한 고성능 그래픽 카드(GPU)의 필요성](#3-1-%EC%88%98%ED%95%99-%EB%AC%B8%EC%A0%9C-%ED%95%B4%EA%B2%B0%EC%9D%84-%EC%9C%84%ED%95%9C-%EA%B3%A0%EC%84%B1%EB%8A%A5-%EA%B7%B8%EB%9E%98%ED%94%BD-%EC%B9%B4%EB%93%9Cgpu%EC%9D%98-%ED%95%84%EC%9A%94%EC%84%B1)
+    + [3-2. 고성능 GPU 없는 개발 환경에서 개발하기](#3-2-%EA%B3%A0%EC%84%B1%EB%8A%A5-gpu-%EC%97%86%EB%8A%94-%EA%B0%9C%EB%B0%9C-%ED%99%98%EA%B2%BD%EC%97%90%EC%84%9C-%EA%B0%9C%EB%B0%9C%ED%95%98%EA%B8%B0)
+  * [4. 딥러닝 모델 정확도 향상 전략](#4-%EB%94%A5%EB%9F%AC%EB%8B%9D-%EB%AA%A8%EB%8D%B8-%EC%A0%95%ED%99%95%EB%8F%84-%ED%96%A5%EC%83%81-%EC%A0%84%EB%9E%B5)
+    + [4-1. 딥러닝 모델의 성능을 높이는 이미지 처리 전략](#4-1-%EB%94%A5%EB%9F%AC%EB%8B%9D-%EB%AA%A8%EB%8D%B8%EC%9D%98-%EC%84%B1%EB%8A%A5%EC%9D%84-%EB%86%92%EC%9D%B4%EB%8A%94-%EC%9D%B4%EB%AF%B8%EC%A7%80-%EC%B2%98%EB%A6%AC-%EC%A0%84%EB%9E%B5)
+    + [4-2. 딥러닝 모델의 언어 최적화 전략](#4-2-%EB%94%A5%EB%9F%AC%EB%8B%9D-%EB%AA%A8%EB%8D%B8%EC%9D%98-%EC%96%B8%EC%96%B4-%EC%B5%9C%EC%A0%81%ED%99%94-%EC%A0%84%EB%9E%B5)
+    + [4-3. 딥러닝 모델 미세학습](#4-3-%EB%94%A5%EB%9F%AC%EB%8B%9D-%EB%AA%A8%EB%8D%B8-%EB%AF%B8%EC%84%B8%ED%95%99%EC%8A%B5)
+  * [5. 긴 분석시간 처리](#5-%EA%B8%B4-%EB%B6%84%EC%84%9D%EC%8B%9C%EA%B0%84-%EC%B2%98%EB%A6%AC)
+    + [5-1. 비동기를 활용한 다른 페이지 탐색 기능](#5-1-%EB%B9%84%EB%8F%99%EA%B8%B0%EB%A5%BC-%ED%99%9C%EC%9A%A9%ED%95%9C-%EB%8B%A4%EB%A5%B8-%ED%8E%98%EC%9D%B4%EC%A7%80-%ED%83%90%EC%83%89-%EA%B8%B0%EB%8A%A5)
+- [프로젝트 소감](#%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EC%86%8C%EA%B0%90)
 
 <!-- tocstop -->
 
@@ -292,6 +299,48 @@ ngrok을 통해 집에 있는 데스크톱 컴퓨터를 서버로 활용할 수 
 따라서, 모델에 입력하기 전에 한글 데이터를 영어로 변환하는 전처리 과정을 추가했습니다. 이를 통해, 입력 언어와 모델의 학습 언어를 일치시킴으로써, 결과의 정확도를 향상시킬 수 있었습니다. 이 방법은 특히 모델이 특정 언어에서 학습된 경우에 유용하며, 자연스러운 언어 처리가 중요한 딥러닝 모델에서 효과적으로 사용할 수 있습니다.
 
 이를 통해 입력 데이터와 모델의 학습 데이터 간의 언어적 일관성이 모델 성능에 중요한 영향을 미친다는 점을 확인할 수 있게 해주었습니다.
+
+### 4-3. 딥러닝 모델 미세학습
+
+모델의 정확도를 향상시키기 위한 가장 직접적인 방법은 미세학습(Fine-tuning)입니다.
+많은 양의 데이터가 필요했기에 **Hugging Face Hub**에서 제공하는 텍스트 분류용 데이터셋을 활용해 LLM을 기반으로 미세학습을 수행했습니다.
+
+<div align="left">
+  <img width="700" src="https://github.com/user-attachments/assets/9bf45bd4-cc67-48fc-8444-ee42c60d2b3e" alt="데이터셋 예시 이미지" />
+</div>
+
+학습 프레임워크로는 대형 언어 모델 학습에 특화된 **LLaMA-Factory**를 사용했습니다.
+이를 통해 다음과 같은 경량화 및 최적화 기법을 적용할 수 있었습니다.
+<br>
+
+1. LoRA (Low-Rank Adaptation): 모델 파라미터 전체가 아닌 일부에만 학습을 적용하여 경량화
+2. bitsandbytes 양자화: 모델을 4bit 또는 8bit로 양자화해 GPU 메모리 사용량을 대폭 절감
+3. liger-kernel 최적화: 학습 속도 향상 및 자원 효율성 개선
+
+<div align="left">
+  <img width="700" src="https://github.com/user-attachments/assets/3e1dac76-1ae7-4c6a-8f9c-6e835c5459a7" alt="LLaMA Factory GUI" />
+</div>
+
+최종적으로는 모델과 데이터셋을 옵션에 맞게 설정한 뒤 ‘시작하기’ 버튼을 누르면 설정한 파이프라인을 통해 자동으로 학습이 진행되며 완성된 모델을 바로 받아볼 수 있습니다.
+
+해당 GUI로 학습하는 방법이외에도 CLI 로 진행하는 방법은 별도의 노션에 정리해 두었습니다. ([노션 참조](https://catnip-puppy-52c.notion.site/Huggingface-16a7604d886e8075a4b9f76e9c6747f8?pvs=4))
+
+## 5. 긴 분석시간 처리
+
+### 5-1. 비동기를 활용한 다른 페이지 탐색 기능
+
+사용자가 문제 이미지를 업로드하면, 분석이 진행되는 동안 로딩 화면이 표시됩니다. 이때 사용자는 뒤로 가기 버튼을 눌러 자유롭게 다른 페이지로 이동할 수 있습니다.
+
+| 다른 페이지 이동                                                                                                                 | 완료시 알람 점등                                                                                                      |
+| -------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| <img width="200" height="400" alt="image" src="https://github.com/user-attachments/assets/6178fac8-38bd-47b3-8a24-13596c10f90b"> | <img src="https://github.com/user-attachments/assets/cbf94e6f-72ed-4152-b5bc-ad47fd4c7f33" width="200" height="400"/> |
+
+문제 분석이 완료되면, 다음과 같이 두 가지 방식으로 사용자에게 분석 완료를 알립니다:
+
+1. 어떤 페이지에 있든지 상단 알림 아이콘에 빨간 점이 표시되며, 클릭 시 분석 결과 페이지(정답 및 풀이 페이지)로 이동합니다.
+2. 사용자가 로딩 화면을 그대로 보고 있을 경우, 하단의 ‘결과보기’ 버튼이 활성화되어 분석 결과 페이지로 바로 진입할 수 있습니다.
+
+이러한 구조는 async/await 기반의 비동기 처리 로직과, 전역 상태를 통해 분석 완료 여부를 공유하는 방식으로 구현되었습니다. 덕분에 분석 도중에도 앱 내 다른 기능을 제약 없이 사용할 수 있으며, 분석 결과가 도출되었을 때는 즉시 확인 가능하도록 UX를 설계했습니다.
 
 <!--
 (예정)
