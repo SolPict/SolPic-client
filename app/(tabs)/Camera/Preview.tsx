@@ -77,7 +77,7 @@ export default function AnalyzingProblem() {
 
       const deviceId = await getDeviceId();
       const { data } = await axios.post(
-        `${process.env.EXPO_PUBLIC_SERVER_URL}problem/analyze`,
+        `${process.env.EXPO_PUBLIC_SERVER_URL}problems/analyze`,
         formData,
         {
           headers: {

@@ -30,7 +30,7 @@ export default function ReviewNote() {
     setIsLoading(true);
     try {
       const { data: reviewImage } = await axios.post(
-        `${process.env.EXPO_PUBLIC_SERVER_URL}problems/reviewNote`,
+        `${process.env.EXPO_PUBLIC_SERVER_URL}users/reviewNote`,
         { email },
         { params: { offset, problemLimit: PROBLEM_LIMIT } }
       );

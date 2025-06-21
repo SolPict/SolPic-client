@@ -7,7 +7,6 @@ import {
   TextInput,
   StyleSheet,
   ScrollView,
-  Alert,
 } from "react-native";
 
 import {
@@ -23,7 +22,7 @@ import { auth } from "@/auth/firebaseConfig";
 import useClientStore from "@/store/store";
 import { COLORS } from "@/constants/colors";
 import { AntDesign } from "@expo/vector-icons";
-import { ERROR_MESSAGES } from "@/constants/error_messages";
+
 import { validatePassword, validateUserId } from "@/utils/loginValidation";
 
 export default function Login() {
@@ -69,6 +68,7 @@ export default function Login() {
         await createUserWithEmailAndPassword(auth, email, password);
 
         setClientStatus({ isLogin: true, email: email });
+
         await axios.post(process.env.EXPO_PUBLIC_SERVER_URL + "users", {
           email,
           history: [],

@@ -52,7 +52,7 @@ export default function AnswerPage() {
         JSON.stringify((problemId as string).split("/"))
       );
       const { data } = await axios.get(
-        `${process.env.EXPO_PUBLIC_SERVER_URL}problem/${encodedProblemId}?language=${langCode}`
+        `${process.env.EXPO_PUBLIC_SERVER_URL}problems/${encodedProblemId}?language=${langCode}/explanation`
       );
 
       setExplanation(data);
@@ -69,7 +69,7 @@ export default function AnswerPage() {
       );
 
       await axios.post(
-        `${process.env.EXPO_PUBLIC_SERVER_URL}problem/reviewNote/${encodedProblemId}`,
+        `${process.env.EXPO_PUBLIC_SERVER_URL}users/reviewNote/${encodedProblemId}`,
         {
           email,
         }

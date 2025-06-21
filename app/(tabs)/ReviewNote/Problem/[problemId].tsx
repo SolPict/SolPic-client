@@ -31,7 +31,7 @@ export default function ProblemPage() {
     try {
       await axios.delete(
         process.env.EXPO_PUBLIC_SERVER_URL +
-          "problem/reviewNote/" +
+          "users/reviewNote/" +
           encodeURIComponent(JSON.stringify((problemId as string).split("/"))),
         {
           data: { email },
@@ -49,8 +49,8 @@ export default function ProblemPage() {
     try {
       const response = await axios.post(
         process.env.EXPO_PUBLIC_SERVER_URL +
-          "problem/solving/" +
-          encodeURIComponent(problemId as string),
+          "problems/" +
+          encodeURIComponent(problemId as string) + "/submissions",
         {
           email: email || "",
           user_answer: selectedRadio.toString(),
