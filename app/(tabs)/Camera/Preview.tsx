@@ -68,6 +68,8 @@ export default function AnalyzingProblem() {
     try {
       setClientStatus({ loadingState: "loading" });
 
+      const baseURL = process.env.EXPO_PUBLIC_SERVER_URL;
+      const deviceId = await getDeviceId();
       const formData = new FormData();
       formData.append("file", {
         uri: imageURI,
@@ -75,10 +77,28 @@ export default function AnalyzingProblem() {
         type: "image/jpeg",
       });
 
-      const deviceId = await getDeviceId();
-      const { data } = await axios.post(
-        `${process.env.EXPO_PUBLIC_SERVER_URL}problems/analyze`,
+      const ocrRes = await axios.post(
+        `${baseURL}problems/analyze/ocr`,
         formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      const ocrText = ocrRes.data.ocr_text;
+      const translateRes = await axios.post(
+        `${baseURL}problems/analyze/translate`,
+        {
+          ocr_text: ocrText,
+        }
+      );
+
+      const { translated_text } = translateRes.data;
+      const solveRes = await axios.post(
+        `${baseURL}problems/analyze/solve`,
+        { problem: translated_text },
         {
           headers: {
             "Device-Id": deviceId || "unknown-device",
@@ -86,15 +106,42 @@ export default function AnalyzingProblem() {
         }
       );
 
+      const aiExplanation = solveRes.data.ai_explanation;
+      const reconstructRes = await axios.post(
+        `${baseURL}problems/analyze/reconstruct`,
+        {
+          ai_explanation: aiExplanation,
+        }
+      );
+
+      const koExplanation = reconstructRes.data.ko_explanation;
+      const fileData = await FileSystem.readAsStringAsync(imageURI, {
+        encoding: FileSystem.EncodingType.Base64,
+      });
+
+      const submitRes = await axios.post(`${baseURL}problems/analyze/submit`, {
+        file_base64: `data:image/jpeg;base64,${fileData}`,
+        filename: "mathProblem.jpg",
+        en_explanation: aiExplanation,
+        ko_explanation: koExplanation,
+        en_problem: translated_text,
+      });
+
       Alert.alert(ERROR_MESSAGES.ANALYSIS_SUCCESS[languageKey]);
 
       setClientStatus({
-        AnalyzedProblem: { ...data },
+        AnalyzedProblem: {
+          key: submitRes.data.key,
+          problemType: "기본",
+          solvingCount: 1,
+          correctCount: 0,
+          ko_explanation: koExplanation,
+          en_explanation: aiExplanation,
+        },
         loadingState: "complete",
       });
     } catch (error) {
       console.log(error);
-
       setClientStatus({ loadingState: "pending" });
       throw error;
     }
